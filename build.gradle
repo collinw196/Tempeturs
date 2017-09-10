@@ -56,6 +56,8 @@ dependencies {
 	compile group: 'org.apache.logging.log4j', name: 'log4j-1.2-api'
 
 	compile group: 'org.elasticsearch.client', name: 'transport', version: '5.1.1'
+	
+	compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 
 	testCompile group: 'junit', name: 'junit'
 }
@@ -75,8 +77,10 @@ task buildTests(type: Jar, dependsOn: 'test') {
 	baseName "${baseName}-test"
 }
 
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
+task stage() {
+    dependsOn clean, war
+}
+war.mustRunAfter clean
 
 configurations {
 	tests {
@@ -171,5 +175,12 @@ war {
 	}
 }
 
+task copyToLib(type: Copy) {
+    into "$buildDir/server"
+    from(configurations.compile) {
+        include "webapp-runner*"
+    }
+}
+stage.dependsOn(copyToLib)
 tasks.war.dependsOn webpack
 // tasks.test.dependsOn testJs
