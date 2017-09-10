@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar "build/libs/Tempeturs Project-test-1.0-SNAPSHOT.jar"
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar "build/libs/Tempeturs Project-1.0-SNAPSHOT.war"
