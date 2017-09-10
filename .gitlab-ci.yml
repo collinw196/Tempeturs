@@ -1,0 +1,5 @@
+staging:
+  stage: deploy
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=tempeturs-group-2 --api-key=$HEROKU_API_KEY
