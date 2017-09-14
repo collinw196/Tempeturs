@@ -1,1 +1,1 @@
-web: java -jar build/server/webapp-runner-*.jar build/libs/*.war worker: node index.js
+web: PORT=8080 java -jar build/server/webapp-runner-*.jar build/libs/*.war
