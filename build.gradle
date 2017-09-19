@@ -168,4 +168,10 @@ processResources {
 	}
 }
 
+task stage() {
+    dependsOn clean, build
+}
+build.mustRunAfter clean
+
+
 tasks.processResources.dependsOn webpack
