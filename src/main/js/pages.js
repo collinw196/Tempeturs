@@ -44,11 +44,39 @@ export class Home extends React.Component {
     }
 }
 
-export class Page1 extends React.Component {
+export class Registration extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				This is page 1.
+				<div>
+					<h2>Registration</h2>
+					<form>
+						First Name:<br />
+						<input type="text" name="firstname" /><br />
+						Last name:<br />
+						<input type="text" name="lastname" /><br />
+						Email:<br />
+						<input type="text" name="email" /><br />
+						Address:<br />
+						<br />
+						Street Number:<br />
+						<input type="text" name="street" /><br />
+						*Street Address 2:<br />
+						<input type="text" name="street" /><br />
+						*PO Box:<br />
+						<input type="text" name="PO Box" /><br />
+						ZIP Code:<br />
+						<input type="number" name="zip" /><br />
+						State:<br />
+						<input type="text" name="state" /><br />
+						Phone Number:<br />
+						<input type="number" name="number" /><br />
+						<input type="radio" name="gender" value="male" checked /> Male<br />
+  						<input type="radio" name="gender" value="female" /> Female<br />
+  						<input type="radio" name="type" value="Pet Owner Account" checked /> Pet Owner Account<br />
+  						<input type="radio" name="type" value="Pet Sitter Account" /> Pet Sitter Account
+					</form>
+				</div>
 			</div>
 		);
 	}
