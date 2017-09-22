@@ -20,7 +20,7 @@ export class Home extends React.Component {
     action = () => {
         setTimeout(()=> { this.setState({message: 'It worked!'}); }, 3000);
 
-		axios.get('https://localhost:8080/api/owner/1')
+		axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/1')
 		    .then(function (response) {
 			console.log(response);
 		    })
