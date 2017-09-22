@@ -44,7 +44,7 @@ export class Home extends React.Component {
     }
 }
 
-export class Registration extends React.Component {
+export class Page1 extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
