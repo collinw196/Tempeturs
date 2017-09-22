@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		/*http
 				.authorizeRequests()
 					.antMatchers("/").permitAll()
 					.antMatchers("/statics/**").permitAll()
@@ -26,7 +26,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
 				.logout()
-					.permitAll();
+					.permitAll();*/
 	}
 
 	@Autowired
