@@ -20,7 +20,7 @@ export class Home extends React.Component {
     action = () => {
         setTimeout(()=> { this.setState({message: 'It worked!'}); }, 3000);
 
-		axios.get('http://localhost:8080/api/owner/1')
+		axios.get('https://localhost:8080/api/owner/1')
 		    .then(function (response) {
 			console.log(response);
 		    })
