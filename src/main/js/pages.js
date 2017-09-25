@@ -123,7 +123,7 @@ export class Page1 extends React.Component {
   						<input type="submit" value="Submit" />
   					</form>
   					{redirectToNewPage && (
-			          <Redirect to={from || '/page-2'}/>
+			          <Redirect to={'https://tempeturs-group-2.herokuapp.com/#/page-2'}/>
 			        )}
 				</div>
 			</div>
