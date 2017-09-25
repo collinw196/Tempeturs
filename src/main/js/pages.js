@@ -48,18 +48,18 @@ export class Page1 extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	firtName: ''
-	    	lastName: ''
-	    	email: ''
-	    	street1: ''
-	    	street2: ''
-	    	po: ''
-	    	zip: ''
-	    	state: ''
-	    	phone: ''
-	    	male: false
-	    	female: false
-	    	owner: false 
+	    	firtName: '',
+	    	lastName: '',
+	    	email: '',
+	    	street1: '',
+	    	street2: '',
+	    	po: '',
+	    	zip: '',
+	    	state: '',
+	    	phone: '',
+	    	male: false,
+	    	female: false,
+	    	owner: false, 
 	    	sitter: false	    	
 	    };
 	
@@ -86,7 +86,7 @@ export class Page1 extends React.Component {
 		if (this.state.redirectToNewPage) {
 		    return (
 		    	<Redirect to="/page-2"/>
-		    )
+		    );
 	    }
 		return (
 			<div className="container padded">
@@ -96,7 +96,7 @@ export class Page1 extends React.Component {
 						First Name:<br />
 						<input name="firstName" type="text" value={this.state.firstName} onChange={this.handleChange} required /><br />
 						Last name:<br />
-						<input name="lastName" type="text" value={this.state.lastName} onChange={this.handleChange}" required /><br />
+						<input name="lastName" type="text" value={this.state.lastName} onChange={this.handleChange} required /><br />
 						Email:<br />
 						<input name="email" type="text" value={this.state.email} onChange={this.handleChange} required pattern=".*@.*\..*"/><br />
 						
