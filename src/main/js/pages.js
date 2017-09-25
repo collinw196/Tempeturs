@@ -45,37 +45,84 @@ export class Home extends React.Component {
 }
 
 export class Page1 extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	firtName: ''
+	    	lastName: ''
+	    	email: ''
+	    	street1: ''
+	    	street2: ''
+	    	po: ''
+	    	zip: ''
+	    	state: ''
+	    	phone: ''
+	    	male: false
+	    	female: false
+	    	owner: false 
+	    	sitter: false	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.type === 'radio' ? target.checked : target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.setState({ redirectToNewPage: true });
+    }
+
 	render() {
+		if (this.state.redirectToNewPage) {
+		    return (
+		    	<Redirect to="/page-2"/>
+		    )
+	    }
 		return (
 			<div className="container padded">
 				<div>
 					<h2>Registration</h2>
-					<form>
+					<form onSubmit={this.handleSubmit}>
 						First Name:<br />
-						<input type="text" name="firstname" /><br />
+						<input name="firstName" type="text" value={this.state.firstName} onChange={this.handleChange} required /><br />
 						Last name:<br />
-						<input type="text" name="lastname" /><br />
+						<input name="lastName" type="text" value={this.state.lastName} onChange={this.handleChange}" required /><br />
 						Email:<br />
-						<input type="text" name="email" /><br />
+						<input name="email" type="text" value={this.state.email} onChange={this.handleChange} required pattern=".*@.*\..*"/><br />
+						
+						
 						Address:<br />
 						<br />
 						Street Number:<br />
-						<input type="text" name="street" /><br />
+						<input name="street1" type="text" value={this.state.street1} onChange={this.handleChange} required/><br />
 						*Street Address 2:<br />
-						<input type="text" name="street" /><br />
+						<input name="street2" type="text" value={this.state.street2} onChange={this.handleChange} /><br />
 						*PO Box:<br />
-						<input type="text" name="PO Box" /><br />
+						<input name="po" type="text" value={this.state.po} onChange={this.handleChange} /><br />
 						ZIP Code:<br />
-						<input type="number" name="zip" /><br />
+						<input name="zip" type="number" value={this.state.zip} onChange={this.handleChange} required/><br />
 						State:<br />
-						<input type="text" name="state" /><br />
+						<input name="state" type="text" value={this.state.state} onChange={this.handleChange} required/><br />
 						Phone Number:<br />
-						<input type="number" name="number" /><br />
-						<input type="radio" name="gender" value="male" checked /> Male<br />
-  						<input type="radio" name="gender" value="female" /> Female<br />
-  						<input type="radio" name="type" value="Pet Owner Account" checked /> Pet Owner Account<br />
-  						<input type="radio" name="type" value="Pet Sitter Account" /> Pet Sitter Account
-					</form>
+						<input name="phone" type="number" value={this.state.phone} onChange={this.handleChange} required/><br />
+						
+						
+						<input type="radio" name="male" checked={this.state.male} onChange={this.handleChange} required/> Male<br />
+  						<input type="radio" name="female" checked={this.state.female} onChange={this.handleChange} required/> Female<br />
+  						<input type="radio" name="owner" checked={this.state.owner} onChange={this.handleChange} required/> Pet Owner Account<br />
+  						<input type="radio" name="sitter" checked={this.state.sitter} onChange={this.handleChange} required/> Pet Sitter Account
+  						<input type="submit" value="Submit" />
+  					</form>
 				</div>
 			</div>
 		);
