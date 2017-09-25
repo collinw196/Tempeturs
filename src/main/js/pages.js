@@ -60,7 +60,8 @@ export class Page1 extends React.Component {
 	    	male: false,
 	    	female: false,
 	    	owner: false, 
-	    	sitter: false	    	
+	    	sitter: false,
+	    	redirectToNewPage: false	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -83,11 +84,9 @@ export class Page1 extends React.Component {
     }
 
 	render() {
-		if (this.state.redirectToNewPage) {
-		    return (
-		    	<Redirect to="/page-2"/>
-		    );
-	    }
+		const { from } = this.props.location.state || '/'
+		const { redirectToNewPage } = this.state
+		
 		return (
 			<div className="container padded">
 				<div>
@@ -120,9 +119,12 @@ export class Page1 extends React.Component {
 						<input type="radio" name="male" checked={this.state.male} onChange={this.handleChange} required/> Male<br />
   						<input type="radio" name="female" checked={this.state.female} onChange={this.handleChange} required/> Female<br />
   						<input type="radio" name="owner" checked={this.state.owner} onChange={this.handleChange} required/> Pet Owner Account<br />
-  						<input type="radio" name="sitter" checked={this.state.sitter} onChange={this.handleChange} required/> Pet Sitter Account
+  						<input type="radio" name="sitter" checked={this.state.sitter} onChange={this.handleChange} required/> Pet Sitter Account<br />
   						<input type="submit" value="Submit" />
   					</form>
+  					{redirectToNewPage && (
+			          <Redirect to={from || '/page-2'}/>
+			        )}
 				</div>
 			</div>
 		);
