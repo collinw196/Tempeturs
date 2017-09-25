@@ -84,8 +84,8 @@ export class Page1 extends React.Component {
     }
 
 	render() {
-		const { from } = this.props.location.state || '/'
-		const { redirectToNewPage } = this.state
+		const { from } = this.props.location.state || '/';
+		const { redirectToNewPage } = this.state;
 		
 		return (
 			<div className="container padded">
