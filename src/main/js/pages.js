@@ -57,11 +57,8 @@ export class Page1 extends React.Component {
 	    	zip: '',
 	    	state: '',
 	    	phone: '',
-	    	male: false,
-	    	female: false,
-	    	owner: false, 
-	    	sitter: false,
-	    	redirectToNewPage: false	    	
+	    	gender: '',
+	    	type: ''	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -80,8 +77,12 @@ export class Page1 extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	console.log('Howdy');
-    	this.props.history.push('/page-2');
+    	if (this.state.type == 'owner') {
+    		this.props.history.push('/page-2');
+    	}
+    	else {
+    		this.props.history.push('/page-3');
+    	}
     }
 
 	render() {		
@@ -114,10 +115,10 @@ export class Page1 extends React.Component {
 						<input name="phone" type="number" value={this.state.phone} onChange={this.handleChange} required/><br />
 						
 						
-						<input type="radio" name="male" checked={this.state.male} onChange={this.handleChange} required/> Male<br />
-  						<input type="radio" name="female" checked={this.state.female} onChange={this.handleChange} required/> Female<br />
-  						<input type="radio" name="owner" checked={this.state.owner} onChange={this.handleChange} required/> Pet Owner Account<br />
-  						<input type="radio" name="sitter" checked={this.state.sitter} onChange={this.handleChange} required/> Pet Sitter Account<br />
+						<input type="radio" name="gender" value="male" onChange={this.handleChange} required/> Male<br />
+  						<input type="radio" name="gender" value="female" onChange={this.handleChange} /> Female<br />
+  						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
+  						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
   						<input type="submit" value="Submit" />
   					</form>
 				</div>
