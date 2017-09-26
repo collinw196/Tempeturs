@@ -45,10 +45,6 @@ export class Home extends React.Component {
 }
 
 export class Page1 extends React.Component {
-	componentWillMount() {
-		this.refs.form.onsubmit = () => this.handleSubmit();
-	}
-
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -88,8 +84,7 @@ export class Page1 extends React.Component {
     	this.props.history.push('/page-2');
     }
 
-	render() {
-		
+	render() {		
 		return (
 			<div className="container padded">
 				<div>
