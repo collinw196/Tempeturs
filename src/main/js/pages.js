@@ -94,6 +94,7 @@ export class Page1 extends React.Component {
 			<div className="container padded">
 				<div>
 					<h2>Registration</h2>
+					<Redirect from='/page-1' to='/page-2' />
 					<form onSubmit={this.handleSubmit}>
 						First Name:<br />
 						<input name="firstName" type="text" value={this.state.firstName} onChange={this.handleChange} required /><br />
