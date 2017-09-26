@@ -84,8 +84,11 @@ export class Page1 extends React.Component {
     }
 
 	render() {
-		const { from } = this.props.location.state || '/';
-		const { redirectToNewPage } = this.state;
+		if (this.state.redirectToNewPage) {
+		     return (
+		     	<Redirect from='/page-1' to='/page-2' />
+		     );
+		}
 		
 		return (
 			<div className="container padded">
@@ -122,9 +125,7 @@ export class Page1 extends React.Component {
   						<input type="radio" name="sitter" checked={this.state.sitter} onChange={this.handleChange} required/> Pet Sitter Account<br />
   						<input type="submit" value="Submit" />
   					</form>
-  					{redirectToNewPage && (
-			          <Redirect to={'https://tempeturs-group-2.herokuapp.com/#/page-2'}/>
-			        )}
+  					<li><Link to="/page-3">Page 3</Link></li>
 				</div>
 			</div>
 		);
