@@ -45,7 +45,7 @@ export class Home extends React.Component {
 }
 
 export class Page1 extends React.Component {
-	componentDidMount() {
+	componentWillMount() {
 		this.refs.form.onsubmit = () => this.handleSubmit();
 	}
 
