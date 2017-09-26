@@ -51,6 +51,9 @@ export class Page1 extends React.Component {
 	    	firtName: '',
 	    	lastName: '',
 	    	email: '',
+	    	username: '',
+	    	password: ''
+	    	repassword: ''
 	    	street1: '',
 	    	street2: '',
 	    	po: '',
@@ -97,6 +100,12 @@ export class Page1 extends React.Component {
 						<input name="lastName" type="text" value={this.state.lastName} onChange={this.handleChange} required /><br />
 						Email:<br />
 						<input name="email" type="text" value={this.state.email} onChange={this.handleChange} required pattern=".*@.*\..*"/><br />
+						Username:<br />
+						<input name="username" type="text" value={this.state.username} onChange={this.handleChange} required /><br />
+						Password:<br />
+						<input name="password" type="text" value={this.state.password} onChange={this.handleChange} required /><br />
+						Reenter Password:<br />
+						<input name="repassword" type="text" value={this.state.repassword} onChange={this.handleChange} required /><br />
 						
 						
 						Address:<br />
@@ -114,9 +123,12 @@ export class Page1 extends React.Component {
 						Phone Number:<br />
 						<input name="phone" type="number" value={this.state.phone} onChange={this.handleChange} required/><br />
 						
-						
+						<br />
+						Gender: <br />
 						<input type="radio" name="gender" value="male" onChange={this.handleChange} required/> Male<br />
   						<input type="radio" name="gender" value="female" onChange={this.handleChange} /> Female<br />
+  						<br />
+						Account Type (you may have one type of each account per email): <br />
   						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
   						<input type="submit" value="Submit" />
@@ -131,7 +143,30 @@ export class Page2 extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				This is page 2.
+				<div>
+					<h5>Pet Information</h5>
+					<form onSubmit={this.handleSubmit}>
+						Pet Name:<br />
+						<input name="petname" type="text" value={this.state.petname} onChange={this.handleChange} required /><br />
+						Pet Type:<br />
+						<select name="pettype" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" selected>Cat</option>
+							<option value="horse" selected>Horse</option>
+							<option value="ferret" selected>Ferret</option>
+							<option value="rabbit" selected>Rabbit</option>
+							<option value="fish" selected>Fish</option>
+						</select>
+						<br />
+						Age:<br />
+						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} required /><br />
+						Notes: 
+						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} required /><br />
+						
+						<input type="button" value"Nest Pet" onclick="nextPet();" />
+  						<input type="submit" value="Submit" />
+  					</form>
+  				</div>
 			</div>
 		);
 	}
