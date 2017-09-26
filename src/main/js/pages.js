@@ -45,6 +45,10 @@ export class Home extends React.Component {
 }
 
 export class Page1 extends React.Component {
+	componentDidMount() {
+		this.refs.form.onsubmit = () => this.handleSubmit();
+	}
+
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -80,22 +84,17 @@ export class Page1 extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	this.setState({ redirectToNewPage: true });
+    	console.log('Howdy');
+    	this.props.history.push('/page-2');
     }
 
 	render() {
-		if (this.state.redirectToNewPage) {
-		     return (
-		     	<Redirect from='/page-1' to='/page-2' />
-		     );
-		}
 		
 		return (
 			<div className="container padded">
 				<div>
 					<h2>Registration</h2>
-					<Redirect from='/page-1' to='/page-2' />
-					<form onSubmit={this.handleSubmit}>
+					<form onsubmit={this.handleSubmit}>
 						First Name:<br />
 						<input name="firstName" type="text" value={this.state.firstName} onChange={this.handleChange} required /><br />
 						Last name:<br />
@@ -126,7 +125,6 @@ export class Page1 extends React.Component {
   						<input type="radio" name="sitter" checked={this.state.sitter} onChange={this.handleChange} required/> Pet Sitter Account<br />
   						<input type="submit" value="Submit" />
   					</form>
-  					<li><Link to="/page-3">Page 3</Link></li>
 				</div>
 			</div>
 		);
