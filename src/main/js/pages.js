@@ -204,7 +204,7 @@ export class Page2 extends React.Component {
 						*Notes:<br />
 						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} /><br />
 						
-						<input type="button" value="Next Pet" onClick="nextPet();" />
+						<input type="button" value="Next Pet" onClick={this.nextPet} />
   						<input type="submit" value="Submit" />
   					</form>
   				</div>
