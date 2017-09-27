@@ -34,9 +34,7 @@ export class Home extends React.Component {
         <div className="container padded">
             <h1>This is the home page.</h1>
 	    <ul>
-		<li><Link to="/page-1">Page 1</Link></li>
-		<li><Link to="/page-2">Page 2</Link></li>
-		<li><Link to="/page-3">Page 3</Link></li>
+		<li><Link to="/reg">Registration</Link></li>
 	    </ul>
             <p>{this.state.message}</p>
         </div>
@@ -44,7 +42,7 @@ export class Home extends React.Component {
     }
 }
 
-export class Page1 extends React.Component {
+export class Registration extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -81,10 +79,10 @@ export class Page1 extends React.Component {
     handleSubmit(event) {
     	event.preventDefault();
     	if (this.state.type == 'owner') {
-    		this.props.history.push('/page-2');
+    		this.props.history.push('/reg/owner');
     	}
     	else {
-    		this.props.history.push('/page-3');
+    		this.props.history.push('/reg/sitter');
     	}
     }
 
@@ -139,7 +137,7 @@ export class Page1 extends React.Component {
 	}
 }
 
-export class Page2 extends React.Component {
+export class PetInfo extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -166,7 +164,6 @@ export class Page2 extends React.Component {
 	
 	nextPet(event) {
     	event.preventDefault();
-    	console.log('howdy');
     	this.setState({
 	      	petname: '',
 	    	pettype: '',
@@ -178,7 +175,7 @@ export class Page2 extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	this.props.history.push('/');
+    	this.props.history.push('/reg/owner/pay');
     }
     
 	render() {
@@ -213,7 +210,7 @@ export class Page2 extends React.Component {
 	}
 }
 
-export class Page3 extends React.Component {
+export class SitterInfo extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -279,6 +276,62 @@ export class Page3 extends React.Component {
 							<option value="rabbit" selected>Rabbit</option>
 							<option value="fish" selected>Fish</option>
 						</select><br />
+						<input type="submit" value="Submit" />
+					</form>
+				</div>
+				
+			</div>
+		);
+	}
+}
+
+export class OwnerPayment extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	crenumber: '',
+	    	ccvnumber: '',
+	    	expdatemonth: '',
+	    	expdateyear: '',
+	    	cardname: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.props.history.push('/');
+    }
+    
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Pet Owner Payment Information</h5>
+					<form onSubmit={this.handleSubmit}>
+						Name on Card:<br />
+						<input name="cardname" type="text" value={this.state.cardname} onChange={this.handleChange} required /><br />
+						Card Number:<br />
+						<input name="crenumber" type="number" value={this.state.crenumber} onChange={this.handleChange} required /><br />
+						CCV:<br />
+						<input name="cvvnumber" type="number" value={this.state.cvvnumber} onChange={this.handleChange} required /><br />
+						Exp. Date Month:<br />
+						<input name="expdatemonth" type="number" value={this.state.expdatemonth} onChange={this.handleChange} required /><br />
+						Exp. Date Year:<br />
+						<input name="expdateyear" type="number" value={this.state.expdateyear} onChange={this.handleChange} required /><br />
+						
 						<input type="submit" value="Submit" />
 					</form>
 				</div>
