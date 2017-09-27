@@ -140,6 +140,40 @@ export class Page1 extends React.Component {
 }
 
 export class Page2 extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	petname: '',
+	    	pettype: '',
+	    	age: '',
+	    	notes: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.nextPet = this.nextPet.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+	nextPet(event) {
+    	event.preventDefault();
+    	this.props.history.push('/page-2');
+    }
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.props.history.push('/');
+    }
+    
 	render() {
 		return (
 			<div className="container padded">
@@ -158,10 +192,10 @@ export class Page2 extends React.Component {
 							<option value="fish" selected>Fish</option>
 						</select>
 						<br />
-						Age:<br />
-						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} required /><br />
-						Notes: 
-						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} required /><br />
+						*Age:<br />
+						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
+						*Notes: 
+						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} /><br />
 						
 						<input type="button" value"Nest Pet" onclick="nextPet();" />
   						<input type="submit" value="Submit" />
@@ -173,10 +207,74 @@ export class Page2 extends React.Component {
 }
 
 export class Page3 extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	accnumber: '',
+	    	rounumber: '',
+	    	pettype1: '',
+	    	pettype2: '',
+	    	pettype3: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.props.history.push('/');
+    }
 	render() {
 		return (
 			<div className="container padded">
-				This is page 3.
+				<div>
+					<h5>Pet Sitter Information</h5>
+					<form onSubmit={this.handleSubmit}>
+						Payment Account Number:<br />
+						<input name="accnumber" type="number" value={this.state.accnumber} onChange={this.handleChange} required /><br />
+						Payment Routing Number:<br />
+						<input name="rounumber" type="number" value={this.state.rounumber} onChange={this.handleChange} required /><br />
+						Pet Preference 1:<br />
+						<select name="pettype1" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" selected>Cat</option>
+							<option value="horse" selected>Horse</option>
+							<option value="ferret" selected>Ferret</option>
+							<option value="rabbit" selected>Rabbit</option>
+							<option value="fish" selected>Fish</option>
+						</select>
+						Pet Preference 2:<br />
+						<select name="pettype2" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" selected>Cat</option>
+							<option value="horse" selected>Horse</option>
+							<option value="ferret" selected>Ferret</option>
+							<option value="rabbit" selected>Rabbit</option>
+							<option value="fish" selected>Fish</option>
+						</select>
+						Pet Preference 3:<br />
+						<select name="pettype3" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" selected>Cat</option>
+							<option value="horse" selected>Horse</option>
+							<option value="ferret" selected>Ferret</option>
+							<option value="rabbit" selected>Rabbit</option>
+							<option value="fish" selected>Fish</option>
+						</select>
+					</form>
+				</div?
+				
 			</div>
 		);
 	}
