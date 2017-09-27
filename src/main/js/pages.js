@@ -103,7 +103,7 @@ export class Page1 extends React.Component {
 						Username:<br />
 						<input name="username" type="text" value={this.state.username} onChange={this.handleChange} required /><br />
 						Password:<br />
-						<input name="password" type="text" value={this.state.password} onChange={this.handleChange} required /><br />
+						<input name="password" type="password" value={this.state.password} onChange={this.handleChange} required /><br />
 						Reenter Password:<br />
 						<input name="repassword" type="text" value={this.state.repassword} onChange={this.handleChange} required /><br />
 						
@@ -166,6 +166,12 @@ export class Page2 extends React.Component {
 	
 	nextPet(event) {
     	event.preventDefault();
+    	this.setState({
+	      	petname: '',
+	    	pettype: '',
+	    	age: '',
+	    	notes: ''	   
+	    });
     	this.props.history.push('/page-2');
     }
 	
@@ -194,7 +200,7 @@ export class Page2 extends React.Component {
 						<br />
 						*Age:<br />
 						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
-						*Notes: 
+						*Notes:<br />
 						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} /><br />
 						
 						<input type="button" value="Next Pet" onclick="nextPet();" />
@@ -253,7 +259,7 @@ export class Page3 extends React.Component {
 							<option value="ferret" selected>Ferret</option>
 							<option value="rabbit" selected>Rabbit</option>
 							<option value="fish" selected>Fish</option>
-						</select>
+						</select><br />
 						Pet Preference 2:<br />
 						<select name="pettype2" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
@@ -262,7 +268,7 @@ export class Page3 extends React.Component {
 							<option value="ferret" selected>Ferret</option>
 							<option value="rabbit" selected>Rabbit</option>
 							<option value="fish" selected>Fish</option>
-						</select>
+						</select><br />
 						Pet Preference 3:<br />
 						<select name="pettype3" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
@@ -271,7 +277,8 @@ export class Page3 extends React.Component {
 							<option value="ferret" selected>Ferret</option>
 							<option value="rabbit" selected>Rabbit</option>
 							<option value="fish" selected>Fish</option>
-						</select>
+						</select><br />
+						<input type="submit" value="Submit" />
 					</form>
 				</div>
 				
