@@ -103,7 +103,7 @@ export class Registration extends React.Component {
 						Password:<br />
 						<input name="password" type="password" value={this.state.password} onChange={this.handleChange} required /><br />
 						Reenter Password:<br />
-						<input name="repassword" type="text" value={this.state.repassword} onChange={this.handleChange} required /><br />
+						<input name="repassword" type="password" value={this.state.repassword} onChange={this.handleChange} required /><br />
 						
 						
 						Address:<br />
@@ -199,7 +199,7 @@ export class PetInfo extends React.Component {
 						*Age:<br />
 						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
 						*Notes:<br />
-						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} /><br />
+						<input name="notes" type="text" value={this.state.notes} onChange={this.handleChange} /><br />
 						
 						<input type="button" value="Next Pet" onClick={this.nextPet} />
   						<input type="submit" value="Submit" />
