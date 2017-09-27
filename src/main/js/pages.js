@@ -52,8 +52,8 @@ export class Page1 extends React.Component {
 	    	lastName: '',
 	    	email: '',
 	    	username: '',
-	    	password: ''
-	    	repassword: ''
+	    	password: '',
+	    	repassword: '',
 	    	street1: '',
 	    	street2: '',
 	    	po: '',
@@ -197,7 +197,7 @@ export class Page2 extends React.Component {
 						*Notes: 
 						<input name="notes" type="number" value={this.state.notes} onChange={this.handleChange} /><br />
 						
-						<input type="button" value"Nest Pet" onclick="nextPet();" />
+						<input type="button" value="Next Pet" onclick="nextPet();" />
   						<input type="submit" value="Submit" />
   					</form>
   				</div>
@@ -273,7 +273,7 @@ export class Page3 extends React.Component {
 							<option value="fish" selected>Fish</option>
 						</select>
 					</form>
-				</div?
+				</div>
 				
 			</div>
 		);
