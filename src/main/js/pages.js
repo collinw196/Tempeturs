@@ -166,7 +166,7 @@ export class Page2 extends React.Component {
 	
 	nextPet(event) {
     	event.preventDefault();
-    	console.log("howdy");
+    	console.log('howdy');
     	this.setState({
 	      	petname: '',
 	    	pettype: '',
