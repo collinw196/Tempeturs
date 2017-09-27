@@ -172,7 +172,7 @@ export class Page2 extends React.Component {
 	    	age: '',
 	    	notes: ''	   
 	    });
-    	this.props.history.push('/page-2');
+    	location.reload();
     }
 	
     handleSubmit(event) {
