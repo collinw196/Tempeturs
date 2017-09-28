@@ -93,7 +93,7 @@ export class Registration extends React.Component {
 	    	gender,
 	    	type} = this.state;
     	
-    	axios.post('/api/user/reg', {
+    	axios.post('https://tempeturs-group-2.herokuapp.com/api/user/reg', {
 		    firtName,
 	    	lastName,
 	    	email,
@@ -216,7 +216,7 @@ export class PetInfo extends React.Component {
     handleSubmit(event) {
     	event.preventDefault();
     	this.pushData();
-    	this.props.history.push('/reg/owner/pay');
+    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/reg/owner/pay');
     }
     
     pushData() {
@@ -306,7 +306,7 @@ export class SitterInfo extends React.Component {
     		pettype2,
     		pettype3} = this.state;
     	
-    	axios.post('/api/sitter/reg', {
+    	axios.post('https://tempeturs-group-2.herokuapp.com/api/sitter/reg', {
 		    accnumber,
     		rounumber,
     		pettype1,
@@ -400,7 +400,7 @@ export class OwnerPayment extends React.Component {
     		expdateyear,
     		cardname} = this.state;
     	
-    	axios.post('/api/owner/reg', {
+    	axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {
 		    crenumber,
     		ccvnumber,
     		expdatemonth,
