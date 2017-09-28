@@ -1,6 +1,6 @@
 package petfinder.site.common.pet;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -12,16 +12,26 @@ import com.google.common.collect.ImmutableMap;
  */
 @Repository
 public class PetDao {
-	private final Map<Long, PetDto> pets =
-			ImmutableMap.<Long, PetDto> builder()
-					.put(1L, new PetDto(1L, "Louisa", "cat"))
-					.put(2L, new PetDto(2L, "Rover", "dog"))
-					.put(3L, new PetDto(3L, "Chairman Meow", "cat"))
-					.put(4L, new PetDto(4L, "Ferry", "ferret"))
-					.put(5L, new PetDto(5L, "Dogbert", "dog"))
-					.build();
+	
+	private List<PetDto> pets;
 
-	public Optional<PetDto> findPet(Long id) {
-		return Optional.ofNullable(pets.get(id));
+	public PetDto findPet(Long id) {
+		for (PetDto pet : pets){
+			if(pet.getId() == id){
+				return pet;
+			}
+		}
+		return null;
+	}
+
+	public List<PetDto> getPets() {
+		return pets;
+	}
+
+	public void setPets(List<PetDto> pets) {
+		for (PetDto pet : pets){
+			pets.add(pet);
+		}
+		
 	}
 }

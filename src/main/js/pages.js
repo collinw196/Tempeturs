@@ -78,6 +78,43 @@ export class Registration extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	const {firtName,
+	    	lastName,
+	    	email,
+	    	username,
+	    	password,
+	    	repassword,
+	    	street1,
+	    	street2,
+	    	po,
+	    	zip,
+	    	state,
+	    	phone,
+	    	gender,
+	    	type} = this.state;
+    	
+    	axios.post('/api/user/reg', {
+		    firtName,
+	    	lastName,
+	    	email,
+	    	username,
+	    	password,
+	    	street1,
+	    	street2,
+	    	po,
+	    	zip,
+	    	state,
+	    	phone,
+	    	gender,
+	    	type
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+		  
     	if (this.state.type == 'owner') {
     		this.props.history.push('/reg/owner');
     	}
@@ -150,6 +187,7 @@ export class PetInfo extends React.Component {
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
 	    this.nextPet = this.nextPet.bind(this);
+	    this.pushData = this.pushData.bind(this);
     }
 	
     handleChange(event) {
@@ -164,6 +202,8 @@ export class PetInfo extends React.Component {
 	
 	nextPet(event) {
     	event.preventDefault();
+    	
+    	this.pushData();
     	this.setState({
 	      	petname: '',
 	    	pettype: '',
@@ -175,8 +215,31 @@ export class PetInfo extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	this.pushData();
     	this.props.history.push('/reg/owner/pay');
     }
+    
+    pushData() {
+    	const {petname,
+    		pettype,
+    		age,
+    		notes} = this.state;
+    	
+    	axios.post('/api/pet/reg', {
+		    petname,
+    		pettype,
+    		age,
+    		notes
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+	}
+		  
+    
     
 	render() {
 		return (
@@ -237,6 +300,25 @@ export class SitterInfo extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	const {accnumber,
+    		rounumber,
+    		pettype1,
+    		pettype2,
+    		pettype3} = this.state;
+    	
+    	axios.post('/api/sitter/reg', {
+		    accnumber,
+    		rounumber,
+    		pettype1,
+    		pettype2,
+    		pettype3
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
     	this.props.history.push('/');
     }
 	render() {
@@ -312,6 +394,25 @@ export class OwnerPayment extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	const {crenumber,
+    		ccvnumber,
+    		expdatemonth,
+    		expdateyear,
+    		cardname} = this.state;
+    	
+    	axios.post('/api/owner/reg', {
+		    crenumber,
+    		ccvnumber,
+    		expdatemonth,
+    		expdateyear,
+    		cardname
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
     	this.props.history.push('/');
     }
     

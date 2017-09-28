@@ -7,11 +7,43 @@ public class PetDto {
 	private Long id;
 	private String name;
 	private String type;
-
-	public PetDto(Long id, String name, String type) {
+	private int age;
+	private String notes;
+	
+	public PetDto(Long id, String name, String type, int age, String notes) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
+		this.age = age;
+		this.notes = notes;
+	}
+
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	/**
+	 * @return the notes
+	 */
+	public String getNotes() {
+		return notes;
+	}
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 
 	public Long getId() {
