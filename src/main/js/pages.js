@@ -92,7 +92,7 @@ export class Page2 extends React.Component {
 				        Username: <br />
 				        <input type="text" name="username" /><br />
 				        Password: <br />
-				        <input type="text" name="password">
+				        <input type="text" name="password" /><br />
 				    </form>
 				</div>
 			</div>
