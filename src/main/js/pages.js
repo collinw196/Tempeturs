@@ -86,7 +86,15 @@ export class Page2 extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				This is page 2.
+				<div>
+				    <h2>User Sign-in</h2>
+				    <form>
+				        Username: <br />
+				        <input type="text" name="username" /><br />
+				        Password: <br />
+				        <input type="text" name="password">
+				    </form>
+				</div>
 			</div>
 		);
 	}
