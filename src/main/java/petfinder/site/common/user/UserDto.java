@@ -5,7 +5,8 @@ package petfinder.site.common.user;
  */
 public class UserDto {
 	private Long id;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String email;
 	private String username;
 	private String password;
@@ -18,11 +19,12 @@ public class UserDto {
 	private String gender;
 	private String type;
 
-	public UserDto(Long id, String name, String email, String username,
+	public UserDto(Long id, String fName, String lName, String email, String username,
 			String password, String street1, String street2, String po, String zip, 
 			String state, String phone, String gender, String type) {
 		this.id = id;
-		this.name = name;
+		this.firstName = fName;
+		this.lastName = lName;
 		this.email = email;
 		this.username = username;
 		this.password = password;
@@ -184,12 +186,20 @@ public class UserDto {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String name) {
+		this.firstName = name;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String name) {
+		this.lastName = name;
 	}
 
 	public String getEmail() {

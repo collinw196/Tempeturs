@@ -92,8 +92,11 @@ export class Registration extends React.Component {
 	    	phone,
 	    	gender,
 	    	type} = this.state;
-    	
-    	axios.post('https://tempeturs-group-2.herokuapp.com/api/user/reg', {withCredentials:true}, {
+	    	
+	    var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'https://tempeturs-group-2.herokuapp.com/api/user/reg', true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(JSON.stringify({
 		    firtName,
 	    	lastName,
 	    	email,
@@ -107,13 +110,7 @@ export class Registration extends React.Component {
 	    	phone,
 	    	gender,
 	    	type
-		  })
-		  .then(function (response) {
-		    console.log(response);
-		  })
-		  .catch(function (error) {
-		    console.log(error);
-		  });
+		}));
 		  
     	if (this.state.type == 'owner') {
     		this.props.history.push('/reg/owner');
