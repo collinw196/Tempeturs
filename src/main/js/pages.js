@@ -177,7 +177,8 @@ export class Login extends React.Component {
 	    super(props);
 	    this.state = {
 	    	username:'',
-	    	password: ''
+	    	password: '',
+	    	type: ''
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -196,9 +197,13 @@ export class Login extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {username,
-    			password} = this.state;
-    	this.props.history.push('/');
+    	
+    	if (this.state.type == 'owner') {
+    		this.props.history.push('/owner/home');
+    	}
+    	else {
+    		this.props.history.push('/sitter/home');
+    	}
     }
     	
 	
@@ -207,11 +212,13 @@ export class Login extends React.Component {
 			<div className="container padded">
 				<div>
 					<h2>Sign in</h2>
-					<form>
+					<form onSubmit={this.handleSubmit}>
 						Username:<br />
 						<input type="text" name="username" /><br />
 						Password:<br />
 						<input type="text" name="password" /><br />
+						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
+  						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
 						<input type="submit" value="Submit" /><br />
 						<li><Link to="/reg">Registration</Link></li>
 					</form>
@@ -483,6 +490,40 @@ export class OwnerPayment extends React.Component {
 						
 						<input type="submit" value="Submit" />
 					</form>
+				</div>
+				
+			</div>
+		);
+	}
+}
+
+export class OwnerHome extends React.Component {
+	constructor(props) {
+	    super(props);
+    }
+    
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Pet Owner HomePage</h5>
+				</div>
+				
+			</div>
+		);
+	}
+}
+
+export class SitterHome extends React.Component {
+	constructor(props) {
+	    super(props);
+    }
+    
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Pet Sitter HomePage</h5>
 				</div>
 				
 			</div>
