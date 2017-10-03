@@ -1,5 +1,9 @@
 package petfinder.site.endpoint;
 
+import java.io.IOException;
+
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.client.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,8 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
 import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.user.UserDto;
@@ -21,10 +32,14 @@ import petfinder.site.common.user.UserDto;
 public class OwnerEndpoint {
 	@Autowired
 	private OwnerService ownerService;
+	private ElasticClientService clientService;
+	private static ObjectMapper mapper = new ObjectMapper();
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public OwnerDto findOwner(@PathVariable(name = "id") Long id) {
-		return ownerService.findOwner(id);
+	public @ResponseBody OwnerDto findOwner(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, IOException {
+		return  mapper.readValue((JsonParser)clientService.getClient().performRequest(
+			        "GET",
+			        "/owner/external/" + id).getEntity(), OwnerDto.class);
 	}
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)

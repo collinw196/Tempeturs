@@ -506,7 +506,7 @@ export class OwnerHome extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
-					<h5>Pet Owner HomePage</h5>
+					<h5>Pet Owner Home Page</h5>
 				</div>
 				
 			</div>
@@ -523,7 +523,7 @@ export class SitterHome extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
-					<h5>Pet Sitter HomePage</h5>
+					<h5>Pet Sitter Home Page</h5>
 				</div>
 				
 			</div>
