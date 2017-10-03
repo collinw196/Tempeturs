@@ -12,16 +12,14 @@ import com.google.common.collect.ImmutableMap;
  */
 @Repository
 public class UserDao {
-	private final Map<Long, UserDto> users =
-			ImmutableMap.<Long, UserDto> builder()
-					.put(1L, new UserDto(1L, "John", "email@email.com"))
-					.put(2L, new UserDto(2L, "Bob", "email@email.com"))
-					.put(3L, new UserDto(3L, "Sarah", "email@email.com"))
-					.put(4L, new UserDto(4L, "Rachel", "email@email.com"))
-					.put(5L, new UserDto(5L, "Steve", "email@email.com"))
-					.build();
+	private UserDto user;
 
-	public Optional<UserDto> findUser(Long id) {
-		return Optional.ofNullable(users.get(id));
+	public UserDto findUser(Long id) {
+		return user;
+		//return Optional.ofNullable(user.get(id));
+	}
+	
+	public void setUser(UserDto user){
+		this.user = user;
 	}
 }

@@ -1,5 +1,6 @@
 package petfinder.site.common.pet;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,15 @@ public class PetService {
 	@Autowired
 	private PetDao petDao;
 
-	public Optional<PetDto> findPet(Long id) {
+	public PetDto findPet(Long id) {
 		return petDao.findPet(id);
+	}
+	
+	public void setPets (List<PetDto> pets){
+		petDao.setPets(pets);
+	}
+	
+	public List<PetDto> getPets(){
+		return petDao.getPets();
 	}
 }
