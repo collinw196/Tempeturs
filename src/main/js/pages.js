@@ -93,7 +93,7 @@ export class Registration extends React.Component {
 	    	gender,
 	    	type} = this.state;
 	    	
-	    axios.post('/api/pet/reg', {withCredentials:true}, {
+	    axios.post('/api/pet/reg', {
 		    firtName,
 	    	lastName,
 	    	email,
@@ -112,7 +112,9 @@ export class Registration extends React.Component {
 		  	auth: {
 		  		username: 'admin',
 		  		password: 'admin'
-		  	}
+		  	},
+		  	
+		  	withCredentials: true
 		  })
 		  .then(function (response) {
 		    console.log(response);
