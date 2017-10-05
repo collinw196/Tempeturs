@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
 
 export class Home extends React.Component {
     
@@ -108,12 +111,7 @@ export class Registration extends React.Component {
 	    	gender,
 	    	type
 		  },
-		  { 
-		  	auth: {
-		  		username: 'admin',
-		  		password: 'admin'
-		  	},
-		  	
+		  {	  	
 		  	withCredentials: true
 		  })
 		  .then(function (response) {
@@ -174,6 +172,7 @@ export class Registration extends React.Component {
 						Account Type (you may have one type of each account per email): <br />
   						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
+  						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
   						<input type="submit" value="Submit" />
   					</form>
 				</div>
