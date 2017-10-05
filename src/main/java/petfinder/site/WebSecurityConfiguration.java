@@ -22,8 +22,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.cors().and();
-				/*.authorizeRequests()
+			.cors().and()
+				.authorizeRequests()
 					.antMatchers("/").permitAll()
 					.antMatchers("/statics/**").permitAll()
 				.anyRequest().authenticated()
@@ -33,7 +33,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
 				.logout()
-					.permitAll();*/
+					.permitAll();
 	}
 	
 	@Bean
