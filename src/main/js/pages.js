@@ -111,7 +111,7 @@ export class Registration extends React.Component {
 		  {	  	
 		  	withCredentials: true,
 		  	
-		  	header: {'X-CSRF-TOKEN': document.querySelector('meta[name="JSESSIONID]').getAttribute('content')}
+		  	header: {'X-CSRF-TOKEN': document.querySelector('meta[name="JSESSIONID"]').getAttribute('content')}
 		  })
 		  .then(function (response) {
 		    console.log(response);
