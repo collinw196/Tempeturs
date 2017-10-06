@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookie';
 import axios from 'axios';
+
 
 export class Home extends React.Component {
     
@@ -22,7 +22,6 @@ export class Home extends React.Component {
 
 		axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/1')
 		    .then(function (response) {
-		    cookie.save('token', response.data.token, {path: '/'});
 			console.log(response);
 		    })
 		    .catch(function (error) {
@@ -111,7 +110,8 @@ export class Registration extends React.Component {
 		  },
 		  {	  	
 		  	withCredentials: true,
-		  	headers: { 'Authorization': cookie.load('token') }
+		  	
+		  	header: {'X-CSRF-TOKEN': document.querySelector('meta[name="JSESSIONID"]').getAttribute('content')}
 		  })
 		  .then(function (response) {
 		    console.log(response);
