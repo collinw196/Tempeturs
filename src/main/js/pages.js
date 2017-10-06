@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
 
 export class Home extends React.Component {
     
@@ -112,6 +110,8 @@ export class Registration extends React.Component {
 		  },
 		  {	  	
 		  	withCredentials: true,
+		  	
+		  	header: {'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')}
 		  })
 		  .then(function (response) {
 		    console.log(response);
