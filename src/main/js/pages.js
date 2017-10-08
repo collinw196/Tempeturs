@@ -64,7 +64,19 @@ export class Registration extends React.Component {
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.readCookie = this.readCookie.bind(this);
     }
+    readCookie(name) {
+		var nameEQ = name + '=';
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++)
+		{
+		     var c = ca[i];
+		     while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
     
      handleChange(event) {
 	    const target = event.target;
@@ -111,7 +123,7 @@ export class Registration extends React.Component {
 		  {	  	
 		  	withCredentials: true,
 		  	
-		  	header: {'X-CSRF-TOKEN': document.querySelector('meta[name="JSESSIONID"]').getAttribute('content')}
+		  	header: {'X-CSRF-TOKEN': this.readCookie('JSESSIONID')}
 		  })
 		  .then(function (response) {
 		    console.log(response);
