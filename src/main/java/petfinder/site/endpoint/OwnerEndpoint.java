@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,13 +35,18 @@ public class OwnerEndpoint {
 	@Autowired
 	private OwnerService ownerService;
 	private ElasticClientService clientService;
-	private static ObjectMapper mapper = new ObjectMapper();
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody OwnerDto findOwner(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, IOException {
-		return  mapper.readValue((JsonParser)clientService.getClient().performRequest(
+	public HttpEntity<String> findOwner(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, IOException {
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("MyResponseHeader", "MyValue");
+		HttpEntity<String> entity = new HttpEntity<String>("Hello World", responseHeaders);
+		entity = (HttpEntity<String>) clientService.getClient().performRequest(
 			        "GET",
-			        "/owner/external/" + id).getEntity(), OwnerDto.class);
+			        "/owner/external/" + id).getEntity();
+		
+		return entity;		
 	}
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
