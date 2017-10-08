@@ -122,8 +122,6 @@ export class Registration extends React.Component {
 		  },
 		  {	  	
 		  	withCredentials: true,
-		  	
-		  	header: {'X-CSRF-TOKEN': this.readCookie('JSESSIONID')}
 		  })
 		  .then(function (response) {
 		    console.log(response);
