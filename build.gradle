@@ -16,6 +16,8 @@ plugins {
 	id 'org.springframework.boot' version '1.5.7.RELEASE'
 }
 
+apply plugin: 'checkstyle'
+
 group 'petfinder'
 version '1.0-SNAPSHOT'
 
