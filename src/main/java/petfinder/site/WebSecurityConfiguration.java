@@ -35,52 +35,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.authorizeRequests()
-					.antMatchers("/").permitAll()
-					.antMatchers("/statics/**").permitAll()
-				.anyRequest().authenticated()
-				.and().csrf().csrfTokenRepository(csrfTokenRepository())
-					.and()
-				.formLogin()
-					.loginPage("/login")
-					.permitAll()
-					.and()
-				.logout()
-					.permitAll();
+			.csrf().disable();
 	}
-	
-	private Filter csrfHeaderFilter() {
-        return new OncePerRequestFilter() {
-
-            @Override
-            protected void doFilterInternal(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain filterChain) throws ServletException, IOException {
-
-                CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-                if (csrf != null) {
-                    Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
-                    String token = csrf.getToken();
-                    if (cookie == null || token != null
-                            && !token.equals(cookie.getValue())) {
-
-                        // Token is being added to the XSRF-TOKEN cookie.
-                        cookie = new Cookie("XSRF-TOKEN", token);
-                        cookie.setPath("/");
-                        response.addCookie(cookie);
-                    }
-                }
-                filterChain.doFilter(request, response);
-            }
-        };
-    }
-
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setHeaderName("X-XSRF-TOKEN");
-        //repository.setSessionAttributeName(("X-XSRF-TOKEN"));
-        return repository;
-    }
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
