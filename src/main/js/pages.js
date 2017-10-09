@@ -615,14 +615,114 @@ export class OwnerPets extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				<div><h4>Your Pet Informations</h4></div>
+				<div><h4>Your Pet Information</h4></div>
 				<div id="petInfo">
 				</div>
+				<div><Link to="/owner/pets/add">Add a pet</Link></div>
 			</div>
 		);
 	}
 }
 
+
+export class OwnerPetsAdd extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	petname: '',
+	    	pettype: '',
+	    	age: '',
+	    	notes: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.nextPet = this.nextPet.bind(this);
+	    this.pushData = this.pushData.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+	nextPet(event) {
+    	event.preventDefault();
+    	
+    	this.pushData();
+    	this.setState({
+	      	petname: '',
+	    	pettype: '',
+	    	age: '',
+	    	notes: ''	   
+	    });
+    	location.reload();
+    }
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.pushData();
+    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/reg/owner/pay');
+    }
+    
+    pushData() {
+    	const {petname,
+    		pettype,
+    		age,
+    		notes} = this.state;
+    	
+    	axios.post('/api/owner/pet/add', {withCredentials:true}, {
+		    petname,
+    		pettype,
+    		age,
+    		notes
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+	}
+		  
+    
+    
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Add a Pet</h5>
+					<form onSubmit={this.handleSubmit}>
+						Pet Name:<br />
+						<input name="petname" type="text" value={this.state.petname} onChange={this.handleChange} required /><br />
+						Pet Type:<br />
+						<select name="pettype" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" selected>Cat</option>
+							<option value="horse" selected>Horse</option>
+							<option value="ferret" selected>Ferret</option>
+							<option value="rabbit" selected>Rabbit</option>
+							<option value="fish" selected>Fish</option>
+						</select>
+						<br />
+						*Age:<br />
+						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
+						*Notes:<br />
+						<input name="notes" type="text" value={this.state.notes} onChange={this.handleChange} /><br />
+						
+						<input type="button" value="Next Pet" onClick={this.nextPet} />
+  						<input type="submit" value="Submit" />
+  					</form>
+  				</div>
+			</div>
+		);
+	}
+}
 
 export class SitterHome extends React.Component {
 	constructor(props) {
