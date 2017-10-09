@@ -93,7 +93,7 @@ export class Registration extends React.Component {
 	    	gender,
 	    	type} = this.state;
 	    	
-	    axios.post('/api/pet/reg', {
+	    axios.post('/api/user/reg', {
 		    firtName,
 	    	lastName,
 	    	email,
@@ -516,11 +516,7 @@ export class OwnerHome extends React.Component {
 					<h5>Pet Owner Home Page</h5>
 					<div>
 						<Link to="/owner/reserve">Create Appointment</Link>
-					</div>
-					<div>
 						<Link to="/owner/appoint">Current Appointments</Link>
-					</div>
-					<div>
 						<Link to="/owner/pets">PetInfo</Link>
 					</div>
 				</div>
@@ -538,23 +534,31 @@ export class OwnerReserve extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				<h5>Reserve an appointment</h5>
-				<form>
-					Start Date of Appointment:<br />
-					<input name="startDate" type="text" value="MM-DD-YYYY" onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
-					Start Time of Appointment:<br />
-					<input name="startTime" type="text" value="HH:MM" onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
-					End Date of Appointment:<br />
-					<input name="endDate" type="text" value="MM-DD-YYYY" onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
-					End Time of Appointment:<br />
-					<input name="endTime" type="text" value="HH:MM" onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
-					Urgency:<br />
-					<select name="urgency" onChange={this.handleChange} required>
-						<option value="Casual" selected>Casual</option>
-						<option value="Necessary" selected>Necessary</option>
-						<option value="Emergency" selected>Emergency</option>
-					</select><br />
-				</form>
+				<div>
+					<h5>Reserve an appointment</h5>
+					<form>
+						Start Date of Appointment:<br />
+						<input name="startDate" type="text" value="MM-DD-YYYY" onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
+						Start Time of Appointment:<br />
+						<input name="startTime" type="text" value="HH:MM" onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
+						End Date of Appointment:<br />
+						<input name="endDate" type="text" value="MM-DD-YYYY" onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
+						End Time of Appointment:<br />
+						<input name="endTime" type="text" value="HH:MM" onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
+						Urgency:<br />
+						<select name="urgency" onChange={this.handleChange} required>
+							<option value="Casual" selected>Casual</option>
+							<option value="Necessary" selected>Necessary</option>
+							<option value="Emergency" selected>Emergency</option>
+						</select><br />
+					</form>
+				</div>
+				<div>
+					<form>
+						<select id="sitterOptions" name="sitterChoice" onChange={this.handleChange}>
+						</select><br />
+					</from>
+				</div>
 			</div>
 		);
 	}
@@ -568,7 +572,9 @@ export class OwnerAppoint extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				
+				<div><h4>Current Appointments</h4></div>
+				<div id="currentAppoints">
+				</div>
 			</div>
 		);
 	}
@@ -582,7 +588,9 @@ export class OwnerPets extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				
+				<div><h4>Your Pet Informations</h4></div>
+				<div id="petInfo">
+				</div>
 			</div>
 		);
 	}
