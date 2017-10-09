@@ -515,9 +515,9 @@ export class OwnerHome extends React.Component {
 				<div>
 					<h5>Pet Owner Home Page</h5>
 					<div>
-						<Link to="/owner/reserve">Create Appointment</Link>
-						<Link to="/owner/appoint">Current Appointments</Link>
-						<Link to="/owner/pets">PetInfo</Link>
+						<Link to="/owner/reserve">Create Appointment</Link></br>
+						<Link to="/owner/appoint">Current Appointments</Link></br>
+						<Link to="/owner/pets">PetInfo</Link></br>
 					</div>
 				</div>
 				
@@ -529,6 +529,30 @@ export class OwnerHome extends React.Component {
 export class OwnerReserve extends React.Component {
 	constructor(props) {
 	    super(props);
+	    this.state = {
+	    	startDate: '',
+	    	startTime: '',
+	    	endDate: '',
+	    	endTime: '',
+	    	urgency: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+    handleSubmit(event) {
+    	event.preventDefault();
     }
     
 	render() {
@@ -537,14 +561,14 @@ export class OwnerReserve extends React.Component {
 				<div>
 					<h5>Reserve an appointment</h5>
 					<form>
-						Start Date of Appointment:<br />
-						<input name="startDate" type="text" value="MM-DD-YYYY" onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
-						Start Time of Appointment:<br />
-						<input name="startTime" type="text" value="HH:MM" onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
-						End Date of Appointment:<br />
-						<input name="endDate" type="text" value="MM-DD-YYYY" onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
-						End Time of Appointment:<br />
-						<input name="endTime" type="text" value="HH:MM" onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
+						Start Date of Appointment (MM-DD-YYYY):<br />
+						<input name="startDate" type="text" value={this.state.startDate} onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
+						Start Time of Appointment (HH:MM):<br />
+						<input name="startTime" type="text" value={this.state.startTime} onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
+						End Date of Appointment (MM-DD-YYYY):<br />
+						<input name="endDate" type="text" value={this.state.endDate} onChange={this.handleChange} required pattern="[0-1][0-9]-[0-3][0-9]-[0-9]{4}" /><br />
+						End Time of Appointment (HH:MM):<br />
+						<input name="endTime" type="text" value={this.state.endTimne} onChange={this.handleChange} required pattern="[0-1][0-9]:[0-5][0-9]" /><br />
 						Urgency:<br />
 						<select name="urgency" onChange={this.handleChange} required>
 							<option value="Casual" selected>Casual</option>
@@ -555,6 +579,7 @@ export class OwnerReserve extends React.Component {
 				</div>
 				<div>
 					<form>
+						Options:</br>
 						<select id="sitterOptions" name="sitterChoice" onChange={this.handleChange}>
 						</select><br />
 					</form>
