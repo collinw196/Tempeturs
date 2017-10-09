@@ -93,7 +93,7 @@ export class Registration extends React.Component {
 	    	gender,
 	    	type} = this.state;
 	    	
-	    axios.post('/api/pet/reg', {
+	    axios.post('/api/user/reg', {
 		    firtName,
 	    	lastName,
 	    	email,
