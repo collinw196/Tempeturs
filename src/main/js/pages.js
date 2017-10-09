@@ -557,7 +557,7 @@ export class OwnerReserve extends React.Component {
 					<form>
 						<select id="sitterOptions" name="sitterChoice" onChange={this.handleChange}>
 						</select><br />
-					</from>
+					</form>
 				</div>
 			</div>
 		);
