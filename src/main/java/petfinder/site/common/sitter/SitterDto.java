@@ -9,7 +9,7 @@ public class SitterDto {
 	private String preference1;
 	private String preference2;
 	private String preference3;
-	
+
 	public SitterDto(UserDto user, String aN, String rN, String p1, String p2, String p3){
 		this.user = user;
 		accountNumber = aN;
@@ -18,8 +18,8 @@ public class SitterDto {
 		preference2 = p2;
 		preference3 = p3;
 	}
-	
-	
+
+
 	/**
 	 * @return the user
 	 */
@@ -92,6 +92,6 @@ public class SitterDto {
 	public void setPreference3(String preference3) {
 		this.preference3 = preference3;
 	}
-	
+
 
 }

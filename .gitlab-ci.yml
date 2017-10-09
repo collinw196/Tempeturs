@@ -1,4 +1,8 @@
 image: java:8
+test:
+  stage: test
+  script:
+    - bash gradlew check
 deploy:
  stage: deploy
  image: ruby:2.3
@@ -7,5 +11,6 @@ deploy:
  - apt-get install -y ruby-dev
  - gem install dpl
  - dpl --provider=heroku --app=$APP_NAME --api-key=$API_KEY
+ - bash gradlew check
  only:
  - master
