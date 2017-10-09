@@ -515,9 +515,11 @@ export class OwnerHome extends React.Component {
 				<div>
 					<h5>Pet Owner Home Page</h5>
 					<div>
-						<Link to="/owner/reserve">Create Appointment</Link></br>
-						<Link to="/owner/appoint">Current Appointments</Link></br>
-						<Link to="/owner/pets">PetInfo</Link></br>
+						<ul>
+							<li><Link to="/owner/reserve">Create Appointment</Link></li>
+							<li><Link to="/owner/appoint">Current Appointments</Link></li>
+							<li><Link to="/owner/pets">PetInfo</Link></li>
+						</ul>
 					</div>
 				</div>
 				
@@ -579,7 +581,7 @@ export class OwnerReserve extends React.Component {
 				</div>
 				<div>
 					<form>
-						Options:</br>
+						Options:<br />
 						<select id="sitterOptions" name="sitterChoice" onChange={this.handleChange}>
 						</select><br />
 					</form>
