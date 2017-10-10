@@ -59,7 +59,7 @@ public class OwnerEndpoint {
 		if(clientService.getClient() == null) {
 			System.out.println("Not Good");
 		}
-		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + id+ "/_source",
+		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + id + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		String jsonString = EntityUtils.toString(response.getEntity());
