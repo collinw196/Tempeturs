@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import petfinder.site.common.pet.PetService;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 
@@ -23,6 +24,10 @@ public class UserEndpoint {
 	
 	public UserEndpoint() {
 		userService = new UserService();
+	}
+	
+	public UserEndpoint(UserService uS){
+		userService = uS;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -1,5 +1,7 @@
 package petfinder.site.common.pet;
 
+import petfinder.site.common.owner.OwnerDto;
+
 /**
  * Created by jlutteringer on 8/23/17.
  */
@@ -10,12 +12,24 @@ public class PetDto {
 	private int age;
 	private String notes;
 	
+	public PetDto() {
+		
+	}
+	
 	public PetDto(Long id, String name, String type, int age, String notes) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.age = age;
 		this.notes = notes;
+	}
+	
+	public boolean equals(PetDto value){
+		if(id == value.getId() && name.equals(value.getName()) && type.equals(value.getType()) &&
+				age == value.getAge() &&  notes == value.getNotes()) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

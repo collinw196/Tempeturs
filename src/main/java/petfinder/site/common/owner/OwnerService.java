@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class OwnerService {
 	private OwnerDao ownerDao;
+	
+	public OwnerService (){
+		ownerDao = new OwnerDao();
+	}
 
 	public OwnerDto findOwner(Long id) {
 		return ownerDao.findOwner(id);

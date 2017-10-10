@@ -27,7 +27,7 @@ public class ElasticClientService {
         credentialsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials(ACCESS_KEY, SECRET_KEY));
 
-        RestClient restClient = RestClient.builder(new HttpHost(URL, 443, "https"))
+        restClient = RestClient.builder(new HttpHost(URL, 443, "https"))
                 .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                     @Override
                     public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
@@ -35,15 +35,6 @@ public class ElasticClientService {
                     }
                 })
                 .build();
-
-
-        Response response;
-        try {
-            response = restClient.performRequest("GET", "/", Collections.singletonMap("pretty", "true"));
-            System.out.println(EntityUtils.toString(response.getEntity()));
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
 	}
 	
 	public RestClient getClient() {

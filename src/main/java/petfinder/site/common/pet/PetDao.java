@@ -29,9 +29,6 @@ public class PetDao {
 	}
 
 	public void setPets(List<PetDto> pets) {
-		for (PetDto pet : pets){
-			pets.add(pet);
-		}
-		
+		this.pets = pets;		
 	}
 }

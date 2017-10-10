@@ -21,16 +21,24 @@ import petfinder.site.common.sitter.SitterDto;
 @RestController
 @RequestMapping(value = "/api/pet")
 public class PetEndpoint {
-	@Autowired
+	
 	private PetService petService;
+	
+	public PetEndpoint(){
+		petService = new PetService();
+	}
+	
+	public PetEndpoint(PetService pS){
+		petService = pS;
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public PetDto findOwner(@PathVariable(name = "id") Long id) {
+	public PetDto findPet(@PathVariable(name = "id") Long id) {
 		return petService.findPet(id);
 	}
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
-	public ResponseEntity<String> regSitter(@RequestBody List<PetDto> pets) {
+	public ResponseEntity<String> regPet(@RequestBody List<PetDto> pets) {
 		petService.setPets(pets);
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}

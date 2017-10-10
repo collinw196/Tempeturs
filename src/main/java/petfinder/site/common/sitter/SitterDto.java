@@ -1,5 +1,6 @@
 package petfinder.site.common.sitter;
 
+import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.user.UserDto;
 
 public class SitterDto {
@@ -10,6 +11,10 @@ public class SitterDto {
 	private String preference2;
 	private String preference3;
 	
+	public SitterDto() {
+		
+	}
+	
 	public SitterDto(int user, String aN, String rN, String p1, String p2, String p3){
 		userId = user;
 		accountNumber = aN;
@@ -19,17 +24,26 @@ public class SitterDto {
 		preference3 = p3;
 	}
 	
+	public boolean equals(SitterDto value){
+		if(userId == value.getUserId() && accountNumber.equals(value.getAccountNumber()) &&
+				preference1.equals(value.getPreference1()) &&
+				preference2.equals(value.getPreference2()) && preference3.equals(value.getPreference3())) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * @return the user
 	 */
-	public int getUser() {
+	public int getUserId() {
 		return userId;
 	}
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(int user) {
+	public void setUserId(int user) {
 		userId = user;
 	}
 	/**

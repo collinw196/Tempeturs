@@ -1,5 +1,7 @@
 package petfinder.site.common.user;
 
+import petfinder.site.common.sitter.SitterDto;
+
 /**
  * Created by jlutteringer on 8/23/17.
  */
@@ -18,6 +20,10 @@ public class UserDto {
 	private String phone;
 	private String gender;
 	private String type;
+	
+	public UserDto() {
+		
+	}
 
 	public UserDto(String fName, String lName, String email, String username,
 			String password, String street1, String street2, String po, String zip, 
@@ -36,6 +42,17 @@ public class UserDto {
 		this.phone = phone;
 		this.gender = gender;
 		this.type = type;
+	}
+	
+	public boolean equals(UserDto value){
+		if(id == value.getId() && firstName.equals(value.getFirstName()) && lastName.equals(value.getLastName()) &&
+				email.equals(value.getEmail()) && username.equals(value.getUsername()) && password.equals(value.getPassword()) &&
+				street1.equals(value.getStreet1()) && street2.equals(value.getStreet2()) && po.equals(value.getPo()) &&
+				zip.equals(value.getZip()) && state.equals(value.getState()) && phone.equals(value.getPhone()) &&
+				gender.equals(value.getGender()) && type.equals(value.getType())) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**

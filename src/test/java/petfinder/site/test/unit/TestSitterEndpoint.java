@@ -17,8 +17,8 @@ public class TestSitterEndpoint {
 		SitterDto sitter = new SitterDto(1, "111", "111", "dog", "horse",
 				"ferret");
 		sE.regSitter(sitter);
-		SitterDto userTest = sE.findSitter(1L);
-		assertEquals(sitter, userTest);
+		SitterDto sitterTest = sE.findSitter(1L);
+		assertTrue(sitter.equals(sitterTest));
 	}
 
 }

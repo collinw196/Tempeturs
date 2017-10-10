@@ -11,8 +11,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PetService {
-	@Autowired
+	
 	private PetDao petDao;
+	
+	public PetService() {
+		petDao = new PetDao();
+	}
+	
+	public PetService(PetDao pD) {
+		petDao = pD;
+	}
 
 	public PetDto findPet(Long id) {
 		return petDao.findPet(id);

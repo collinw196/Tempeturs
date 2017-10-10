@@ -3,6 +3,8 @@ package petfinder.site.common.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import petfinder.site.common.pet.PetDao;
+
 /**
  * Created by jlutteringer on 8/23/17.
  */
@@ -12,6 +14,10 @@ public class UserService {
 	
 	public UserService() {
 		userDao = new UserDao();
+	}
+	
+	public UserService(UserDao uD) {
+		userDao = uD;
 	}
 
 	public UserDto findUser(Long id) {

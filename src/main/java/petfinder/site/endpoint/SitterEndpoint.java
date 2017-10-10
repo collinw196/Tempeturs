@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import petfinder.site.common.pet.PetService;
 import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.sitter.SitterService;
 import petfinder.site.common.user.UserDto;
@@ -23,6 +25,10 @@ public class SitterEndpoint {
 	
 	public SitterEndpoint(){
 		sitterService = new SitterService();
+	}
+	
+	public SitterEndpoint(SitterService sS){
+		sitterService = sS;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
