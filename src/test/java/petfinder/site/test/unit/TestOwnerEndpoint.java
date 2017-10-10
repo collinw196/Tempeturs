@@ -10,55 +10,43 @@ import java.util.List;
 import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
 import petfinder.site.endpoint.OwnerEndpoint;
 
 public class TestOwnerEndpoint {
-
-	@Test
-	public void testGetUser() {
-		ElasticClientService cS = new ElasticClientService();
-		OwnerEndpoint oP = new OwnerEndpoint(cS);
-		List<Integer> list = new ArrayList<Integer>();
-		list.add(1);
-		list.add(2);
-		OwnerDto owner = new OwnerDto(1, list, "111", "222", 2, 2020, "jack");
-		OwnerDto ownerTest = null;
-		try {
-			ownerTest = oP.findOwner(1L);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedOperationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		assertTrue(owner.equals(ownerTest));
-	}
 	
 	@Test
-	public void testPutUser() {
+	public void testPutOwner() {
 		ElasticClientService cS = new ElasticClientService();
 		OwnerEndpoint oP = new OwnerEndpoint(cS);
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(1);
 		list.add(2);
-		OwnerDto owner = new OwnerDto(2, list, "333", "444", 2, 2020, "will");
+		Response response = null;
+		try {
+			response = cS.getClient().performRequest("GET", "/owner/external/_count",
+					Collections.<String, String>emptyMap());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String jsonString1 = null;
+		try {
+			jsonString1 = EntityUtils.toString(response.getEntity());
+		} catch (ParseException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		JSONObject json = new JSONObject(jsonString1);
+        int count = json.getInt("count");
+		OwnerDto owner = new OwnerDto(count, list, "333", "444", 2, 2020, "will");
 		ResponseEntity<String> res = null;
 		try {
 			res = oP.regOwner(owner);
@@ -67,35 +55,22 @@ public class TestOwnerEndpoint {
 			e.printStackTrace();
 		}
 		
-		System.out.println(res);
-		Response response = null;
-		try {
-			response = cS.getClient().performRequest("GET", "/owner/external/" + 2 + "/_source",
-			        Collections.singletonMap("pretty", "true"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String jsonString = null;
-		try {
-			jsonString = EntityUtils.toString(response.getEntity());
-		} catch (ParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper = new ObjectMapper();
 		OwnerDto ownerTest = null;
 		try {
-			ownerTest = objectMapper.readValue(jsonString, OwnerDto.class);
-		} catch (IOException e) {
+			ownerTest = oP.findOwner(0L);
+		} catch (UnsupportedOperationException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		assertTrue(owner.equals(ownerTest));
+		try {
+			response = cS.getClient().performRequest("DELETE", "/owner/external/" + count,
+					Collections.<String, String>emptyMap());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

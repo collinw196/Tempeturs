@@ -2,8 +2,19 @@ package petfinder.site.test.unit;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import java.io.IOException;
+import java.util.Collections;
 
+import org.apache.http.ParseException;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Response;
+import org.junit.Test;
+import org.springframework.http.ResponseEntity;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.endpoint.UserEndpoint;
 
@@ -11,14 +22,36 @@ public class TestUserEndpoint {
 
 	@Test
 	public void test() {
-		UserEndpoint uE = new UserEndpoint();
-		UserDto user = new UserDto("Jack", "Wilder", "jack_wilder@wilderness.com", "jwild",
-				"abc", "123 Outside", "", "", "76777", 
-				"Texas", "5555555555", "male", "owner");
-		uE.regUser(user);
-		UserDto userTest = uE.findUser(1L);
-		user.setId(1L);
+		ElasticClientService cS = new ElasticClientService();
+		UserEndpoint uP = new UserEndpoint(cS);
+		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild", "abc", "123 wilderness",
+				"", "", "77777", "Texas", "5555555555", "male", "owner");
+		ResponseEntity<String> res = null;
+		int id = 0;
+		try {
+			res = uP.regUser(user);
+			id = Integer.parseInt(res.getBody());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		UserDto userTest = null;
+		try {
+			userTest = uP.findUser(Integer.toUnsignedLong(id));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		assertTrue(user.equals(userTest));
+		try {
+			Response response = cS.getClient().performRequest("DELETE", "/users/external/" + id,
+					Collections.<String, String>emptyMap());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

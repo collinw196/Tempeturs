@@ -54,7 +54,6 @@ public class OwnerEndpoint {
 		objectMapper = new ObjectMapper();
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
 		if(clientService.getClient() == null) {
@@ -65,7 +64,6 @@ public class OwnerEndpoint {
 		
 		String jsonString = EntityUtils.toString(response.getEntity());
 		
-		objectMapper = new ObjectMapper();
 		OwnerDto owner = objectMapper.readValue(jsonString, OwnerDto.class);
 		ownerService.setOwner(owner);
 		return owner;
