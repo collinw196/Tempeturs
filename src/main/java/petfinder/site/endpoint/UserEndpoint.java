@@ -18,8 +18,12 @@ import petfinder.site.common.user.UserService;
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserEndpoint {
-	@Autowired
+	
 	private UserService userService;
+	
+	public UserEndpoint() {
+		userService = new UserService();
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public UserDto findUser(@PathVariable(name = "id") Long id) {

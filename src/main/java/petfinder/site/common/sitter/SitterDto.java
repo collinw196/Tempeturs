@@ -3,15 +3,15 @@ package petfinder.site.common.sitter;
 import petfinder.site.common.user.UserDto;
 
 public class SitterDto {
-	private UserDto user;
+	private int userId;
 	private String accountNumber;
 	private String routingNumber;
 	private String preference1;
 	private String preference2;
 	private String preference3;
 	
-	public SitterDto(UserDto user, String aN, String rN, String p1, String p2, String p3){
-		this.user = user;
+	public SitterDto(int user, String aN, String rN, String p1, String p2, String p3){
+		userId = user;
 		accountNumber = aN;
 		routingNumber = rN;
 		preference1 = p1;
@@ -23,14 +23,14 @@ public class SitterDto {
 	/**
 	 * @return the user
 	 */
-	public UserDto getUser() {
-		return user;
+	public int getUser() {
+		return userId;
 	}
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(UserDto user) {
-		this.user = user;
+	public void setUser(int user) {
+		userId = user;
 	}
 	/**
 	 * @return the accountNumber

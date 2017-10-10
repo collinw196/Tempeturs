@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SitterService {
-	@Autowired
+	
 	private SitterDao sitterDao;
+	
+	public SitterService() {
+		sitterDao = new SitterDao();
+	}
 
 	public SitterDto findSitter(Long id) {
 		return sitterDao.findSitter(id);

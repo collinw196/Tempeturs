@@ -19,7 +19,7 @@ public class UserDto {
 	private String gender;
 	private String type;
 
-	public UserDto(Long id, String fName, String lName, String email, String username,
+	public UserDto(String fName, String lName, String email, String username,
 			String password, String street1, String street2, String po, String zip, 
 			String state, String phone, String gender, String type) {
 		this.id = id;

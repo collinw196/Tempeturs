@@ -18,11 +18,15 @@ import petfinder.site.common.user.UserDto;
 @RestController
 @RequestMapping(value = "/api/sitter")
 public class SitterEndpoint {
-	@Autowired
+	
 	private SitterService sitterService;
+	
+	public SitterEndpoint(){
+		sitterService = new SitterService();
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public SitterDto findOwner(@PathVariable(name = "id") Long id) {
+	public SitterDto findSitter(@PathVariable(name = "id") Long id) {
 		return sitterService.findSitter(id);
 	}
 	
