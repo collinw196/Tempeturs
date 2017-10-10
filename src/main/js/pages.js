@@ -24,6 +24,7 @@ import omit from 'lodash/omit';
 import defaults from 'lodash/defaults';
 import transform from 'lodash/transform';
 import mapValues from 'lodash/mapValues';
+import axios from 'axios';
 
 
 export class Home extends React.Component {
