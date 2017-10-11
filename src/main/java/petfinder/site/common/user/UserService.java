@@ -10,6 +10,7 @@ import petfinder.site.common.pet.PetDao;
  */
 @Service
 public class UserService {
+	@Autowired
 	private UserDao userDao;
 	
 	public UserService() {

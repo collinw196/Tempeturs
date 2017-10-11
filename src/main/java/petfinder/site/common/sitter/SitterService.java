@@ -10,7 +10,7 @@ import petfinder.site.common.pet.PetDao;
  */
 @Service
 public class SitterService {
-	
+	@Autowired
 	private SitterDao sitterDao;
 	
 	public SitterService() {

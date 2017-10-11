@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PetService {
-	
+	@Autowired
 	private PetDao petDao;
 	
 	public PetService() {
@@ -32,5 +32,9 @@ public class PetService {
 	
 	public List<PetDto> getPets(){
 		return petDao.getPets();
+	}
+	
+	public void addPet(PetDto pet){
+		petDao.addPet(pet);
 	}
 }

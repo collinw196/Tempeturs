@@ -3,6 +3,9 @@ package petfinder.site.endpoint;
 import java.io.IOException;
 import java.util.Collections;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,7 +34,9 @@ import petfinder.site.common.sitter.SitterService;
 public class SitterEndpoint {
 	@Autowired
 	private SitterService sitterService;
+	@Autowired
 	private ElasticClientService clientService;
+	@Autowired
 	private ObjectMapper objectMapper;
 	
 	public SitterEndpoint() {
@@ -42,17 +48,11 @@ public class SitterEndpoint {
 		sitterService = new SitterService();
 		objectMapper = new ObjectMapper();
 	}
-	
-	public SitterEndpoint(SitterService sS, ElasticClientService cS){
-		sitterService = sS;
-		clientService = cS;
-		objectMapper = new ObjectMapper();
-	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public SitterDto findSitter(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, IOException {
 		if(clientService.getClient() == null) {
-			System.out.println("Not Good");
+			return null;
 		}
 		Response response = clientService.getClient().performRequest("GET", "/sitter/external/" + id + "/_source",
 		        Collections.singletonMap("pretty", "true"));
@@ -65,8 +65,17 @@ public class SitterEndpoint {
 	}
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
-	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
+	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) throws IOException {
+		String jsonString = objectMapper.writeValueAsString(sitter);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
 		sitterService.addSitter(sitter);
-		return new ResponseEntity<String>("Added", HttpStatus.OK);
+		int id = sitter.getUserId();
+		Response indexResponse = clientService.getClient().performRequest(
+		        "PUT",
+		        "/sitter/external/" + id,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
 }

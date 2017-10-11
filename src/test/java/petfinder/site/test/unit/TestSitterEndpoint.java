@@ -2,23 +2,70 @@ package petfinder.site.test.unit;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import java.io.IOException;
+import java.util.Collections;
 
+import org.apache.http.ParseException;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Response;
+import org.json.JSONObject;
+import org.junit.Test;
+import org.springframework.http.ResponseEntity;
+
+import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
-import petfinder.site.common.user.UserDto;
 import petfinder.site.endpoint.SitterEndpoint;
-import petfinder.site.endpoint.UserEndpoint;
 
 public class TestSitterEndpoint {
 
 	@Test
 	public void test() {
-		/*SitterEndpoint sE = new SitterEndpoint();
-		SitterDto sitter = new SitterDto(1, "111", "111", "dog", "horse",
-				"ferret");
-		sE.regSitter(sitter);
-		SitterDto sitterTest = sE.findSitter(1L);
-		asertTrue(sitter.equals(sitterTest));*/
+		ElasticClientService cS = new ElasticClientService();
+		SitterEndpoint sP = new SitterEndpoint(cS);
+		Response response = null;
+		try {
+			response = cS.getClient().performRequest("GET", "/sitter/external/_count",
+					Collections.<String, String>emptyMap());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String jsonString1 = null;
+		try {
+			jsonString1 = EntityUtils.toString(response.getEntity());
+		} catch (ParseException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		JSONObject json = new JSONObject(jsonString1);
+        int count = json.getInt("count");
+		SitterDto sitter = new SitterDto(count, "333", "444", "dog", "cat", "horse");
+		ResponseEntity<String> res = null;
+		try {
+			res = sP.regSitter(sitter);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		SitterDto sitterTest = null;
+		try {
+			sitterTest = sP.findSitter(Integer.toUnsignedLong(count));
+		} catch (UnsupportedOperationException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(sitter.equals(sitterTest));
+		try {
+			response = cS.getClient().performRequest("DELETE", "/sitter/external/" + count,
+					Collections.<String, String>emptyMap());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

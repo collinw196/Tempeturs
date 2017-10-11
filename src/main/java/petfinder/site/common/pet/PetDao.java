@@ -1,5 +1,6 @@
 package petfinder.site.common.pet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,10 @@ import com.google.common.collect.ImmutableMap;
 public class PetDao {
 	
 	private List<PetDto> pets;
+	
+	public PetDao(){
+		pets = new ArrayList<PetDto>();
+	}
 
 	public PetDto findPet(Long id) {
 		for (PetDto pet : pets){
@@ -30,5 +35,9 @@ public class PetDao {
 
 	public void setPets(List<PetDto> pets) {
 		this.pets = pets;		
+	}
+	
+	public void addPet(PetDto pet) {
+		this.pets.add(pet);		
 	}
 }

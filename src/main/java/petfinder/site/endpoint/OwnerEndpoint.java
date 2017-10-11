@@ -49,17 +49,11 @@ public class OwnerEndpoint {
 		ownerService = new OwnerService();
 		objectMapper = new ObjectMapper();
 	}
-	
-	public OwnerEndpoint(ElasticClientService cS, OwnerService oS) {
-		clientService = cS;
-		ownerService = oS;
-		objectMapper = new ObjectMapper();
-	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
 		if(clientService.getClient() == null) {
-			System.out.println("Not Good");
+			return null;
 		}
 		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + id + "/_source",
 		        Collections.singletonMap("pretty", "true"));

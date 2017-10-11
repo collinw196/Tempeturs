@@ -16,8 +16,7 @@ public class PetDto {
 		
 	}
 	
-	public PetDto(Long id, String name, String type, int age, String notes) {
-		this.id = id;
+	public PetDto(String name, String type, int age, String notes) {
 		this.name = name;
 		this.type = type;
 		this.age = age;
@@ -25,7 +24,7 @@ public class PetDto {
 	}
 	
 	public boolean equals(PetDto value){
-		if(id == value.getId() && name.equals(value.getName()) && type.equals(value.getType()) &&
+		if(id.equals(value.getId()) && name.equals(value.getName()) && type.equals(value.getType()) &&
 				age == value.getAge() &&  notes == value.getNotes()) {
 			return true;
 		}

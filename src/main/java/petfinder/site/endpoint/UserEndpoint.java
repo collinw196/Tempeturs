@@ -33,7 +33,9 @@ import petfinder.site.common.user.UserService;
 public class UserEndpoint {
 	@Autowired
 	private UserService userService;
+	@Autowired
 	private ElasticClientService clientService;
+	@Autowired
 	private ObjectMapper objectMapper;
 	
 	public UserEndpoint() {
@@ -45,17 +47,11 @@ public class UserEndpoint {
 		userService = new UserService();
 		objectMapper = new ObjectMapper();
 	}
-	
-	public UserEndpoint(ElasticClientService cS, UserService uS) {
-		clientService = cS;
-		userService = uS;
-		objectMapper = new ObjectMapper();
-	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public UserDto findUser(@PathVariable(name = "id") Long id) throws ParseException, IOException {
 		if(clientService.getClient() == null) {
-			System.out.println("Not Good");
+			return null;
 		}
 		Response response = clientService.getClient().performRequest("GET", "/users/external/" + id + "/_source",
 		        Collections.singletonMap("pretty", "true"));

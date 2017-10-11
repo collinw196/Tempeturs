@@ -2,10 +2,14 @@ package petfinder.site.test.unit;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Collections;
 
+import org.elasticsearch.client.Response;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
 
+import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.endpoint.PetEndpoint;
 
@@ -13,15 +17,35 @@ public class TestPetEndpoint {
 
 	@Test
 	public void test() {
-		PetEndpoint pE = new PetEndpoint();
-		PetDto pet1 = new PetDto(1L, "rodger", "dog", 4, "");
-		PetDto pet2 = new PetDto(2L, "sydney", "cat", 2, "");
-		ArrayList<PetDto> list = new ArrayList<PetDto>();
-		list.add(pet1);
-		list.add(pet2);
-		pE.regPet(list);
-		PetDto petTest = pE.findPet(1L);
-		assertTrue(pet1.equals(petTest));
+		ElasticClientService cS = new ElasticClientService();
+		PetEndpoint pP = new PetEndpoint(cS);
+		PetDto pet = new PetDto("rodger", "dog", 4, "");
+		ResponseEntity<String> res = null;
+		int id = 0;
+		try {
+			res = pP.regPet(pet);
+			id = Integer.parseInt(res.getBody());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		PetDto petTest = null;
+		try {
+			petTest = pP.findPet(Integer.toUnsignedLong(id));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertTrue(pet.equals(petTest));
+		try {
+			Response response = cS.getClient().performRequest("DELETE", "/pets/external/" + id,
+					Collections.<String, String>emptyMap());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
