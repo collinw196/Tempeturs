@@ -311,7 +311,7 @@ export class PetInfo extends React.Component {
     handleSubmit(event) {
     	event.preventDefault();
     	this.pushData();
-    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/reg/owner/pay');
+    	this.props.history.push('/reg/owner/pay');
     }
     
     pushData() {
@@ -332,7 +332,6 @@ export class PetInfo extends React.Component {
 		  .catch(function (error) {
 		    console.log(error);
 		  });
-		  this.props.history.push('/reg/owner/pay');
 	}
 		  
     
