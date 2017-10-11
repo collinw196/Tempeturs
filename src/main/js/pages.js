@@ -91,6 +91,29 @@ export class Registration extends React.Component {
 	    	phone,
 	    	gender,
 	    	type} = this.state;
+	    	
+	    axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {withCredentials:true}, {
+		    firtName,
+	    	lastName,
+	    	email,
+	    	username,
+	    	password,
+	    	repassword,
+	    	street1,
+	    	street2,
+	    	po,
+	    	zip,
+	    	state,
+	    	phone,
+	    	gender,
+	    	type
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
 		  
     	if (this.state.type == 'owner') {
     		this.props.history.push( {
@@ -297,7 +320,7 @@ export class PetInfo extends React.Component {
     		age,
     		notes} = this.state;
     	
-    	/*axios.post('/api/pet/reg', {withCredentials:true}, {
+    	axios.post('/api/pet/reg', {withCredentials:true}, {
 		    petname,
     		pettype,
     		age,
@@ -308,9 +331,7 @@ export class PetInfo extends React.Component {
 		  })
 		  .catch(function (error) {
 		    console.log(error);
-		  });*/
-		  
-		  
+		  });
 		  this.props.history.push('/reg/owner/pay');
 	}
 		  
@@ -381,7 +402,7 @@ export class SitterInfo extends React.Component {
     		pettype2,
     		pettype3} = this.state;
     	
-    	/*axios.post('https://tempeturs-group-2.herokuapp.com/api/sitter/reg', {withCredentials:true}, {
+    	axios.post('https://tempeturs-group-2.herokuapp.com/api/sitter/reg', {withCredentials:true}, {
 		    accnumber,
     		rounumber,
     		pettype1,
@@ -393,7 +414,7 @@ export class SitterInfo extends React.Component {
 		  })
 		  .catch(function (error) {
 		    console.log(error);
-		  });*/
+		  });
 		  
 		  
     	this.props.history.push('/');
@@ -478,8 +499,7 @@ export class OwnerPayment extends React.Component {
     		cardname} = this.state;
     		
     		
-    	
-    	/*axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {withCredentials:true}, {
+    	axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {withCredentials:true}, {
 		    crenumber,
     		ccvnumber,
     		expdatemonth,
@@ -491,7 +511,7 @@ export class OwnerPayment extends React.Component {
 		  })
 		  .catch(function (error) {
 		    console.log(error);
-		  });*/
+		  });
 		  
 		  
     	this.props.history.push('/');
