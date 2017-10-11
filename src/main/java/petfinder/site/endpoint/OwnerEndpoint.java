@@ -35,7 +35,9 @@ import petfinder.site.common.owner.OwnerService;
 public class OwnerEndpoint {
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
 	private ElasticClientService clientService;
+	@Autowired
 	private ObjectMapper objectMapper;
 	
 	public OwnerEndpoint() {
