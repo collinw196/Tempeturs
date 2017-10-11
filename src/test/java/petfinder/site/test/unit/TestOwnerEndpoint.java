@@ -57,11 +57,11 @@ public class TestOwnerEndpoint {
 		
 		OwnerDto ownerTest = null;
 		try {
-			ownerTest = oP.findOwner(0L);
+			ownerTest = oP.findOwner(Integer.toUnsignedLong(count));
 		} catch (UnsupportedOperationException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
 		
 		assertTrue(owner.equals(ownerTest));
 		try {
