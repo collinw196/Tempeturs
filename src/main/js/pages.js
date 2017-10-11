@@ -92,13 +92,12 @@ export class Registration extends React.Component {
 	    	gender,
 	    	type} = this.state;
 	    	
-	    axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {withCredentials:true}, {
+	    axios.post('https://tempeturs-group-2.herokuapp.com/api/user/reg', {withCredentials:true}, {
 		    firtName,
 	    	lastName,
 	    	email,
 	    	username,
 	    	password,
-	    	repassword,
 	    	street1,
 	    	street2,
 	    	po,
