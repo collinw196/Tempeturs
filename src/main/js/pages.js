@@ -45,7 +45,8 @@ export class Registration extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	firtName: '',
+	    	userId: '',
+	    	firstName: '',
 	    	lastName: '',
 	    	email: '',
 	    	username: '',
@@ -77,7 +78,8 @@ export class Registration extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {firtName,
+    	const {userId,
+    		firstName,
 	    	lastName,
 	    	email,
 	    	username,
@@ -93,7 +95,7 @@ export class Registration extends React.Component {
 	    	type} = this.state;
 	    	
 	    axios.post('https://tempeturs-group-2.herokuapp.com/api/user/reg', {withCredentials:true}, {
-		    firtName,
+		    firstName,
 	    	lastName,
 	    	email,
 	    	username,
@@ -109,6 +111,7 @@ export class Registration extends React.Component {
 		  })
 		  .then(function (response) {
 		    console.log(response);
+		    this.state.userId = response.body();
 		  })
 		  .catch(function (error) {
 		    console.log(error);
@@ -118,20 +121,7 @@ export class Registration extends React.Component {
     		this.props.history.push( {
     			pathname: '/reg/owner',
     			state: {
-    				firtName,
-			    	lastName,
-			    	email,
-			    	username,
-			    	password,
-			    	repassword,
-			    	street1,
-			    	street2,
-			    	po,
-			    	zip,
-			    	state,
-			    	phone,
-			    	gender,
-			    	type
+    				userId
     			}
     		});
     	}
@@ -139,20 +129,7 @@ export class Registration extends React.Component {
     		this.props.history.push({
     			pathname: '/reg/sitter',
     			state: {
-    				firtName,
-			    	lastName,
-			    	email,
-			    	username,
-			    	password,
-			    	repassword,
-			    	street1,
-			    	street2,
-			    	po,
-			    	zip,
-			    	state,
-			    	phone,
-			    	gender,
-			    	type
+    				userId
     			}
     		});
     	}
