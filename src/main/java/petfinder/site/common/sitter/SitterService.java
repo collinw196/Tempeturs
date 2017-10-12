@@ -21,8 +21,8 @@ public class SitterService {
 		sitterDao = sD;
 	}
 
-	public SitterDto findSitter(Long id) {
-		return sitterDao.findSitter(id);
+	public SitterDto getSitter() {
+		return sitterDao.getSitter();
 	}
 	
 	public void addSitter(SitterDto sitter){

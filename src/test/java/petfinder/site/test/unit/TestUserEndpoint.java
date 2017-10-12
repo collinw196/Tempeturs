@@ -31,6 +31,7 @@ public class TestUserEndpoint {
 		try {
 			res = uP.regUser(user);
 			id = Integer.parseInt(res.getBody());
+			res = uP.finishRegUser();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

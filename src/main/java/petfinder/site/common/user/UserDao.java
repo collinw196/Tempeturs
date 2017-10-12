@@ -14,7 +14,7 @@ import com.google.common.collect.ImmutableMap;
 public class UserDao {
 	private UserDto user;
 
-	public UserDto findUser(Long id) {
+	public UserDto getUser() {
 		return user;
 		//return Optional.ofNullable(user.get(id));
 	}

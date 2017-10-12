@@ -76,18 +76,30 @@ public class PetEndpoint {
 		
 		JSONObject json = new JSONObject(jsonString1);
         int count = json.getInt("count");
+        count = count + petService.getCurCount();
 		Long id = new Long(count);
 		pet.setId(id);
-		
-		String jsonString = objectMapper.writeValueAsString(pet);
-		HttpEntity entity = new NStringEntity(
-		        jsonString, ContentType.APPLICATION_JSON);
 		petService.addPet(pet);
-		clientService.getClient().performRequest(
-		        "PUT",
-		        "/pets/external/" + id,
-		        Collections.<String, String>emptyMap(),
-		        entity);
+		
 		return new ResponseEntity<String>(Integer.toString(count), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
+	public ResponseEntity<String> finishRegPet() throws IOException {
+		List<PetDto> pets = petService.getPets();
+		for (PetDto pet : pets){
+			Long id = pet.getId();
+			String jsonString = objectMapper.writeValueAsString(pet);
+			HttpEntity entity = new NStringEntity(
+			        jsonString, ContentType.APPLICATION_JSON);
+			
+			clientService.getClient().performRequest(
+			        "PUT",
+			        "/pets/external/" + id,
+			        Collections.<String, String>emptyMap(),
+			        entity);
+		}
+		petService.setCurCount(0);
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 }

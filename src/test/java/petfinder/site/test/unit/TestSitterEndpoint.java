@@ -43,8 +43,9 @@ public class TestSitterEndpoint {
         int count = json.getInt("count");
 		SitterDto sitter = new SitterDto(count, "333", "444", "dog", "cat", "horse");
 		ResponseEntity<String> res = null;
+		res = sP.regSitter(sitter);
 		try {
-			res = sP.regSitter(sitter);
+			res = sP.finishRegSitter();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

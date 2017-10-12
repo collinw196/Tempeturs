@@ -23,6 +23,10 @@ public class PetDto {
 		this.notes = notes;
 	}
 	
+	public String toString() {
+		return "id: " + getId() + " name: " + getName() + " type: " + getType() + " age: " + getAge() + " notes: " + getNotes();
+	}
+	
 	public boolean equals(PetDto value){
 		if(id.equals(value.getId()) && name.equals(value.getName()) && type.equals(value.getType()) &&
 				age == value.getAge() &&  notes == value.getNotes()) {

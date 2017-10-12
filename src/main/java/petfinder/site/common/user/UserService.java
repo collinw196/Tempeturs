@@ -21,8 +21,8 @@ public class UserService {
 		userDao = uD;
 	}
 
-	public UserDto findUser(Long id) {
-		return userDao.findUser(id);
+	public UserDto getUser() {
+		return userDao.getUser();
 	}
 	
 	public void addUser(UserDto user){

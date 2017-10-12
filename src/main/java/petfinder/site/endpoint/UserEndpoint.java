@@ -74,16 +74,23 @@ public class UserEndpoint {
         int count = json.getInt("count");
 		Long id = new Long(count);
 		user.setId(id);
+		userService.addUser(user);
 		
+		return new ResponseEntity<String>(Integer.toString(count), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
+	public ResponseEntity<String> finishRegUser() throws IOException {
+		UserDto user = userService.getUser();
+		Long id = user.getId();
 		String jsonString = objectMapper.writeValueAsString(user);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
-		userService.addUser(user);
 		clientService.getClient().performRequest(
 		        "PUT",
 		        "/users/external/" + id,
 		        Collections.<String, String>emptyMap(),
 		        entity);
-		return new ResponseEntity<String>(Integer.toString(count), HttpStatus.OK);
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 }

@@ -65,11 +65,17 @@ public class SitterEndpoint {
 	}
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
-	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) throws IOException {
+	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
+		sitterService.addSitter(sitter);
+		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
+	public ResponseEntity<String> finishRegSitter() throws IOException {
+		SitterDto sitter = sitterService.getSitter();
 		String jsonString = objectMapper.writeValueAsString(sitter);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
-		sitterService.addSitter(sitter);
 		int id = sitter.getUserId();
 		Response indexResponse = clientService.getClient().performRequest(
 		        "PUT",

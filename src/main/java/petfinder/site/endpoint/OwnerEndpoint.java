@@ -66,11 +66,18 @@ public class OwnerEndpoint {
 	}
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
-	public ResponseEntity<String> regOwner(@RequestBody OwnerDto owner) throws IOException {
+	public ResponseEntity<String> regOwner(@RequestBody OwnerDto owner) {
+		ownerService.setOwner(owner);
+		return new ResponseEntity<String>("Added to service", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
+	public ResponseEntity<String> finishRegOwner() throws IOException {
+		OwnerDto owner = ownerService.getOwner();
 		String jsonString = objectMapper.writeValueAsString(owner);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
-		ownerService.setOwner(owner);
+		
 		int id = owner.getUserId();
 		Response indexResponse = clientService.getClient().performRequest(
 		        "PUT",

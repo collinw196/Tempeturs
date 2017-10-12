@@ -15,8 +15,8 @@ public class OwnerService {
 		ownerDao = new OwnerDao();
 	}
 
-	public OwnerDto findOwner(Long id) {
-		return ownerDao.findOwner(id);
+	public OwnerDto getOwner() {
+		return ownerDao.getOwner();
 	}
 	
 	public void setOwner(OwnerDto owner){

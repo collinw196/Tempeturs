@@ -13,13 +13,16 @@ import org.springframework.stereotype.Service;
 public class PetService {
 	@Autowired
 	private PetDao petDao;
+	int curCount;
 	
 	public PetService() {
 		petDao = new PetDao();
+		curCount = 0;
 	}
 	
 	public PetService(PetDao pD) {
 		petDao = pD;
+		curCount = 0;
 	}
 
 	public PetDto findPet(Long id) {
@@ -28,6 +31,7 @@ public class PetService {
 	
 	public void setPets (List<PetDto> pets){
 		petDao.setPets(pets);
+		curCount = pets.size();
 	}
 	
 	public List<PetDto> getPets(){
@@ -36,5 +40,14 @@ public class PetService {
 	
 	public void addPet(PetDto pet){
 		petDao.addPet(pet);
+		curCount++;
+	}
+	
+	public int getCurCount(){
+		return curCount;
+	}
+	
+	public void setCurCount(int num) {
+		curCount = 0;
 	}
 }

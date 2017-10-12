@@ -48,8 +48,9 @@ public class TestOwnerEndpoint {
         int count = json.getInt("count");
 		OwnerDto owner = new OwnerDto(count, list, "333", "444", 2, 2020, "will");
 		ResponseEntity<String> res = null;
+		res = oP.regOwner(owner);
 		try {
-			res = oP.regOwner(owner);
+			res = oP.finishRegOwner();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
