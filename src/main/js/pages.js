@@ -187,11 +187,11 @@ export class Registration extends React.Component {
 						*PO Box:<br />
 						<input name="po" type="text" value={this.state.po} onChange={this.handleChange} /><br />
 						ZIP Code:<br />
-						<input name="zip" type="number" value={this.state.zip} onChange={this.handleChange} required/><br />
+						<input name="zip" type="text" value={this.state.zip} onChange={this.handleChange} required pattern="[0-9]{5}"/><br />
 						State:<br />
 						<input name="state" type="text" value={this.state.state} onChange={this.handleChange} required/><br />
 						Phone Number:<br />
-						<input name="phone" type="number" value={this.state.phone} onChange={this.handleChange} required/><br />
+						<input name="phone" type="text" value={this.state.phone} onChange={this.handleChange} required pattern="[0-9]{10} | [0-9]{3}-[0-9]{3}-[0-9]{4}" /><br />
 						
 						<br />
 						Gender: <br />
