@@ -1,12 +1,10 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 
-import { Home, Login } from 'js/homePages';
-import { Registration } from 'js/registrationMain';
-import { PetInfo, OwnerPayment } from 'js/ownerRegistration';
-import { SitterInfo } from 'js/sitterRegistration';
-import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd } from 'js/ownerPages';
-import { SitterHome } from 'js/sitterPages';
+
+import { Home, Login, Registration, PetInfo, SitterInfo, OwnerPayment, OwnerHome,
+		OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, SitterHome } from 'js/pages';
+
 
 export default class Index extends React.Component {
 	render() {
