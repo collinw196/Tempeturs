@@ -28,4 +28,9 @@ public class UserService {
 	public void addUser(UserDto user){
 		userDao.setUser(user);
 	}
+
+	public int getId() {
+		userDao.getUser().getId();
+		return 0;
+	}
 }

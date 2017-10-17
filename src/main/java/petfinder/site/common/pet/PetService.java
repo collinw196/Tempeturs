@@ -50,4 +50,13 @@ public class PetService {
 	public void setCurCount(int num) {
 		curCount = 0;
 	}
+
+	@SuppressWarnings("null")
+	public List<Integer> getPetIds() {
+		List<Integer> list = null;
+		for (PetDto pet : petDao.getPets()){
+			list.add(pet.getId().intValue());
+		}
+		return list;
+	}
 }

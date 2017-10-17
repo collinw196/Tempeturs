@@ -98,7 +98,6 @@ export class Registration extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	userId: '',
 	    	firstName: '',
 	    	lastName: '',
 	    	email: '',
@@ -131,8 +130,7 @@ export class Registration extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {userId,
-    		firstName,
+    	const {firstName,
 	    	lastName,
 	    	email,
 	    	username,
@@ -164,27 +162,16 @@ export class Registration extends React.Component {
 		  })
 		  .then(function (response) {
 		    console.log(response);
-		    this.state.userId = response.body();
 		  })
 		  .catch(function (error) {
 		    console.log(error);
 		  });
 		  
     	if (this.state.type == 'owner') {
-    		this.props.history.push( {
-    			pathname: '/reg/owner',
-    			state: {
-    				userId
-    			}
-    		});
+    		this.props.history.push('/reg/owner');
     	}
     	else {
-    		this.props.history.push({
-    			pathname: '/reg/sitter',
-    			state: {
-    				userId
-    			}
-    		});
+    		this.props.history.push('/reg/sitter');
     	}
     }
     

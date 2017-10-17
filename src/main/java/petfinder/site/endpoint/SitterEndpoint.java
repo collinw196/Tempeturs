@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.sitter.SitterService;
+import petfinder.site.common.user.UserService;
 
 /**
  * Created by mattdulany on 9/27/2017.
@@ -34,6 +35,8 @@ import petfinder.site.common.sitter.SitterService;
 public class SitterEndpoint {
 	@Autowired
 	private SitterService sitterService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private ElasticClientService clientService;
 	@Autowired
@@ -66,6 +69,7 @@ public class SitterEndpoint {
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
+		sitter.setUserId(userService.getId());
 		sitterService.addSitter(sitter);
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}

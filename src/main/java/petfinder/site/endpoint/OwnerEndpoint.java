@@ -25,6 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
 import petfinder.site.common.owner.OwnerService;
+import petfinder.site.common.pet.PetService;
+import petfinder.site.common.user.UserService;
 
 /**
  * Created by jlutteringer on 8/23/17.
@@ -35,6 +37,10 @@ import petfinder.site.common.owner.OwnerService;
 public class OwnerEndpoint {
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private PetService petService;
 	@Autowired
 	private ElasticClientService clientService;
 	@Autowired
@@ -67,6 +73,8 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regOwner(@RequestBody OwnerDto owner) {
+		owner.setUserId(userService.getId());
+		owner.setPetIds(petService.getPetIds());
 		ownerService.setOwner(owner);
 		return new ResponseEntity<String>("Added to service", HttpStatus.OK);
 	}
