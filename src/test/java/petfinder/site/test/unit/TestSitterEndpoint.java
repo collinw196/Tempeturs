@@ -65,7 +65,6 @@ public class TestSitterEndpoint {
 			e.printStackTrace();
 		}
 		
-		assertTrue(sitter.equals(sitterTest));
 		try {
 			response = cS.getClient().performRequest("DELETE", "/sitter/external/" + count,
 					Collections.<String, String>emptyMap());
@@ -73,6 +72,8 @@ public class TestSitterEndpoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertTrue(sitter.equals(sitterTest));
 	}
 
 }
