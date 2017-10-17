@@ -50,9 +50,11 @@ public class OwnerEndpoint {
 		
 	}
 	
-	public OwnerEndpoint(ElasticClientService cS) {
+	public OwnerEndpoint(ElasticClientService cS, UserService us, PetService ps) {
 		clientService = cS;
 		ownerService = new OwnerService();
+		userService = us;
+		petService = ps;
 		objectMapper = new ObjectMapper();
 	}
 

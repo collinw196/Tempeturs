@@ -1,5 +1,6 @@
 package petfinder.site.common.pet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,9 +52,8 @@ public class PetService {
 		curCount = 0;
 	}
 
-	@SuppressWarnings("null")
 	public List<Integer> getPetIds() {
-		List<Integer> list = null;
+		List<Integer> list = new ArrayList<Integer>();
 		for (PetDto pet : petDao.getPets()){
 			list.add(pet.getId().intValue());
 		}

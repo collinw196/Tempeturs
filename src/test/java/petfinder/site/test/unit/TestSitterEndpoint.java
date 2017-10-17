@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
+import petfinder.site.common.user.UserDto;
+import petfinder.site.common.user.UserService;
 import petfinder.site.endpoint.SitterEndpoint;
 
 public class TestSitterEndpoint {
@@ -21,7 +23,7 @@ public class TestSitterEndpoint {
 	@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
-		SitterEndpoint sP = new SitterEndpoint(cS);
+		UserService us = new UserService();
 		Response response = null;
 		try {
 			response = cS.getClient().performRequest("GET", "/sitter/external/_count",
@@ -43,6 +45,10 @@ public class TestSitterEndpoint {
         int count = json.getInt("count");
 		SitterDto sitter = new SitterDto(count, "333", "444", "dog", "cat", "horse");
 		ResponseEntity<String> res = null;
+		UserDto user = new UserDto();
+		user.setId(Integer.toUnsignedLong(count));
+		us.addUser(user);
+		SitterEndpoint sP = new SitterEndpoint(cS, us);
 		res = sP.regSitter(sitter);
 		try {
 			res = sP.finishRegSitter();

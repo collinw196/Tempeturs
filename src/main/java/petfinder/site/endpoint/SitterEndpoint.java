@@ -46,9 +46,10 @@ public class SitterEndpoint {
 		
 	}
 	
-	public SitterEndpoint(ElasticClientService cS){
+	public SitterEndpoint(ElasticClientService cS, UserService us){
 		clientService = cS;
 		sitterService = new SitterService();
+		userService = us;
 		objectMapper = new ObjectMapper();
 	}
 
