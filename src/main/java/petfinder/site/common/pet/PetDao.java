@@ -1,11 +1,10 @@
 package petfinder.site.common.pet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * Created by jlutteringer on 8/23/17.
@@ -14,6 +13,10 @@ import com.google.common.collect.ImmutableMap;
 public class PetDao {
 	
 	private List<PetDto> pets;
+	
+	public PetDao(){
+		pets = new ArrayList<PetDto>();
+	}
 
 	public PetDto findPet(Long id) {
 		for (PetDto pet : pets){
@@ -29,9 +32,10 @@ public class PetDao {
 	}
 
 	public void setPets(List<PetDto> pets) {
-		for (PetDto pet : pets){
-			pets.add(pet);
-		}
-		
+		this.pets = pets;		
+	}
+	
+	public void addPet(PetDto pet) {
+		this.pets.add(pet);		
 	}
 }

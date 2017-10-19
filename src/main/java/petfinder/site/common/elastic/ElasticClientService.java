@@ -1,22 +1,20 @@
 package petfinder.site.common.elastic;
 
-import java.util.Collections;
-
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ElasticClientService {
 	RestClient restClient;
+	RestHighLevelClient highClient;
 	
 	public ElasticClientService() {
 		final String ACCESS_KEY = "6w9ihs67x6";
@@ -27,7 +25,7 @@ public class ElasticClientService {
         credentialsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials(ACCESS_KEY, SECRET_KEY));
 
-        RestClient restClient = RestClient.builder(new HttpHost(URL, 443, "https"))
+        restClient = RestClient.builder(new HttpHost(URL, 443, "https"))
                 .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                     @Override
                     public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
@@ -35,19 +33,16 @@ public class ElasticClientService {
                     }
                 })
                 .build();
-
-
-        Response response;
-        try {
-            response = restClient.performRequest("GET", "/", Collections.singletonMap("pretty", "true"));
-            System.out.println(EntityUtils.toString(response.getEntity()));
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
+        
+        highClient = new RestHighLevelClient(restClient);
 	}
 	
 	public RestClient getClient() {
 		return restClient;
+	}
+	
+	public RestHighLevelClient getHighClient() {
+		return highClient;
 	}
 
 }

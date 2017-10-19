@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 public class SitterDao {
 	private SitterDto sitter;
 	
-	public SitterDto findSitter(Long id) {
+	public SitterDto getSitter() {
 		return sitter;
 		//return Optional.ofNullable(user.get(id));
 	}

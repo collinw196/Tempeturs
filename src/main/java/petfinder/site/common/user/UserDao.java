@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.google.common.collect.ImmutableMap;
-
 /**
  * Created by jlutteringer on 8/23/17.
  */
@@ -14,7 +12,7 @@ import com.google.common.collect.ImmutableMap;
 public class UserDao {
 	private UserDto user;
 
-	public UserDto findUser(Long id) {
+	public UserDto getUser() {
 		return user;
 		//return Optional.ofNullable(user.get(id));
 	}

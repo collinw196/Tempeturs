@@ -1,5 +1,6 @@
 package petfinder.site.common.owner;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,10 +8,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OwnerService {
+	@Autowired
 	private OwnerDao ownerDao;
+	
+	public OwnerService (){
+		ownerDao = new OwnerDao();
+	}
 
-	public OwnerDto findOwner(Long id) {
-		return ownerDao.findOwner(id);
+	public OwnerDto getOwner() {
+		return ownerDao.getOwner();
 	}
 	
 	public void setOwner(OwnerDto owner){

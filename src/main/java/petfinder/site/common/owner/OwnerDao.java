@@ -1,12 +1,13 @@
 package petfinder.site.common.owner;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class OwnerDao {
 	private OwnerDto owner;
 	
-	public OwnerDto findOwner(Long id) {
+	public OwnerDto getOwner() {
 		return owner;
 	}
 	
