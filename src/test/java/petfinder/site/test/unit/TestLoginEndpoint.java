@@ -5,24 +5,35 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.Collections;
 
-import org.apache.http.ParseException;
-import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
-import org.json.JSONObject;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.user.UserDto;
+import petfinder.site.endpoint.LoginEndpoint;
 import petfinder.site.endpoint.UserEndpoint;
 
-public class TestUserEndpoint {
+public class TestLoginEndpoint {
+	
+	public static class FakeAuthenticationManager implements AuthenticationManager {
+
+		@Override
+		public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+			return new UsernamePasswordAuthenticationToken("user", "password");
+		}
+		
+	}
 
 	@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
+		FakeAuthenticationManager fM = new FakeAuthenticationManager();
+		LoginEndpoint lP = new LoginEndpoint(cS, fM);
 		UserEndpoint uP = new UserEndpoint(cS);
 		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild", "abc", "123 wilderness",
 				"", "", "77777", "Texas", "5555555555", "male", "owner");
@@ -37,9 +48,10 @@ public class TestUserEndpoint {
 			e.printStackTrace();
 		}
 		
-		UserDto userTest = null;
+		LoginEndpoint.LoginDto login = new LoginEndpoint.LoginDto("jwild", "abc", "owner");
+		String resp = null;
 		try {
-			userTest = uP.findUser(Integer.toUnsignedLong(id));
+			resp = lP.login(login);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,7 +64,7 @@ public class TestUserEndpoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(user.equals(userTest));
+		assertTrue(resp.equals("Success."));
 	}
 
 }

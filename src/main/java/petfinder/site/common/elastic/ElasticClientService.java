@@ -1,22 +1,20 @@
 package petfinder.site.common.elastic;
 
-import java.util.Collections;
-
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ElasticClientService {
 	RestClient restClient;
+	RestHighLevelClient highClient;
 	
 	public ElasticClientService() {
 		final String ACCESS_KEY = "6w9ihs67x6";
@@ -35,10 +33,16 @@ public class ElasticClientService {
                     }
                 })
                 .build();
+        
+        highClient = new RestHighLevelClient(restClient);
 	}
 	
 	public RestClient getClient() {
 		return restClient;
+	}
+	
+	public RestHighLevelClient getHighClient() {
+		return highClient;
 	}
 
 }

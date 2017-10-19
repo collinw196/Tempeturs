@@ -21,7 +21,7 @@ import petfinder.site.endpoint.SitterEndpoint;
 public class TestSitterEndpoint {
 
 	@Test
-	public void test() {
+	public void testGetMethods() {
 		ElasticClientService cS = new ElasticClientService();
 		UserService us = new UserService();
 		Response response = null;
