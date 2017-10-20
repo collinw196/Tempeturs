@@ -1,15 +1,7 @@
 package petfinder.site.endpoint;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import petfinder.site.common.elastic.ElasticClientService;
-import petfinder.site.common.user.UserDto;
-
 /**
  * Created by jlutteringer on 10/10/17.
  */
@@ -31,12 +20,9 @@ import petfinder.site.common.user.UserDto;
 @RequestMapping(value = "/api/login")
 public class LoginEndpoint {
 	@Autowired
-	private ElasticClientService clientService;
-	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	public LoginEndpoint(ElasticClientService cS, AuthenticationManager am) {
-		clientService = cS;
+	public LoginEndpoint(AuthenticationManager am) {
 		authenticationManager = am;
 	}
 	
