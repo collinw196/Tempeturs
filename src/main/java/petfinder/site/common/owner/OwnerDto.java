@@ -2,14 +2,11 @@ package petfinder.site.common.owner;
 
 import java.util.List;
 
-import petfinder.site.common.pet.PetDto;
-import petfinder.site.common.user.UserDto;
-
 /**
  * Created by jlutteringer on 8/23/17.
  */
 public class OwnerDto {
-	private int userId;
+	private String username;
 	private List<Integer> petIds;
 	private String crenumber;
 	private String ccvnumber;
@@ -21,9 +18,9 @@ public class OwnerDto {
 		
 	}
 	
-	public OwnerDto(int user, List<Integer> pets, String cN, String cvN,
+	public OwnerDto(String user, List<Integer> pets, String cN, String cvN,
 			int month, int year, String name) {
-		this.userId = user;
+		this.username = user;
 		this.petIds = pets;
 		crenumber = cN;
 		ccvnumber= cvN;
@@ -34,7 +31,7 @@ public class OwnerDto {
 	
 	public String toString() {
 		List<Integer> list = getPetIds();
-		String value = "user: " + getUserId();
+		String value = "user: " + getUsername();
 		for(Integer i : list){
 			value += " pet: " + i;
 		}
@@ -45,7 +42,7 @@ public class OwnerDto {
 	}
 	
 	public boolean equals(OwnerDto o){
-		if(userId == o.getUserId() && petIds.equals(o.getPetIds()) && crenumber.equals(o.getCrenumber()) &&
+		if(username.equals(o.getUsername()) && petIds.equals(o.getPetIds()) && crenumber.equals(o.getCrenumber()) &&
 				ccvnumber.equals(o.getCcvnumber()) &&  expdatemonth == o.getExpdatemonth() &&
 				expdateyear == o.getExpdateyear() && cardname.equals(o.getCardname())){
 			return true;
@@ -145,12 +142,12 @@ public class OwnerDto {
 
 
 
-	public int getUserId() {
-		return userId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserId(int user) {
-		this.userId = user;
+	public void setUsername(String user) {
+		this.username = user;
 	}
 
 	public List<Integer> getPetIds() {

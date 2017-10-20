@@ -7,12 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.http.ParseException;
-import org.apache.http.util.EntityUtils;
-import org.elasticsearch.client.Response;
-import org.json.JSONObject;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
@@ -39,35 +34,15 @@ public class TestOwnerEndpoint {
 		List<Integer> list1 = new ArrayList<Integer>();
 		list1.add(1);
 		list1.add(2);
-		Response response = null;
-		try {
-			response = cS.getClient().performRequest("GET", "/owner/external/_count",
-					Collections.<String, String>emptyMap());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		String jsonString1 = null;
-		try {
-			jsonString1 = EntityUtils.toString(response.getEntity());
-		} catch (ParseException | IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		JSONObject json = new JSONObject(jsonString1);
-        int count = json.getInt("count");
-		OwnerDto owner = new OwnerDto(count, list1, "333", "444", 2, 2020, "will");
-		ResponseEntity<String> res = null;
+		OwnerDto owner = new OwnerDto("jwild77777", list1, "333", "444", 2, 2020, "will");
 		UserDto user = new UserDto();
-		user.setId(Integer.toUnsignedLong(count));
+		user.setUsername("jwild77777");
 		us.addUser(user);
 		ps.setPets(list);
 		OwnerEndpoint oP = new OwnerEndpoint(cS, us, ps);
-		res = oP.regOwner(owner);
+		oP.regOwner(owner);
 		try {
-			res = oP.finishRegOwner();
+			oP.finishRegOwner();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,7 +50,7 @@ public class TestOwnerEndpoint {
 		
 		OwnerDto ownerTest = null;
 		try {
-			ownerTest = oP.findOwner(Integer.toUnsignedLong(count));
+			ownerTest = oP.findOwner("jwild77777");
 		} catch (UnsupportedOperationException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,7 +58,7 @@ public class TestOwnerEndpoint {
 		
 		assertTrue(owner.equals(ownerTest));
 		try {
-			response = cS.getClient().performRequest("DELETE", "/owner/external/" + count,
+			cS.getClient().performRequest("DELETE", "/owner/external/" + "jwild77777",
 					Collections.<String, String>emptyMap());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -53,12 +52,12 @@ public class SitterEndpoint {
 		objectMapper = new ObjectMapper();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public SitterDto findSitter(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, IOException {
+	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
+	public SitterDto findSitter(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, IOException {
 		if(clientService.getClient() == null) {
 			return null;
 		}
-		Response response = clientService.getClient().performRequest("GET", "/sitter/external/" + id + "/_source",
+		Response response = clientService.getClient().performRequest("GET", "/sitter/external/" + username + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		String jsonString = EntityUtils.toString(response.getEntity());
@@ -70,7 +69,7 @@ public class SitterEndpoint {
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
-		sitter.setUserId(userService.getId());
+		sitter.setUsername(userService.getUsername());
 		sitterService.addSitter(sitter);
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}
@@ -81,10 +80,10 @@ public class SitterEndpoint {
 		String jsonString = objectMapper.writeValueAsString(sitter);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
-		int id = sitter.getUserId();
+		String username = sitter.getUsername();
 		Response indexResponse = clientService.getClient().performRequest(
 		        "PUT",
-		        "/sitter/external/" + id,
+		        "/sitter/external/" + username,
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);

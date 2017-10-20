@@ -1,14 +1,10 @@
 package petfinder.site.common.user;
 
-import java.util.List;
-
-import petfinder.site.common.sitter.SitterDto;
 
 /**
  * Created by jlutteringer on 8/23/17.
  */
 public class UserDto {
-	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -22,6 +18,7 @@ public class UserDto {
 	private String phone;
 	private String gender;
 	private String type;
+	private String role;
 	
 	public UserDto() {
 		
@@ -46,14 +43,14 @@ public class UserDto {
 	}
 	
 	public String toString() {
-		return "id: " + getId() + " fN: " + getFirstName() + " lN: " + getLastName() + " email: " + getEmail() +
+		return "fN: " + getFirstName() + " lN: " + getLastName() + " email: " + getEmail() +
 				" username: " + getUsername() + " password: " + getPassword() + " s1: " + getStreet1() + " s2: " + getStreet2() +
 				" po: " + getPo() + " zip: " + getZip() + " state: " + getState() + " p: " + getPhone() + " g: " + getGender() +
 				" t: " + getType();
 	}
 	
 	public boolean equals(UserDto value){
-		if(id.equals(value.getId()) && firstName.equals(value.getFirstName()) && lastName.equals(value.getLastName()) &&
+		if(firstName.equals(value.getFirstName()) && lastName.equals(value.getLastName()) &&
 				email.equals(value.getEmail()) && username.equals(value.getUsername()) && password.equals(value.getPassword()) &&
 				street1.equals(value.getStreet1()) && street2.equals(value.getStreet2()) && po.equals(value.getPo()) &&
 				zip.equals(value.getZip()) && state.equals(value.getState()) && phone.equals(value.getPhone()) &&
@@ -203,14 +200,6 @@ public class UserDto {
 		this.type = type;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -233,5 +222,13 @@ public class UserDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

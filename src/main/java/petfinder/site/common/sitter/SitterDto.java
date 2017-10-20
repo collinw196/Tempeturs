@@ -1,18 +1,19 @@
 package petfinder.site.common.sitter;
 
-import petfinder.site.common.pet.PetDto;
-import petfinder.site.common.user.UserDto;
-
 public class SitterDto {
-	private int userId;
+	private String username;
 	private String accountNumber;
 	private String routingNumber;
 	private String preference1;
 	private String preference2;
 	private String preference3;
 	
-	public SitterDto(int user, String aN, String rN, String p1, String p2, String p3){
-		userId = user;
+	public SitterDto() {
+		
+	}
+	
+	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3){
+		username = user;
 		accountNumber = aN;
 		routingNumber = rN;
 		preference1 = p1;
@@ -20,10 +21,14 @@ public class SitterDto {
 		preference3 = p3;
 	}
 
+	public String toString() {
+		return "username: " + getUsername() + " accountNumber: " + getAccountNumber() + " routingNumber: " + getRoutingNumber() +
+				" preference1: " + getPreference1() + " preference2: " + getPreference2() + " preference3: " + getPreference3();
+	}
 
 	
 	public boolean equals(SitterDto value){
-		if(userId == value.getUserId() && accountNumber.equals(value.getAccountNumber()) &&
+		if(username.equals(value.getUsername()) && accountNumber.equals(value.getAccountNumber()) &&
 				preference1.equals(value.getPreference1()) &&
 				preference2.equals(value.getPreference2()) && preference3.equals(value.getPreference3())) {
 			return true;
@@ -34,14 +39,14 @@ public class SitterDto {
 	/**
 	 * @return the user
 	 */
-	public int getUserId() {
-		return userId;
+	public String getUsername() {
+		return username;
 	}
 	/**
 	 * @param user the user to set
 	 */
-	public void setUserId(int user) {
-		userId = user;
+	public void setUsername(String user) {
+		username = user;
 	}
 	/**
 	 * @return the accountNumber
@@ -58,13 +63,13 @@ public class SitterDto {
 	/**
 	 * @return the rountingNumber
 	 */
-	public String getRountingNumber() {
+	public String getRoutingNumber() {
 		return routingNumber;
 	}
 	/**
 	 * @param rountingNumber the rountingNumber to set
 	 */
-	public void setRountingNumber(String routingNumber) {
+	public void setRoutingNumber(String routingNumber) {
 		this.routingNumber = routingNumber;
 	}
 	/**

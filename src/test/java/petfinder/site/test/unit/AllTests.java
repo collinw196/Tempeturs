@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestSitterEndpoint.class, TestUserEndpoint.class, TestPetEndpoint.class, 
-	TestOwnerEndpoint.class, TestLoginEndpoint.class})
+	TestOwnerEndpoint.class})
 public class AllTests {
 
 }
