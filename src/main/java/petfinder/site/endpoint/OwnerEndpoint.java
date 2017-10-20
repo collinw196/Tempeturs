@@ -58,12 +58,12 @@ public class OwnerEndpoint {
 		objectMapper = new ObjectMapper();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public OwnerDto findOwner(@PathVariable(name = "id") Long id) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
+	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
+	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
 		if(clientService.getClient() == null) {
 			return null;
 		}
-		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + id + "/_source",
+		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + username + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		String jsonString = EntityUtils.toString(response.getEntity());
@@ -75,7 +75,7 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regOwner(@RequestBody OwnerDto owner) {
-		owner.setUserId(userService.getId());
+		owner.setUsername(userService.getUsername());
 		owner.setPetIds(petService.getPetIds());
 		ownerService.setOwner(owner);
 		return new ResponseEntity<String>("Added to service", HttpStatus.OK);
@@ -88,10 +88,10 @@ public class OwnerEndpoint {
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
 		
-		int id = owner.getUserId();
+		String username = owner.getUsername();
 		Response indexResponse = clientService.getClient().performRequest(
 		        "PUT",
-		        "/owner/external/" + id,
+		        "/owner/external/" + username,
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);

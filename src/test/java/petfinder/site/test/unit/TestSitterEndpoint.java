@@ -5,12 +5,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.Collections;
 
-import org.apache.http.ParseException;
-import org.apache.http.util.EntityUtils;
-import org.elasticsearch.client.Response;
-import org.json.JSONObject;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
@@ -24,34 +19,14 @@ public class TestSitterEndpoint {
 	public void testGetMethods() {
 		ElasticClientService cS = new ElasticClientService();
 		UserService us = new UserService();
-		Response response = null;
-		try {
-			response = cS.getClient().performRequest("GET", "/sitter/external/_count",
-					Collections.<String, String>emptyMap());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		String jsonString1 = null;
-		try {
-			jsonString1 = EntityUtils.toString(response.getEntity());
-		} catch (ParseException | IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		JSONObject json = new JSONObject(jsonString1);
-        int count = json.getInt("count");
-		SitterDto sitter = new SitterDto(count, "333", "444", "dog", "cat", "horse");
-		ResponseEntity<String> res = null;
+		SitterDto sitter = new SitterDto("jwild77777", "333", "444", "dog", "cat", "horse");
 		UserDto user = new UserDto();
-		user.setId(Integer.toUnsignedLong(count));
+		user.setUsername("jwild77777");
 		us.addUser(user);
 		SitterEndpoint sP = new SitterEndpoint(cS, us);
-		res = sP.regSitter(sitter);
+		sP.regSitter(sitter);
 		try {
-			res = sP.finishRegSitter();
+			sP.finishRegSitter();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,14 +34,14 @@ public class TestSitterEndpoint {
 		
 		SitterDto sitterTest = null;
 		try {
-			sitterTest = sP.findSitter(Integer.toUnsignedLong(count));
+			sitterTest = sP.findSitter("jwild77777");
 		} catch (UnsupportedOperationException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
-			response = cS.getClient().performRequest("DELETE", "/sitter/external/" + count,
+			cS.getClient().performRequest("DELETE", "/sitter/external/" + "jwild77777",
 					Collections.<String, String>emptyMap());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

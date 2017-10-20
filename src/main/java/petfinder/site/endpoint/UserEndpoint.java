@@ -9,7 +9,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,12 +47,12 @@ public class UserEndpoint {
 		objectMapper = new ObjectMapper();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public UserDto findUser(@PathVariable(name = "id") Long id) throws ParseException, IOException {
+	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
+	public UserDto findUser(@PathVariable(name = "username") String username) throws ParseException, IOException {
 		if(clientService.getClient() == null) {
 			return null;
 		}
-		Response response = clientService.getClient().performRequest("GET", "/users/external/" + id + "/_source",
+		Response response = clientService.getClient().performRequest("GET", "/users/external/" + username + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		String jsonString = EntityUtils.toString(response.getEntity());
@@ -65,30 +64,22 @@ public class UserEndpoint {
 	
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regUser(@RequestBody UserDto user) throws IOException {
-		Response response = clientService.getClient().performRequest("GET", "/users/external/_count",
-				Collections.<String, String>emptyMap());
-		
-		String jsonString1 = EntityUtils.toString(response.getEntity());
-		
-		JSONObject json = new JSONObject(jsonString1);
-        int count = json.getInt("count");
-		Long id = new Long(count);
-		user.setId(id);
+		user.setRole("USER");
 		userService.addUser(user);
 		
-		return new ResponseEntity<String>(Integer.toString(count), HttpStatus.OK);
+		return new ResponseEntity<String>("Added to service", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
 	public ResponseEntity<String> finishRegUser() throws IOException {
 		UserDto user = userService.getUser();
-		Long id = user.getId();
+		String username = user.getUsername();
 		String jsonString = objectMapper.writeValueAsString(user);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
 		clientService.getClient().performRequest(
 		        "PUT",
-		        "/users/external/" + id,
+		        "/users/external/" + username,
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
