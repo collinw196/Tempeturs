@@ -28,7 +28,18 @@ export class Registration extends React.Component {
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.validatePassword = this.validatePassword.bind(this);
     }
+    
+    validatePassword(){
+    	var password = document.getElementById("password"),
+    		confirm_password = document.getElementById("confirm_password");
+	    if(password.value != confirm_password.value) {
+	    	confirm_password.setCustomValidity("Passwords Don't Match");
+	    } else {
+	    	confirm_password.setCustomValidity('');
+	    }
+	}
     
      handleChange(event) {
 	    const target = event.target;
@@ -42,6 +53,11 @@ export class Registration extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	if(this.state.password !== this.state.repassword) {
+    		this.setState({
+	      	password: '',
+	    	repassword: ''   
+	    }); 
     	const {firstName,
 	    	lastName,
 	    	email,
@@ -102,9 +118,9 @@ export class Registration extends React.Component {
 						Username:<br />
 						<input name="username" type="text" value={this.state.username} onChange={this.handleChange} required /><br />
 						Password:<br />
-						<input name="password" type="password" value={this.state.password} onChange={this.handleChange} required /><br />
+						<input name="password" id="password" type="password" value={this.state.password} onChange={this.handleChange} required /><br />
 						Reenter Password:<br />
-						<input name="repassword" type="password" value={this.state.repassword} onChange={this.handleChange} required /><br />
+						<input name="repassword" id="confirm-password" type="password" value={this.state.repassword} onChange={this.validatePassword} required /><br />
 						
 						
 						Address:<br />

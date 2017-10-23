@@ -68,29 +68,29 @@ export class SitterInfo extends React.Component {
 						Pet Preference 1:<br />
 						<select name="pettype1" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
-							<option value="cat" selected>Cat</option>
-							<option value="horse" selected>Horse</option>
-							<option value="ferret" selected>Ferret</option>
-							<option value="rabbit" selected>Rabbit</option>
-							<option value="fish" selected>Fish</option>
+							<option value="cat" >Cat</option>
+							<option value="horse" >Horse</option>
+							<option value="ferret" >Ferret</option>
+							<option value="rabbit" >Rabbit</option>
+							<option value="fish" >Fish</option>
 						</select><br />
 						Pet Preference 2:<br />
 						<select name="pettype2" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
-							<option value="cat" selected>Cat</option>
-							<option value="horse" selected>Horse</option>
-							<option value="ferret" selected>Ferret</option>
-							<option value="rabbit" selected>Rabbit</option>
-							<option value="fish" selected>Fish</option>
+							<option value="cat" >Cat</option>
+							<option value="horse" >Horse</option>
+							<option value="ferret" >Ferret</option>
+							<option value="rabbit" >Rabbit</option>
+							<option value="fish" >Fish</option>
 						</select><br />
 						Pet Preference 3:<br />
 						<select name="pettype3" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
-							<option value="cat" selected>Cat</option>
-							<option value="horse" selected>Horse</option>
-							<option value="ferret" selected>Ferret</option>
-							<option value="rabbit" selected>Rabbit</option>
-							<option value="fish" selected>Fish</option>
+							<option value="cat" >Cat</option>
+							<option value="horse" >Horse</option>
+							<option value="ferret" >Ferret</option>
+							<option value="rabbit" >Rabbit</option>
+							<option value="fish" >Fish</option>
 						</select><br />
 						<input type="submit" value="Submit" />
 					</form>
