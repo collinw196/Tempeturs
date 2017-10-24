@@ -96,4 +96,46 @@ public class OwnerEndpoint {
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
+	
+	// These are empty functions without return types (since i dont know how they will be returned yet.
+	// Also someone will need to add the @requestmappings (since those arent set in stone either)
+	// Some of these functions may work better in the DTO/DAO
+	// - Dylan
+	
+	public void requestSitter(){
+		// The physical action of picking a sitter then sending a notification to the sitter and adding the appt to the calendar
+	}
+	
+	public void sortSitters(){
+		// Maybe put all the sorts in this function then use a 2nd param to choose the sort order
+	}
+	
+	public void rateSitter(){
+		// Called when the owner gives the sitter a 1-5 rating
+	}
+	
+	public void cancelSitter(){
+		// Opposite of selectSitter. Cancel the appt
+	}
+	
+	public void addPet(){
+		// add a pet to their list. (idk if we're having that functionality
+	}
+	
+	public void paySitter(){
+		// Pay the sitter after an appointment
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

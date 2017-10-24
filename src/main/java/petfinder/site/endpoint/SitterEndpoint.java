@@ -88,4 +88,21 @@ public class SitterEndpoint {
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
+	
+	// These are empty functions without return types (since i dont know how they will be returned yet.
+		// Also someone will need to add the @requestmappings (since those arent set in stone either)
+		// Some of these functions may work better in the DTO/DAO
+		// - Dylan
+	
+	public void acceptAppt(){
+		// Sitter accepting an owner's request to have them sit
+	}
+	
+	public void denyAppt(){
+		// Sitter denying owner's request to have them sit
+	}
+	
+	public void editPreference(){
+		// Sitter no longer likes dogs. or something
+	}
 }
