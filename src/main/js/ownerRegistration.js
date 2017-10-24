@@ -83,11 +83,11 @@ export class PetInfo extends React.Component {
 						Pet Type:<br />
 						<select name="pettype" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
-							<option value="cat" selected>Cat</option>
-							<option value="horse" selected>Horse</option>
-							<option value="ferret" selected>Ferret</option>
-							<option value="rabbit" selected>Rabbit</option>
-							<option value="fish" selected>Fish</option>
+							<option value="cat" >Cat</option>
+							<option value="horse" >Horse</option>
+							<option value="ferret" >Ferret</option>
+							<option value="rabbit" >Rabbit</option>
+							<option value="fish" >Fish</option>
 						</select>
 						<br />
 						*Age:<br />
