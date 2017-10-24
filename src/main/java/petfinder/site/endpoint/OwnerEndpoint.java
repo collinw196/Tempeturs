@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
 import petfinder.site.common.owner.OwnerService;
+import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
 import petfinder.site.common.user.UserService;
 
@@ -45,6 +46,8 @@ public class OwnerEndpoint {
 	private ElasticClientService clientService;
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	private PetEndpoint petEndpoint;
 	
 	public OwnerEndpoint() {
 		
@@ -106,20 +109,35 @@ public class OwnerEndpoint {
 		// The physical action of picking a sitter then sending a notification to the sitter and adding the appt to the calendar
 	}
 	
-	public void sortSitters(){
+	@RequestMapping(value = "/{sortSetting}", method = RequestMethod.GET)
+	public void sortSitters(@PathVariable(name = "sortSetting") int setting){
 		// Maybe put all the sorts in this function then use a 2nd param to choose the sort order
-	}
-	
-	public void rateSitter(){
-		// Called when the owner gives the sitter a 1-5 rating
 	}
 	
 	public void cancelSitter(){
 		// Opposite of selectSitter. Cancel the appt
 	}
 	
-	public void addPet(){
-		// add a pet to their list. (idk if we're having that functionality
+	@RequestMapping(value = "/addpet", method = RequestMethod.POST)
+	public ResponseEntity<String> addPet(@RequestBody PetDto pet) throws IOException {
+		ResponseEntity<String> res = petEndpoint.regPet(pet);
+		int id = Integer.parseInt(res.getBody());
+		
+		String jsonString = "{"
+						+ "\"doc\": {"
+							+ "\"petIds\": \"" + id + "\""
+						+ "}"
+					+ "}";
+
+		HttpEntity entity = new NStringEntity(
+		jsonString, ContentType.APPLICATION_JSON);
+		Response indexResponse = clientService.getClient().performRequest(
+		        "POST",
+		        "/owner/external/" + userService.getUsername() + "/_update",
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
 	
 	public void paySitter(){

@@ -7,23 +7,26 @@ public class SitterDto {
 	private String preference1;
 	private String preference2;
 	private String preference3;
+	private double rating;
 	
 	public SitterDto() {
-		
+		rating = 0.0;
 	}
 	
-	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3){
+	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3, double rat){
 		username = user;
 		accountNumber = aN;
 		routingNumber = rN;
 		preference1 = p1;
 		preference2 = p2;
 		preference3 = p3;
+		rating = rat;
 	}
 
 	public String toString() {
 		return "username: " + getUsername() + " accountNumber: " + getAccountNumber() + " routingNumber: " + getRoutingNumber() +
-				" preference1: " + getPreference1() + " preference2: " + getPreference2() + " preference3: " + getPreference3();
+				" preference1: " + getPreference1() + " preference2: " + getPreference2() + " preference3: " + getPreference3() + 
+				" rating: " + getRating();
 	}
 
 	
@@ -107,6 +110,14 @@ public class SitterDto {
 	 */
 	public void setPreference3(String preference3) {
 		this.preference3 = preference3;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 
 

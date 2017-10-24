@@ -105,4 +105,27 @@ public class SitterEndpoint {
 	public void editPreference(){
 		// Sitter no longer likes dogs. or something
 	}
+	
+	@RequestMapping(value = "/rat/{username}/{value}", method = RequestMethod.POST)
+	public ResponseEntity<String> rateSitter(@PathVariable(name = "username") String username, @PathVariable(name = "value") double value) throws IOException{
+		if(value < 1.0){
+			value = 1.0;
+		}
+		
+		String jsonString = "{"
+								+ "\"doc\": {"
+									+ "\"rating\": \"" + value + "\""
+								+ "}"
+							+ "}";
+		
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		Response indexResponse = clientService.getClient().performRequest(
+		        "POST",
+		        "/sitter/external/" + username + "/_update",
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		return new ResponseEntity<String>("Rated " + indexResponse, HttpStatus.OK);
+	}
 }

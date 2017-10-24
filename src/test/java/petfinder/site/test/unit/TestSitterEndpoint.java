@@ -19,7 +19,7 @@ public class TestSitterEndpoint {
 	public void testGetMethods() {
 		ElasticClientService cS = new ElasticClientService();
 		UserService us = new UserService();
-		SitterDto sitter = new SitterDto("jwild77777", "333", "444", "dog", "cat", "horse");
+		SitterDto sitter = new SitterDto("jwild77777", "333", "444", "dog", "cat", "horse", 0);
 		UserDto user = new UserDto();
 		user.setUsername("jwild77777");
 		us.addUser(user);
