@@ -38,4 +38,9 @@ public class PetDao {
 	public void addPet(PetDto pet) {
 		this.pets.add(pet);		
 	}
+
+	public void emptyList() {
+		pets.clear();
+		
+	}
 }

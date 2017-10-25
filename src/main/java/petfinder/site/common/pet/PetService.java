@@ -51,6 +51,11 @@ public class PetService {
 	public void setCurCount(int num) {
 		curCount = 0;
 	}
+	
+	public void emptyList(){
+		petDao.emptyList();
+		setCurCount(0);
+	}
 
 	public List<Integer> getPetIds() {
 		List<Integer> list = new ArrayList<Integer>();

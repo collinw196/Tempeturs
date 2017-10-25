@@ -1,5 +1,7 @@
 package petfinder.site.common.sitter;
 
+import java.util.List;
+
 public class SitterDto {
 	private String username;
 	private String accountNumber;
@@ -7,33 +9,76 @@ public class SitterDto {
 	private String preference1;
 	private String preference2;
 	private String preference3;
+	private double rating;
+	private String zip;
 	
 	public SitterDto() {
-		
+		rating = 0.0;
 	}
 	
-	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3){
+	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3, double rat, String zip){
 		username = user;
 		accountNumber = aN;
 		routingNumber = rN;
 		preference1 = p1;
 		preference2 = p2;
 		preference3 = p3;
+		rating = rat;
+		this.zip = zip;
 	}
 
 	public String toString() {
 		return "username: " + getUsername() + " accountNumber: " + getAccountNumber() + " routingNumber: " + getRoutingNumber() +
-				" preference1: " + getPreference1() + " preference2: " + getPreference2() + " preference3: " + getPreference3();
+				" preference1: " + getPreference1() + " preference2: " + getPreference2() + " preference3: " + getPreference3() + 
+				" rating: " + getRating() + " zip: " + getZip();
 	}
 
 	
 	public boolean equals(SitterDto value){
 		if(username.equals(value.getUsername()) && accountNumber.equals(value.getAccountNumber()) &&
 				preference1.equals(value.getPreference1()) &&
-				preference2.equals(value.getPreference2()) && preference3.equals(value.getPreference3())) {
+				preference2.equals(value.getPreference2()) && preference3.equals(value.getPreference3()) && zip.equals(value.getZip())) {
 			return true;
 		}
 		return false;
+	}
+	
+	public double calculatePreferenceScore(List<String> petTypes){
+		double score = 0;
+		for (String type : petTypes){
+			if(type.equals(getPreference1())){
+				score += 5;
+			} else if (type.equals(getPreference2())){
+				score += 3;
+			} else if (type.equals(getPreference3())) {
+				score += 1;
+			}
+		}
+		
+		return score / petTypes.size();
+	}
+	
+	public double calculateLocationScore(String _zip){
+		double score = 0;
+		int thisZip = Integer.parseInt(zip);
+		int otherZip = Integer.parseInt(_zip);
+		if(thisZip == otherZip){
+			score += 5;
+		} else if((thisZip - otherZip) < 20 || (thisZip - otherZip) > -20){
+			score += 4;
+		} else if((thisZip - otherZip) < 50 || (thisZip - otherZip) > -50){
+			score += 3;
+		} else if((thisZip - otherZip) < 100 || (thisZip - otherZip) > -100){
+			score += 2;
+		} else if(zip.substring(0, 3).equals(_zip.substring(0, 3))){
+			score += 1;
+		}
+		
+		return score;
+	}
+	
+	public double calculateRatingScore(){		
+		return getRating();
 	}
 	
 	/**
@@ -107,6 +152,22 @@ public class SitterDto {
 	 */
 	public void setPreference3(String preference3) {
 		this.preference3 = preference3;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 

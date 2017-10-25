@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -65,6 +66,7 @@ public class UserEndpoint {
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regUser(@RequestBody UserDto user) throws IOException {
 		user.setRole("USER");
+		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 		userService.addUser(user);
 		
 		return new ResponseEntity<String>("Added to service", HttpStatus.OK);
