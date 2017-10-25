@@ -170,5 +170,4 @@ public class SitterDto {
 		this.zip = zip;
 	}
 
-
 }

@@ -13,10 +13,10 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		
 	}
 	
-	public CalendarAppointmentDto(Long blockId, String startDay, String startMonth, String startYear, String endDay,
-			String endMonth, String endYear, String startMin, String startHour, String endMin, String endHour,
-			String username, int repeatStrategy, String ownerUsername, List<Integer> petIds, String acceptedStatus,
-			String appointmentStatus, String notes, String paymentAmount) {
+	public CalendarAppointmentDto(Long blockId, int startDay, int startMonth, int startYear, int endDay, int endMonth,
+			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
+			String ownerUsername, List<Integer> petIds, String acceptedStatus, String appointmentStatus, String notes,
+			String paymentAmount) {
 		super(blockId, startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
 				username, repeatStrategy);
 		this.ownerUsername = ownerUsername;
@@ -26,6 +26,7 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		this.notes = notes;
 		this.paymentAmount = paymentAmount;
 	}
+
 	/**
 	 * @return the ownerUsername
 	 */
