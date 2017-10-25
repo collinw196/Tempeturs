@@ -18,8 +18,7 @@ public class TestUserEndpoint {
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
 		UserEndpoint uP = new UserEndpoint(cS);
-		String password = BCrypt.hashpw("abc", BCrypt.gensalt());
-		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild77777", password, "123 wilderness",
+		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild77777", "abc", "123 wilderness",
 				"", "", "77777", "Texas", "5555555555", "male", "owner");
 		try {
 			uP.regUser(user);

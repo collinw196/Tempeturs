@@ -1,13 +1,24 @@
 package petfinder.site.endpoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.http.HttpStatus;
@@ -24,6 +35,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
+import petfinder.site.common.sitter.SitterComparator;
+import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
@@ -109,13 +122,46 @@ public class OwnerEndpoint {
 		// The physical action of picking a sitter then sending a notification to the sitter and adding the appt to the calendar
 	}
 	
+	@SuppressWarnings("null")
 	@RequestMapping(value = "/{sortSetting}", method = RequestMethod.GET)
-	public void sortSitters(@PathVariable(name = "sortSetting") int setting){
-		// Maybe put all the sorts in this function then use a 2nd param to choose the sort order
+	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting) throws JsonParseException, JsonMappingException, IOException{
+		SearchRequest searchRequest = new SearchRequest("sitter"); 
+		searchRequest.types("external");
+		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
+		sourceBuilder.query(QueryBuilders.matchAllQuery()); 
+		sourceBuilder.from(0); 
+		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		SearchResponse response = null;
+		try {
+			response = clientService.getHighClient().search(searchRequest);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		SearchHits hits = response.getHits();
+		SearchHit[] searchHits = hits.getHits();
+		ArrayList<SitterDto> sitterList = new ArrayList<SitterDto>();
+		for (SearchHit hit : searchHits){
+			sitterList.add(objectMapper.readValue(hit.getSourceAsString(), SitterDto.class));
+		}
+		SitterComparator comp = new SitterComparator();
+		comp.setSortType(setting);
+		comp.setZip(userService.getUser().getZip());
+		List<String> types = null;
+		for(PetDto pet : petService.getPets()){
+			types.add(pet.getType());
+		}
+		comp.setTypes(types);
+		Collections.sort(sitterList, comp);
+		return sitterList;
 	}
 	
-	public void cancelSitter(){
-		// Opposite of selectSitter. Cancel the appt
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<String> cancelSitter(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("DELETE", "/owner/external/" + id,
+		        Collections.singletonMap("pretty", "true"));
+		return new ResponseEntity<String>("Added " + response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addpet", method = RequestMethod.POST)
@@ -137,6 +183,7 @@ public class OwnerEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		
+		petService.setCurCount(0);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
 	

@@ -70,6 +70,7 @@ public class SitterEndpoint {
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
 		sitter.setUsername(userService.getUsername());
+		sitter.setZip(userService.getUser().getZip());
 		sitterService.addSitter(sitter);
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}
