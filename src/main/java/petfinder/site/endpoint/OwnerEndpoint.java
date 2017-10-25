@@ -14,7 +14,6 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -33,6 +32,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import petfinder.site.common.calendar.CalendarBlockDto;
+import petfinder.site.common.calendar.CalendarService;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
 import petfinder.site.common.sitter.SitterComparator;
@@ -53,6 +54,8 @@ public class OwnerEndpoint {
 	private OwnerService ownerService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CalendarService calendarService;
 	@Autowired
 	private PetService petService;
 	@Autowired
@@ -124,7 +127,7 @@ public class OwnerEndpoint {
 	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/{sortSetting}", method = RequestMethod.GET)
-	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting) throws JsonParseException, JsonMappingException, IOException{
+	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting, @RequestBody CalendarBlockDto appointment) throws JsonParseException, JsonMappingException, IOException{
 		SearchRequest searchRequest = new SearchRequest("sitter"); 
 		searchRequest.types("external");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
@@ -143,7 +146,10 @@ public class OwnerEndpoint {
 		SearchHit[] searchHits = hits.getHits();
 		ArrayList<SitterDto> sitterList = new ArrayList<SitterDto>();
 		for (SearchHit hit : searchHits){
-			sitterList.add(objectMapper.readValue(hit.getSourceAsString(), SitterDto.class));
+			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
+			if (calendarService.isFree(sitter, appointment)){
+				sitterList.add(sitter);			
+			}
 		}
 		SitterComparator comp = new SitterComparator();
 		comp.setSortType(setting);
