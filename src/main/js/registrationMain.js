@@ -32,10 +32,10 @@ export class Registration extends React.Component {
     }
     
     validatePassword(){
-    	var password = document.getElementById("password"),
-    		confirm_password = document.getElementById("confirm_password");
+    	var password = document.getElementById('password'),
+    		confirm_password = document.getElementById('confirm_password');
 	    if(password.value != confirm_password.value) {
-	    	confirm_password.setCustomValidity("Passwords Don't Match");
+	    	confirm_password.setCustomValidity('Passwords Don\'t Match');
 	    } else {
 	    	confirm_password.setCustomValidity('');
 	    }
@@ -54,10 +54,11 @@ export class Registration extends React.Component {
     handleSubmit(event) {
     	event.preventDefault();
     	if(this.state.password !== this.state.repassword) {
-    		this.setState({
-	      	password: '',
-	    	repassword: ''   
-	    }); 
+    			this.setState({
+	      		password: '',
+	    		repassword: ''   
+	    	});
+	    } 
     	const {firstName,
 	    	lastName,
 	    	email,
