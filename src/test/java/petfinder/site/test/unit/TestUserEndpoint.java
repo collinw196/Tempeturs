@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.junit.Test;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.user.UserDto;
@@ -42,6 +43,7 @@ public class TestUserEndpoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		user.setPassword("abc");
 		assertTrue(user.equals(userTest));
 	}
 

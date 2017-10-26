@@ -1,5 +1,7 @@
 package petfinder.site.common.user;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 
 /**
  * Created by jlutteringer on 8/23/17.
@@ -50,8 +52,11 @@ public class UserDto {
 	}
 	
 	public boolean equals(UserDto value){
+		if (!(BCrypt.checkpw(password, value.getPassword()))) {
+		    return false;
+		}
 		if(firstName.equals(value.getFirstName()) && lastName.equals(value.getLastName()) &&
-				email.equals(value.getEmail()) && username.equals(value.getUsername()) && password.equals(value.getPassword()) &&
+				email.equals(value.getEmail()) && username.equals(value.getUsername()) &&
 				street1.equals(value.getStreet1()) && street2.equals(value.getStreet2()) && po.equals(value.getPo()) &&
 				zip.equals(value.getZip()) && state.equals(value.getState()) && phone.equals(value.getPhone()) &&
 				gender.equals(value.getGender()) && type.equals(value.getType())) {

@@ -70,6 +70,7 @@ public class SitterEndpoint {
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
 		sitter.setUsername(userService.getUsername());
+		sitter.setZip(userService.getUser().getZip());
 		sitterService.addSitter(sitter);
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}
@@ -87,5 +88,45 @@ public class SitterEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
+	}
+	
+	// These are empty functions without return types (since i dont know how they will be returned yet.
+		// Also someone will need to add the @requestmappings (since those arent set in stone either)
+		// Some of these functions may work better in the DTO/DAO
+		// - Dylan
+	
+	public void acceptAppt(){
+		// Sitter accepting an owner's request to have them sit
+	}
+	
+	public void denyAppt(){
+		// Sitter denying owner's request to have them sit
+	}
+	
+	public void editPreference(){
+		// Sitter no longer likes dogs. or something
+	}
+	
+	@RequestMapping(value = "/rat/{username}/{value}", method = RequestMethod.POST)
+	public ResponseEntity<String> rateSitter(@PathVariable(name = "username") String username, @PathVariable(name = "value") double value) throws IOException{
+		if(value < 1.0){
+			value = 1.0;
+		}
+		
+		String jsonString = "{"
+								+ "\"doc\": {"
+									+ "\"rating\": \"" + value + "\""
+								+ "}"
+							+ "}";
+		
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		Response indexResponse = clientService.getClient().performRequest(
+		        "POST",
+		        "/sitter/external/" + username + "/_update",
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		return new ResponseEntity<String>("Rated " + indexResponse, HttpStatus.OK);
 	}
 }
