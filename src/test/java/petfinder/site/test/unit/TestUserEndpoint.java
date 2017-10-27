@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.user.UserDto;
+import petfinder.site.common.user.UserService;
 import petfinder.site.endpoint.UserEndpoint;
 
 public class TestUserEndpoint {
@@ -19,7 +20,8 @@ public class TestUserEndpoint {
 	@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
-		UserEndpoint uP = new UserEndpoint(cS);
+		UserService uS = new UserService(cS);
+		UserEndpoint uP = new UserEndpoint(uS);
 		List<Long> list = new ArrayList<Long>();
 		list.add(1L);
 		list.add(2L);

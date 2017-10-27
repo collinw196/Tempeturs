@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
@@ -14,10 +15,12 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.http.HttpStatus;
@@ -32,7 +35,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import petfinder.site.common.calendar.CalendarBlockDto;
+import petfinder.site.common.calendar.AppointmentComparator;
+import petfinder.site.common.calendar.CalendarAppointmentDto;
 import petfinder.site.common.calendar.CalendarService;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
@@ -79,9 +83,6 @@ public class OwnerEndpoint {
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
-		if(clientService.getClient() == null) {
-			return null;
-		}
 		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + username + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
@@ -121,13 +122,51 @@ public class OwnerEndpoint {
 	// Some of these functions may work better in the DTO/DAO
 	// - Dylan
 	
-	public void requestSitter(){
-		// The physical action of picking a sitter then sending a notification to the sitter and adding the appt to the calendar
+	@RequestMapping(value = "/appointment/request", method = RequestMethod.POST)
+	public ResponseEntity<String> requestSitter(@RequestBody CalendarAppointmentDto appointment) throws ParseException, IOException{
+		appointment.setOwnerUsername(userService.getUsername());
+		Response response = clientService.getClient().performRequest("GET", "/pets/external/_count",
+				Collections.<String, String>emptyMap());
+		
+		String jsonString1 = EntityUtils.toString(response.getEntity());
+		
+		JSONObject json = new JSONObject(jsonString1);
+        long count = json.getLong("count");
+        appointment.setBlockId(count);
+        
+        String jsonString = objectMapper.writeValueAsString(appointment);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		Response indexResponse = clientService.getClient().performRequest(
+		        "PUT",
+		        "/calendarappointments/external/" + count,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		jsonString = "{"
+				+ "\"script\" : {"
+					+ "\"source\": \"ctx._source.notificationIds.add(params.id)\","
+					+ "\"lang\": \"painless\","
+					+ "\"params\" : {"
+						+ "\"id\" : " + count
+					+ "}"
+				+ "}"
+			+ "}";
+		
+		indexResponse = clientService.getClient().performRequest(
+		        "POST",
+		        "/users/external/" + appointment.getUsername() + "/_update",
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
+        
 	}
 	
 	@SuppressWarnings("null")
-	@RequestMapping(value = "/{sortSetting}", method = RequestMethod.GET)
-	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting, @RequestBody CalendarBlockDto appointment) throws JsonParseException, JsonMappingException, IOException{
+	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.GET)
+	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting, @RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
 		SearchRequest searchRequest = new SearchRequest("sitter"); 
 		searchRequest.types("external");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
@@ -163,11 +202,27 @@ public class OwnerEndpoint {
 		return sitterList;
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/appointment/cancel/{id}", method = RequestMethod.POST)
 	public ResponseEntity<String> cancelSitter(@PathVariable(name = "id") int id) throws IOException{
-		Response response = clientService.getClient().performRequest("DELETE", "/owner/external/" + id,
-		        Collections.singletonMap("pretty", "true"));
-		return new ResponseEntity<String>("Added " + response, HttpStatus.OK);
+		String jsonString = "{"
+								+ "\"script\" : {"
+									+ "\"source\": \"ctx._source.paymentAmount += params.amount; ctx._source.appointmentStatus = params.status;\","
+									+ "\"lang\": \"painless\","
+									+ "\"params\" : {"
+										+ "\"amount\" : 9.99,"
+										+ "\"status\" : \"CANCELLED\""
+		        					+ "}"
+		    					+ "}"
+							+ "}";
+		
+		HttpEntity entity = new NStringEntity(
+				jsonString, ContentType.APPLICATION_JSON);
+		Response indexResponse = clientService.getClient().performRequest(
+		        "POST",
+		        "/calendarBlocks/external/" + id + "/_update",
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		return new ResponseEntity<String>("Cancelled " + indexResponse, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addpet", method = RequestMethod.POST)
@@ -193,8 +248,78 @@ public class OwnerEndpoint {
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
 	
-	public void paySitter(){
-		// Pay the sitter after an appointment
+	@RequestMapping(value = "/appointment/pay/{id}", method = RequestMethod.POST)
+	public  ResponseEntity<String> paySitter(@PathVariable(name = "id") int id) throws IOException{
+		String jsonString = "{"
+				+ "\"script\" : {"
+					+ "\"source\": \"ctx._source.paymentAmount = params.amount; ctx._source.appointmentStatus = params.status;\","
+					+ "\"lang\": \"painless\","
+					+ "\"params\" : {"
+						+ "\"amount\" : 0,"
+						+ "\"status\" : \"PAYED\""
+					+ "}"
+				+ "}"
+			+ "}";
+		
+		HttpEntity entity = new NStringEntity(
+				jsonString, ContentType.APPLICATION_JSON);
+		Response indexResponse = clientService.getClient().performRequest(
+		        "POST",
+		        "/calendarBlocks/external/" + id + "/_update",
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Payed " + indexResponse, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
+	public List<CalendarAppointmentDto> getAppointments() throws IOException{
+		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
+		searchRequest.types("external");
+		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+		boolQuery.must(QueryBuilders.matchQuery("ownerUsername", userService.getUsername()));
+		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
+		sourceBuilder.query(boolQuery);  
+		sourceBuilder.from(0); 
+		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		SearchResponse response = null;
+		try {
+			response = clientService.getHighClient().search(searchRequest);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		SearchHits hits = response.getHits();
+		SearchHit[] searchHits = hits.getHits();
+		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
+		for (SearchHit hit : searchHits){
+			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
+			if (calendarService.isOpen(appointment)){
+				appointmentList.add(appointment);			
+			}
+		}
+		AppointmentComparator comp = new AppointmentComparator();
+		Collections.sort(appointmentList, comp);
+		return appointmentList;
+	}
+	
+	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
+	public List<CalendarAppointmentDto> getNotifications() throws IOException{		
+		userService.updateService(userService.getUsername());
+		ArrayList<CalendarAppointmentDto> notificationList = new ArrayList<CalendarAppointmentDto>();
+		for (Long id : userService.getUser().getNotificationIds()){
+			Response response = clientService.getClient().performRequest("GET", "/calendarappointment/external/" + id + "/_source",
+			        Collections.singletonMap("pretty", "true"));
+			
+			String jsonString = EntityUtils.toString(response.getEntity());
+			
+			CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+			notificationList.add(appointment);
+			userService.removeNotId(id);
+		}
+		userService.writeUser();
+		return notificationList;
 	}
 	
 	

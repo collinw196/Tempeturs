@@ -22,7 +22,7 @@ public class TestOwnerEndpoint {
 	@Test
 	public void testPutOwner() {
 		ElasticClientService cS = new ElasticClientService();
-		UserService us= new UserService();
+		UserService us= new UserService(cS);
 		PetService ps = new PetService();
 		List<PetDto> list = new ArrayList<PetDto>();
 		PetDto pet1 = new PetDto();

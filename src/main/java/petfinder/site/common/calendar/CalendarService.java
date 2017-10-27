@@ -97,4 +97,13 @@ public class CalendarService {
         rangeQuery.to(endYear);
 		return rangeQuery;
 	}
+
+	public boolean isOpen(CalendarAppointmentDto appointment) {
+		boolean isOpen = false;
+		String value = appointment.getAppointmentStatus();
+		if(value.equals("SCHEDULED") || value.equals("ACCEPTED") || value.equals("FINISHED")){
+			isOpen = true;
+		}
+		return isOpen;
+	}
 }

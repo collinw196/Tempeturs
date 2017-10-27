@@ -8,15 +8,17 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	private String acceptedStatus;
 	private String appointmentStatus;
 	private String notes;
+	private String urgency;
+	private String paymentAmount;
 	
 	public CalendarAppointmentDto(){
 		
 	}
-
+	
 	public CalendarAppointmentDto(Long blockId, int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
 			String notficationMessage, String ownerUsername, List<Integer> petIds, String acceptedStatus,
-			String appointmentStatus, String notes, String paymentAmount) {
+			String appointmentStatus, String notes, String urgency, String paymentAmount) {
 		super(blockId, startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
 				username, repeatStrategy, notficationMessage);
 		this.ownerUsername = ownerUsername;
@@ -24,6 +26,7 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		this.acceptedStatus = acceptedStatus;
 		this.appointmentStatus = appointmentStatus;
 		this.notes = notes;
+		this.urgency = urgency;
 		this.paymentAmount = paymentAmount;
 	}
 
@@ -99,6 +102,21 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	public void setPaymentAmount(String paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
-	private String paymentAmount;
+
+	/**
+	 * @return the urgency
+	 */
+	public String getUrgency() {
+		return urgency;
+	}
+
+
+	/**
+	 * @param urgency the urgency to set
+	 */
+	public void setUrgency(String urgency) {
+		this.urgency = urgency;
+	}
+
 
 }

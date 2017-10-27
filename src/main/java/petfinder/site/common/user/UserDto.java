@@ -251,4 +251,9 @@ public class UserDto {
 	public void setNotificationIds(List<Long> notificationIds) {
 		this.notificationIds = notificationIds;
 	}
+
+
+	public void removeNotId(Long id) {
+		notificationIds.remove(id);		
+	}
 }
