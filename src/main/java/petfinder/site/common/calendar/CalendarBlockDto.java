@@ -14,13 +14,15 @@ public class CalendarBlockDto {
 	protected int endHour;
 	protected String username;
 	protected int repeatStrategy;
+	protected String notificationMessage;
 	
 	public CalendarBlockDto(){
 		
 	}
 
 	public CalendarBlockDto(Long blockId, int startDay, int startMonth, int startYear, int endDay, int endMonth,
-			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy) {
+			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
+			String notficationMessage) {
 		super();
 		this.blockId = blockId;
 		this.startDay = startDay;
@@ -35,6 +37,7 @@ public class CalendarBlockDto {
 		this.endHour = endHour;
 		this.username = username;
 		this.repeatStrategy = repeatStrategy;
+		this.notificationMessage = notficationMessage;
 	}
 
 	/**
@@ -217,6 +220,20 @@ public class CalendarBlockDto {
 	 */
 	public void setRepeatStrategy(int repeatStrategy) {
 		this.repeatStrategy = repeatStrategy;
+	}
+
+	/**
+	 * @return the notificationMessage
+	 */
+	public String getNotificationMessage() {
+		return notificationMessage;
+	}
+
+	/**
+	 * @param notificationMessage the notificationMessage to set
+	 */
+	public void setNotificationMessage(String notificationMessage) {
+		this.notificationMessage = notificationMessage;
 	}
 	
 	

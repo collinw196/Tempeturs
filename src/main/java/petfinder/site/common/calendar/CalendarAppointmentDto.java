@@ -12,13 +12,13 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	public CalendarAppointmentDto(){
 		
 	}
-	
+
 	public CalendarAppointmentDto(Long blockId, int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
-			String ownerUsername, List<Integer> petIds, String acceptedStatus, String appointmentStatus, String notes,
-			String paymentAmount) {
+			String notficationMessage, String ownerUsername, List<Integer> petIds, String acceptedStatus,
+			String appointmentStatus, String notes, String paymentAmount) {
 		super(blockId, startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
-				username, repeatStrategy);
+				username, repeatStrategy, notficationMessage);
 		this.ownerUsername = ownerUsername;
 		this.petIds = petIds;
 		this.acceptedStatus = acceptedStatus;
