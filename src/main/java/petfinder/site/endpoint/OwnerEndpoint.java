@@ -42,6 +42,8 @@ import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
 import petfinder.site.common.sitter.SitterComparator;
 import petfinder.site.common.sitter.SitterDto;
+import petfinder.site.common.sitter.SitterSearchFilter;
+import petfinder.site.common.sitter.SitterService;
 import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
@@ -63,6 +65,8 @@ public class OwnerEndpoint {
 	@Autowired
 	private PetService petService;
 	@Autowired
+	private SitterService sitterService;
+	@Autowired
 	private ElasticClientService clientService;
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -78,6 +82,7 @@ public class OwnerEndpoint {
 		ownerService = new OwnerService();
 		userService = us;
 		petService = ps;
+		sitterService = new SitterService();
 		objectMapper = new ObjectMapper();
 	}
 
@@ -164,9 +169,17 @@ public class OwnerEndpoint {
         
 	}
 	
+	@RequestMapping(value = "/appointment/filter", method = RequestMethod.POST)
+	public ResponseEntity<String> setFilter(@RequestBody SitterSearchFilter filter){
+		sitterService.setFilter(filter);
+		return new ResponseEntity<String>("Set", HttpStatus.OK);
+	}
+	
+	//filterUse should only be a 1 or a 0. 1 for true and 0 false.
 	@SuppressWarnings("null")
-	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.GET)
-	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting, @RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
+	@RequestMapping(value = "/appointment/sort/{sortSetting}/{filerUse}", method = RequestMethod.GET)
+	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting, @PathVariable(name = "filterUse") int isSet,
+			@RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
 		SearchRequest searchRequest = new SearchRequest("sitter"); 
 		searchRequest.types("external");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
@@ -187,7 +200,10 @@ public class OwnerEndpoint {
 		for (SearchHit hit : searchHits){
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
 			if (calendarService.isFree(sitter, appointment)){
-				sitterList.add(sitter);			
+				//Using 1 here as a boolean. Input will either be a 1 or a 0
+				if(isSet == 1 && sitterService.getFilter().doesMatch(sitter)){
+					sitterList.add(sitter);			
+				}
 			}
 		}
 		SitterComparator comp = new SitterComparator();
