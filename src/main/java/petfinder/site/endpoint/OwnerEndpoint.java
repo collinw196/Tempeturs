@@ -54,6 +54,7 @@ import petfinder.site.common.sitter.SitterService;
 import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
+import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 
 /**
@@ -166,6 +167,22 @@ public class OwnerEndpoint {
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
 		
+		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getUsername() + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		jsonString = EntityUtils.toString(response.getEntity());
+		
+		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
+		List<Long> list1 = user1.getNotificationIds();
+		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getOwnerUsername() + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		jsonString = EntityUtils.toString(response.getEntity());
+		
+		user1 = objectMapper.readValue(jsonString, UserDto.class);
+		List<Long> list2 = user1.getNotificationIds();
+		
+		
 		clientService.getClient().performRequest(
 		        "PUT",
 		        "/calendarappointments/external/" + count,
@@ -181,10 +198,20 @@ public class OwnerEndpoint {
 		        "external",  
 		        appointment.getOwnerUsername());
 		
-		jsonString = "{\"notificationIds\": [\"" + count + "\"]}";
+		String jsonRequest1String = "{\"notificationIds\": [";
+		String jsonRequest2String = "{\"notificationIds\": [";
+		for (Long i : list1){
+			jsonRequest1String += i + ", " ;
+		}
+		for (Long i : list2){
+			jsonRequest2String += i + ", " ;
+		}
 		
-		request1.doc(jsonString, XContentType.JSON);
-		request2.doc(jsonString, XContentType.JSON);
+		jsonRequest1String += count + "]}";
+		jsonRequest2String += count + "]}";
+		
+		request1.doc(jsonRequest1String, XContentType.JSON);
+		request2.doc(jsonRequest2String, XContentType.JSON);
 		
 		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
 		updateResponse = clientService.getHighClient().update(request2);
@@ -283,13 +310,20 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/appointment/pay/{id}", method = RequestMethod.POST)
 	public  ResponseEntity<String> paySitter(@PathVariable(name = "id") int id) throws IOException{		
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		
 		UpdateRequest request1 = new UpdateRequest(
 		        "calendarappointments", 
 		        "external",  
 		        Integer.toString(id));
+		double value = appointment.getPaymentAmount() + 9.99;
 		
-		String jsonString = "{"  
-								+ "\"paymentAmount\": \"" + 59.99 + "\","
+		jsonString = "{"  
+								+ "\"paymentAmount\": \"" + value + "\","
 								+ "\"appointmentStatus\": \"PAYED\","
 								+ "\"notificationMessage\": \"Appointment has been payed\""
 								+ "}";
@@ -298,11 +332,20 @@ public class OwnerEndpoint {
 		
 		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
 		
-		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getUsername() + "/_source",
 		        Collections.singletonMap("pretty", "true"));
+		
 		jsonString = EntityUtils.toString(response.getEntity());
 		
-		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
+		List<Long> list1 = user1.getNotificationIds();
+		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getOwnerUsername() + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		jsonString = EntityUtils.toString(response.getEntity());
+		
+		user1 = objectMapper.readValue(jsonString, UserDto.class);
+		List<Long> list2 = user1.getNotificationIds();
 		
 		request1 = new UpdateRequest(
 		        "users", 
@@ -313,10 +356,20 @@ public class OwnerEndpoint {
 		        "external",  
 		        appointment.getOwnerUsername());
 		
-		jsonString = "{\"notificationIds\": [\"" + id + "\"]}";
+		String jsonRequest1String = "{\"notificationIds\": [";
+		String jsonRequest2String = "{\"notificationIds\": [";
+		for (Long i : list1){
+			jsonRequest1String += i + ", " ;
+		}
+		for (Long i : list2){
+			jsonRequest2String += i + ", " ;
+		}
 		
-		request1.doc(jsonString, XContentType.JSON);
-		request2.doc(jsonString, XContentType.JSON);
+		jsonRequest1String += id + "]}";
+		jsonRequest2String += id + "]}";
+		
+		request1.doc(jsonRequest1String, XContentType.JSON);
+		request2.doc(jsonRequest2String, XContentType.JSON);
 		
 		updateResponse = clientService.getHighClient().update(request1);
 		updateResponse = clientService.getHighClient().update(request2);
