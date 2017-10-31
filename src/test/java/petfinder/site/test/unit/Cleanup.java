@@ -37,6 +37,8 @@ public class Cleanup {
 					Collections.<String, String>emptyMap());
 			cS.getClient().performRequest("DELETE", "/calendarappointments/external/" + 1,
 					Collections.<String, String>emptyMap());
+			cS.getClient().performRequest("DELETE", "/calendarappointments/external/" + 2,
+					Collections.<String, String>emptyMap());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

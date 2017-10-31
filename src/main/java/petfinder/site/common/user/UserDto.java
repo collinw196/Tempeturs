@@ -23,7 +23,7 @@ public class UserDto {
 	private String gender;
 	private String type;
 	private String role;
-	private List<Long> notificationIds;
+	private List<Integer> notificationIds;
 	
 	public UserDto() {
 		
@@ -31,7 +31,7 @@ public class UserDto {
 
 	
 	public UserDto(String firstName, String lastName, String email, String username, String password, String street1,
-			String street2, String po, String zip, String state, String phone, String gender, String type, String role, List<Long> notificationIds) {
+			String street2, String po, String zip, String state, String phone, String gender, String type, String role, List<Integer> notificationIds) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -244,11 +244,11 @@ public class UserDto {
 		this.role = role;
 	}
 
-	public List<Long> getNotificationIds() {
+	public List<Integer> getNotificationIds() {
 		return notificationIds;
 	}
 
-	public void setNotificationIds(List<Long> notificationIds) {
+	public void setNotificationIds(List<Integer> notificationIds) {
 		this.notificationIds = notificationIds;
 	}
 
