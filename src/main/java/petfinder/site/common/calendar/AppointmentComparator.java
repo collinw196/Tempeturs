@@ -2,10 +2,10 @@ package petfinder.site.common.calendar;
 
 import java.util.Comparator;
 
-public class AppointmentComparator implements Comparator<CalendarAppointmentDto> {
+public class AppointmentComparator implements Comparator<CalendarBlockDto> {
 
 	@Override
-	public int compare(CalendarAppointmentDto arg0, CalendarAppointmentDto arg1) {
+	public int compare(CalendarBlockDto arg0, CalendarBlockDto arg1) {
 		int comp;
 		if(arg0.getStartYear() == arg1.getStartYear()){
 			if(arg0.getStartMonth() == arg1.getStartMonth()){

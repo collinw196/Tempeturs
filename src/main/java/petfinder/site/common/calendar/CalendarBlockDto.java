@@ -15,6 +15,7 @@ public class CalendarBlockDto {
 	private String username;
 	private int repeatStrategy;
 	private String notificationMessage;
+	private String type;
 	
 	public CalendarBlockDto(){
 		
@@ -22,7 +23,7 @@ public class CalendarBlockDto {
 
 	public CalendarBlockDto(int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
-			String notficationMessage) {
+			String notficationMessage, String type) {
 		super();
 		this.startDay = startDay;
 		this.startMonth = startMonth;
@@ -37,6 +38,7 @@ public class CalendarBlockDto {
 		this.username = username;
 		this.repeatStrategy = repeatStrategy;
 		this.notificationMessage = notficationMessage;
+		this.type = type;
 	}
 
 	/* (non-Javadoc)
@@ -82,6 +84,11 @@ public class CalendarBlockDto {
 		if (startMonth != other.startMonth)
 			return false;
 		if (startYear != other.startYear)
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -285,6 +292,14 @@ public class CalendarBlockDto {
 	 */
 	public void setNotificationMessage(String notificationMessage) {
 		this.notificationMessage = notificationMessage;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

@@ -87,14 +87,14 @@ public class UserService {
 		String jsonString = EntityUtils.toString(response.getEntity());
 		
 		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list1 = user1.getNotificationIds();
+		List<Integer> list1 = user1.getNotificationIds();
 		response = clientService.getClient().performRequest("GET", "/users/external/" + username2 + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		jsonString = EntityUtils.toString(response.getEntity());
 		
 		user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list2 = user1.getNotificationIds();
+		List<Integer> list2 = user1.getNotificationIds();
 		
 		UpdateRequest request1 = new UpdateRequest(
 		        "users", 
@@ -107,10 +107,10 @@ public class UserService {
 		
 		String jsonRequest1String = "{\"notificationIds\": [";
 		String jsonRequest2String = "{\"notificationIds\": [";
-		for (Long i : list1){
+		for (int i : list1){
 			jsonRequest1String += i + ", " ;
 		}
-		for (Long i : list2){
+		for (int i : list2){
 			jsonRequest2String += i + ", " ;
 		}
 		

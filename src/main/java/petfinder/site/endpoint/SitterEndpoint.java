@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
@@ -22,6 +23,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import petfinder.site.common.calendar.AppointmentComparator;
 import petfinder.site.common.calendar.CalendarAppointmentDto;
+import petfinder.site.common.calendar.CalendarBlockDto;
 import petfinder.site.common.calendar.CalendarService;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
@@ -125,6 +128,32 @@ public class SitterEndpoint {
 		// Some of these functions may work better in the DTO/DAO
 		// - Dylan
 	
+	@RequestMapping(value = "/block/create", method = RequestMethod.POST)
+	public ResponseEntity<String> createBlock(@RequestBody CalendarBlockDto appointment) throws ParseException, IOException{
+		appointment.setNotificationMessage("Block has been created");
+		appointment.setType("Block");
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/_count",
+				Collections.<String, String>emptyMap());
+		
+		String jsonString1 = EntityUtils.toString(response.getEntity());
+		
+		JSONObject json = new JSONObject(jsonString1);
+        long count = json.getLong("count");
+        appointment.setBlockId(count);
+        
+        String jsonString = objectMapper.writeValueAsString(appointment);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);	
+		
+		clientService.getClient().performRequest(
+		        "PUT",
+		        "/calendarappointments/external/" + count,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added", HttpStatus.OK);        
+	}
+	
 	@RequestMapping(value = "/appointment/accept/{id}", method = RequestMethod.POST)
 	public ResponseEntity<String> acceptAppt(@PathVariable(name = "id") int id) throws IOException{
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
@@ -137,6 +166,7 @@ public class SitterEndpoint {
 		        "external",  
 		        Integer.toString(id));
 		jsonString = "{"  
+				+ "\"acceptedStatus\": \"ACCEPTED\","
 				+ "\"appointmentStatus\": \"ACCEPTED\","
 				+ "\"notificationMessage\": \"Appointment has been accepted\""
 				+ "}";
@@ -229,14 +259,19 @@ public class SitterEndpoint {
 		jsonString = EntityUtils.toString(response.getEntity());
 		
 		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list1 = user1.getNotificationIds();
+		List<Integer> list1 = user1.getNotificationIds();
 		
 		String jsonRequest1String = "{\"notificationIds\": [";
-		for (Long i : list1){
+		for (int i : list1){
 			jsonRequest1String += i + ", " ;
 		}
+		int num = (int) value * -1;
+		jsonRequest1String += num + "]}";
 		
-		jsonRequest1String += -value + "]}";
+		request1 = new UpdateRequest(
+		        "users", 
+		        "external",  
+		        username);
 		
 		request1.doc(jsonRequest1String, XContentType.JSON);
 		
@@ -245,7 +280,7 @@ public class SitterEndpoint {
 	}
 	
 	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
-	public List<CalendarAppointmentDto> getAppointments() throws IOException{
+	public List<CalendarBlockDto> getAppointments() throws IOException{
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
@@ -264,11 +299,11 @@ public class SitterEndpoint {
 		
 		SearchHits hits = response.getHits();
 		SearchHit[] searchHits = hits.getHits();
-		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
+		ArrayList<CalendarBlockDto> appointmentList = new ArrayList<CalendarBlockDto>();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			if (calendarService.isOpen(appointment)){
-				appointmentList.add(appointment);			
+			if (appointment.getType().equals("Block") || calendarService.isOpen(appointment)){
+				appointmentList.add(appointment);	
 			}
 		}
 		AppointmentComparator comp = new AppointmentComparator();
@@ -280,14 +315,16 @@ public class SitterEndpoint {
 	public List<CalendarAppointmentDto> getApptNotifications() throws IOException{		
 		userService.updateService(userService.getUsername());
 		ArrayList<CalendarAppointmentDto> notificationList = new ArrayList<CalendarAppointmentDto>();
-		for (Long id : userService.getUser().getNotificationIds()){
-			Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
-			        Collections.singletonMap("pretty", "true"));
-			
-			String jsonString = EntityUtils.toString(response.getEntity());
-			
-			CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
-			notificationList.add(appointment);
+		for (int id : userService.getUser().getNotificationIds()){
+			if(id > 0){
+				Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+				        Collections.singletonMap("pretty", "true"));
+				
+				String jsonString = EntityUtils.toString(response.getEntity());
+				
+				CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+				notificationList.add(appointment);
+			}
 		}
 		return notificationList;
 	}
@@ -296,7 +333,7 @@ public class SitterEndpoint {
 	public List<String> getRatNotifications() throws IOException{		
 		userService.updateService(userService.getUsername());
 		ArrayList<String> notificationList = new ArrayList<String>();
-		for (Long id : userService.getUser().getNotificationIds()){
+		for (int id : userService.getUser().getNotificationIds()){
 			if(id < 0){
 				long value = id * -1;
 				notificationList.add("You were given a " + value + " rating!");

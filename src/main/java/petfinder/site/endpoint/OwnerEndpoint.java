@@ -153,6 +153,7 @@ public class OwnerEndpoint {
 	@RequestMapping(value = "/appointment/request", method = RequestMethod.POST)
 	public ResponseEntity<String> requestSitter(@RequestBody CalendarAppointmentDto appointment) throws ParseException, IOException{
 		appointment.setNotificationMessage("Appointmnent has been scheduled");
+		appointment.setType("Appt");
 		appointment.setOwnerUsername(userService.getUsername());
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/_count",
 				Collections.<String, String>emptyMap());
@@ -339,7 +340,7 @@ public class OwnerEndpoint {
 	public List<CalendarAppointmentDto> getNotifications() throws IOException{		
 		userService.updateService(userService.getUsername());
 		ArrayList<CalendarAppointmentDto> notificationList = new ArrayList<CalendarAppointmentDto>();
-		for (Long id : userService.getUser().getNotificationIds()){
+		for (int id : userService.getUser().getNotificationIds()){
 			Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
 			        Collections.singletonMap("pretty", "true"));
 			

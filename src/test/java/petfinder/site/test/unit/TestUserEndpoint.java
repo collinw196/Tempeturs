@@ -22,9 +22,9 @@ public class TestUserEndpoint {
 		ElasticClientService cS = new ElasticClientService();
 		UserService uS = new UserService(cS);
 		UserEndpoint uP = new UserEndpoint(uS);
-		List<Long> list = new ArrayList<Long>();
-		list.add(1L);
-		list.add(2L);
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		list.add(2);
 		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild77777", "abc", "123 wilderness",
 				"", "", "77777", "Texas", "5555555555", "male", "owner", "USER", list);
 		try {

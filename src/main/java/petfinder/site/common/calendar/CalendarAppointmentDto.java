@@ -17,10 +17,10 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	
 	public CalendarAppointmentDto(int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
-			String notficationMessage, String ownerUsername, List<Integer> petIds, String acceptedStatus,
+			String notficationMessage, String type, String ownerUsername, List<Integer> petIds, String acceptedStatus,
 			String appointmentStatus, String notes, String urgency, double paymentAmount) {
 		super(startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
-				username, repeatStrategy, notficationMessage);
+				username, repeatStrategy, notficationMessage, type);
 		this.ownerUsername = ownerUsername;
 		this.petIds = petIds;
 		this.acceptedStatus = acceptedStatus;
@@ -28,6 +28,13 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		this.notes = notes;
 		this.urgency = urgency;
 		this.paymentAmount = paymentAmount;
+	}
+
+	public CalendarAppointmentDto(int startDay, int startMonth, int startYear, int endDay, int endMonth,
+			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
+			String notficationMessage, String type) {
+		super(startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
+				username, repeatStrategy, notficationMessage, type);
 	}
 
 	/* (non-Javadoc)
