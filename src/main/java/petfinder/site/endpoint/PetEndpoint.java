@@ -46,9 +46,9 @@ public class PetEndpoint {
 		
 	}
 	
-	public PetEndpoint(ElasticClientService cS) {
+	public PetEndpoint(ElasticClientService cS, PetService pS) {
 		clientService = cS;
-		petService = new PetService();
+		petService = pS;
 		objectMapper = new ObjectMapper();
 	}
 	

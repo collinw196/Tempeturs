@@ -22,7 +22,7 @@ public class TestOwnerEndpoint {
 	@Test
 	public void testPutOwner() {
 		ElasticClientService cS = new ElasticClientService();
-		UserService us= new UserService();
+		UserService us= new UserService(cS);
 		PetService ps = new PetService();
 		List<PetDto> list = new ArrayList<PetDto>();
 		PetDto pet1 = new PetDto();
@@ -56,7 +56,6 @@ public class TestOwnerEndpoint {
 			e.printStackTrace();
 		}		
 		
-		assertTrue(owner.equals(ownerTest));
 		try {
 			cS.getClient().performRequest("DELETE", "/owner/external/" + "jwild77777",
 					Collections.<String, String>emptyMap());
@@ -64,7 +63,7 @@ public class TestOwnerEndpoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertTrue(owner.equals(ownerTest));
 	}
-	
-
 }

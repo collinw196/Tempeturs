@@ -14,121 +14,121 @@ public class SitterComparator implements Comparator<SitterDto> {
 		switch(sortType){
 			case 0:
 				if(arg0.calculateLocationScore(zip) < arg1.calculateLocationScore(zip)){
-					return -1;
-				} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 					return 1;
+				} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
+					return -1;
 				} else {
 					if(arg0.calculateRatingScore() < arg1.calculateRatingScore()){
-						return -1;
-					} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 						return 1;
+					} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
+						return -1;
 					} else {
 						if(arg0.calculatePreferenceScore(types) < arg1.calculatePreferenceScore(types)){
-							return -1;
-						} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 							return 1;
-						} else {
+						} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 							return -1;
+						} else {
+							return 1;
 						}
 					}
 				}
 			case 1:
 				if(arg0.calculateLocationScore(zip) < arg1.calculateLocationScore(zip)){
-					return -1;
-				} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 					return 1;
+				} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
+					return -1;
 				} else {
 					if(arg0.calculatePreferenceScore(types) < arg1.calculatePreferenceScore(types)){
-						return -1;
-					} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 						return 1;
+					} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
+						return -1;
 					} else {
 						if(arg0.calculateRatingScore() < arg1.calculateRatingScore()){
-							return -1;
-						} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 							return 1;
-						} else {
+						} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 							return -1;
+						} else {
+							return 1;
 						}
 					}
 				}
 			case 2:
 				if(arg0.calculateRatingScore() < arg1.calculateRatingScore()){
-					return -1;
-				} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 					return 1;
+				} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
+					return -1;
 				} else {
 					if(arg0.calculatePreferenceScore(types) < arg1.calculatePreferenceScore(types)){
-						return -1;
-					} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 						return 1;
+					} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
+						return -1;
 					} else {
 						if(arg0.calculateLocationScore(zip) < arg1.calculateLocationScore(zip)){
-							return -1;
-						} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 							return 1;
-						}  else {
+						} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 							return -1;
+						}  else {
+							return 1;
 						}
 					}
 				}
 			case 3:
 				if(arg0.calculateRatingScore() < arg1.calculateRatingScore()){
-					return -1;
-				} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 					return 1;
+				} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
+					return -1;
 				} else {
 					if(arg0.calculateLocationScore(zip) < arg1.calculateLocationScore(zip)){
-						return -1;
-					} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 						return 1;
+					} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
+						return -1;
 					} else {
 						if(arg0.calculatePreferenceScore(types) < arg1.calculatePreferenceScore(types)){
-							return -1;
-						} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 							return 1;
-						} else {
+						} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 							return -1;
+						} else {
+							return 1;
 						}
 					}
 				}
 			case 4:
 				if(arg0.calculatePreferenceScore(types) < arg1.calculatePreferenceScore(types)){
-					return -1;
-				} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 					return 1;
+				} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
+					return -1;
 				} else {
 					if(arg0.calculateLocationScore(zip) < arg1.calculateLocationScore(zip)){
-						return -1;
-					} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 						return 1;
+					} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
+						return -1;
 					} else {
 						if(arg0.calculateRatingScore() < arg1.calculateRatingScore()){
-							return -1;
-						} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 							return 1;
-						} else {
+						} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 							return -1;
+						} else {
+							return 1;
 						}
 					}
 				}
 			case 5:
 				if(arg0.calculatePreferenceScore(types) < arg1.calculatePreferenceScore(types)){
-					return -1;
-				} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
 					return 1;
+				} else if(arg0.calculatePreferenceScore(types) > arg1.calculatePreferenceScore(types)){
+					return -1;
 				} else {
 					if(arg0.calculateRatingScore() < arg1.calculateRatingScore()){
-						return -1;
-					} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
 						return 1;
+					} else if(arg0.calculateRatingScore() > arg1.calculateRatingScore()){
+						return -1;
 					} else {
 						if(arg0.calculateLocationScore(zip) < arg1.calculateLocationScore(zip)){
-							return -1;
-						} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 							return 1;
-						} else {
+						} else if(arg0.calculateLocationScore(zip) > arg1.calculateLocationScore(zip)){
 							return -1;
+						} else {
+							return 1;
 						}
 					}
 				}

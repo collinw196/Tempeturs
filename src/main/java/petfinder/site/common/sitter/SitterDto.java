@@ -77,7 +77,10 @@ public class SitterDto {
 		return score;
 	}
 	
-	public double calculateRatingScore(){		
+	public double calculateRatingScore(){
+		if(rating == 0){
+			return 5.0;
+		}
 		return getRating();
 	}
 	

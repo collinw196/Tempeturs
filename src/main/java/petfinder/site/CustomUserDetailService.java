@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -48,6 +49,9 @@ public class CustomUserDetailService implements UserDetailsService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if(response.getHits().getTotalHits() == 0){
+			throw new BadCredentialsException("Username and password not recognized");
 		}
 		
 		JSONObject json = new JSONObject(response.toString());

@@ -1,5 +1,7 @@
 package petfinder.site.common.user;
 
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 
@@ -21,16 +23,18 @@ public class UserDto {
 	private String gender;
 	private String type;
 	private String role;
+	private List<Long> notificationIds;
 	
 	public UserDto() {
 		
 	}
 
-	public UserDto(String fName, String lName, String email, String username,
-			String password, String street1, String street2, String po, String zip, 
-			String state, String phone, String gender, String type) {
-		this.firstName = fName;
-		this.lastName = lName;
+	
+	public UserDto(String firstName, String lastName, String email, String username, String password, String street1,
+			String street2, String po, String zip, String state, String phone, String gender, String type, String role, List<Long> notificationIds) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.username = username;
 		this.password = password;
@@ -42,13 +46,16 @@ public class UserDto {
 		this.phone = phone;
 		this.gender = gender;
 		this.type = type;
+		this.role = role;
+		this.notificationIds = notificationIds;
 	}
-	
+
+
 	public String toString() {
 		return "fN: " + getFirstName() + " lN: " + getLastName() + " email: " + getEmail() +
 				" username: " + getUsername() + " password: " + getPassword() + " s1: " + getStreet1() + " s2: " + getStreet2() +
 				" po: " + getPo() + " zip: " + getZip() + " state: " + getState() + " p: " + getPhone() + " g: " + getGender() +
-				" t: " + getType();
+				" t: " + getType() + " nIds: " + getNotificationIds().toString();
 	}
 	
 	public boolean equals(UserDto value){
@@ -59,7 +66,7 @@ public class UserDto {
 				email.equals(value.getEmail()) && username.equals(value.getUsername()) &&
 				street1.equals(value.getStreet1()) && street2.equals(value.getStreet2()) && po.equals(value.getPo()) &&
 				zip.equals(value.getZip()) && state.equals(value.getState()) && phone.equals(value.getPhone()) &&
-				gender.equals(value.getGender()) && type.equals(value.getType())) {
+				gender.equals(value.getGender()) && type.equals(value.getType()) && notificationIds.equals(value.getNotificationIds())) {
 			return true;
 		}
 		return false;
@@ -235,5 +242,18 @@ public class UserDto {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public List<Long> getNotificationIds() {
+		return notificationIds;
+	}
+
+	public void setNotificationIds(List<Long> notificationIds) {
+		this.notificationIds = notificationIds;
+	}
+
+
+	public void removeNotId() {
+		notificationIds.clear();		
 	}
 }

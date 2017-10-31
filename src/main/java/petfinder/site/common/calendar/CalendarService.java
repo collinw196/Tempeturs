@@ -1,6 +1,7 @@
 package petfinder.site.common.calendar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.elasticsearch.action.search.SearchRequest;
@@ -9,9 +10,15 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
@@ -29,9 +36,10 @@ public class CalendarService {
 	@Autowired
 	private ElasticClientService clientService;
 	
-	public CalendarService() {
+	public CalendarService(ElasticClientService eS) {
 		appointmentDao = new CalendarAppointmentDao();
 		blockDao = new CalendarBlockDao();
+		clientService = eS;
 	}
 	
 	public CalendarService(CalendarAppointmentDao cAD, CalendarBlockDao cBD) {
@@ -55,7 +63,7 @@ public class CalendarService {
 		blockDao.setBlock(block);
 	}
 	
-	public boolean isFree(SitterDto sitter, CalendarBlockDto appointment) {
+	public boolean isFree(SitterDto sitter, CalendarBlockDto appointment) throws JsonParseException, JsonMappingException, IOException {
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
@@ -81,10 +89,19 @@ public class CalendarService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		int hitNum = 0;
 		
-		long hits = response.getHits().totalHits;
+		SearchHits hits = response.getHits();
+		SearchHit[] searchHits = hits.getHits();
+		ObjectMapper objectMapper = new ObjectMapper();
+		for (SearchHit hit : searchHits){
+			CalendarAppointmentDto appointment1 = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
+			if(appointment1.getAppointmentStatus().equals("ACCEPTED")){
+				hitNum++;
+			}
+		}
 		
-		if(hits == 0){
+		if(hitNum == 0){
 			return true;
 		}
 		
@@ -96,5 +113,14 @@ public class CalendarService {
         rangeQuery.from(startYear);
         rangeQuery.to(endYear);
 		return rangeQuery;
+	}
+
+	public boolean isOpen(CalendarAppointmentDto appointment) {
+		boolean isOpen = false;
+		String value = appointment.getAppointmentStatus();
+		if(value.equals("SCHEDULED") || value.equals("ACCEPTED") || value.equals("FINISHED")){
+			isOpen = true;
+		}
+		return isOpen;
 	}
 }

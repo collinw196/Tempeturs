@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,9 +57,14 @@ public class LoginEndpoint {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String login(@RequestBody LoginDto loginDto) throws IOException {		
+	public String login(@RequestBody LoginDto loginDto) {		
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-		Authentication auth = authenticationManager.authenticate(token);
+		Authentication auth = null;
+		try {
+			auth = authenticationManager.authenticate(token);
+		} catch (BadCredentialsException  e) {
+			throw e;
+		}
 
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		securityContext.setAuthentication(auth);
