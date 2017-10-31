@@ -2,12 +2,16 @@ package petfinder.site.endpoint;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.sitter.SitterService;
+import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 
 /**
@@ -113,20 +118,35 @@ public class SitterEndpoint {
 			value = 1.0;
 		}
 		
-		String jsonString = "{"
-								+ "\"doc\": {"
-									+ "\"rating\": \"" + value + "\""
-								+ "}"
-							+ "}";
+		UpdateRequest request1 = new UpdateRequest(
+		        "sitter", 
+		        "external",  
+		        username);
 		
-		HttpEntity entity = new NStringEntity(
-		        jsonString, ContentType.APPLICATION_JSON);
+		String jsonString = "{\"rating\": " + value + "}";
 		
-		Response indexResponse = clientService.getClient().performRequest(
-		        "POST",
-		        "/sitter/external/" + username + "/_update",
-		        Collections.<String, String>emptyMap(),
-		        entity);
-		return new ResponseEntity<String>("Rated " + indexResponse, HttpStatus.OK);
+		request1.doc(jsonString, XContentType.JSON);
+		
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		
+		Response response = clientService.getClient().performRequest("GET", "/users/external/" + username + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		jsonString = EntityUtils.toString(response.getEntity());
+		
+		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
+		List<Long> list1 = user1.getNotificationIds();
+		
+		String jsonRequest1String = "{\"notificationIds\": [";
+		for (Long i : list1){
+			jsonRequest1String += i + ", " ;
+		}
+		
+		jsonRequest1String += -1 + "]}";
+		
+		request1.doc(jsonRequest1String, XContentType.JSON);
+		
+		updateResponse = clientService.getHighClient().update(request1);
+		return new ResponseEntity<String>("Rated " + updateResponse, HttpStatus.OK);
 	}
 }
