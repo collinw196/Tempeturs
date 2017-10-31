@@ -34,16 +34,10 @@ export class WeekView extends React.Component{
     
     render() {
         return(
-            <table>
-                <tr>
-                    <td>
-                        Content of the first column.
-                    </td>
-                    <td>
-                        Content of the second column.
-                    </td>
-                </tr>
-            </table>    
+            <div class="col-wrapper">
+                <div class="col col-670">[Page Content]</div>
+                <div class="col col-250">[Page Sidebar]</div>
+            </div>
         );
     }
 }
