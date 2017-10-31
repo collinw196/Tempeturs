@@ -91,7 +91,7 @@ public class OwnerEndpoint {
 		ownerService = new OwnerService();
 		userService = us;
 		petService = ps;
-		sitterService = new SitterService();
+		sitterService = new SitterService(cS);
 		objectMapper = new ObjectMapper();
 		calendarService = new CalendarService(cS);
 		petEndpoint = new PetEndpoint();

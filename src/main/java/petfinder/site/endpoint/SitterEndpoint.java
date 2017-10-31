@@ -4,15 +4,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +35,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import petfinder.site.common.calendar.AppointmentComparator;
 import petfinder.site.common.calendar.CalendarAppointmentDto;
+import petfinder.site.common.calendar.CalendarService;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.sitter.SitterService;
@@ -47,6 +58,9 @@ public class SitterEndpoint {
 	private ElasticClientService clientService;
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	private CalendarService calendarService;
+	
 	
 	public SitterEndpoint() {
 		
@@ -56,6 +70,15 @@ public class SitterEndpoint {
 		clientService = cS;
 		sitterService = sS;
 		userService = us;
+		calendarService = new CalendarService(cS);
+		objectMapper = new ObjectMapper();
+	}
+	
+	public SitterEndpoint(ElasticClientService cS, UserService us, SitterService sS, CalendarService clS){
+		clientService = cS;
+		sitterService = sS;
+		userService = us;
+		calendarService = clS;
 		objectMapper = new ObjectMapper();
 	}
 
@@ -219,6 +242,38 @@ public class SitterEndpoint {
 		
 		updateResponse = clientService.getHighClient().update(request1);
 		return new ResponseEntity<String>("Rated " + updateResponse, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
+	public List<CalendarAppointmentDto> getAppointments() throws IOException{
+		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
+		searchRequest.types("external");
+		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+		boolQuery.must(QueryBuilders.matchQuery("username", userService.getUsername()));
+		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
+		sourceBuilder.query(boolQuery);  
+		sourceBuilder.from(0); 
+		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		SearchResponse response = null;
+		try {
+			response = clientService.getHighClient().search(searchRequest);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		SearchHits hits = response.getHits();
+		SearchHit[] searchHits = hits.getHits();
+		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
+		for (SearchHit hit : searchHits){
+			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
+			if (calendarService.isOpen(appointment)){
+				appointmentList.add(appointment);			
+			}
+		}
+		AppointmentComparator comp = new AppointmentComparator();
+		Collections.sort(appointmentList, comp);
+		return appointmentList;
 	}
 	
 	@RequestMapping(value = "/notifications/appt", method = RequestMethod.GET)

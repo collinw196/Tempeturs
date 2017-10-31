@@ -29,17 +29,17 @@ import petfinder.site.endpoint.UserEndpoint;
 
 public class TestFunctionalFlow {
 	
-	/*@Test
+	@Test
 	public void testOwnerFunctionality() {
 		ElasticClientService cS = new ElasticClientService();
 		OwnerService oS = new OwnerService();
-		SitterService sS = new SitterService();
+		SitterService sS = new SitterService(cS);
 		PetService pS = new PetService();
 		UserService uS = new UserService(cS);
-		SitterEndpoint sP = new SitterEndpoint(cS, uS, sS);
 		UserEndpoint uP = new UserEndpoint(uS);
 		PetEndpoint pP = new PetEndpoint(cS, pS);
 		CalendarService clS = new CalendarService(cS);
+		SitterEndpoint sP = new SitterEndpoint(cS, uS, sS, clS);
 		OwnerEndpoint oP = new OwnerEndpoint(cS, uS, pS, oS, clS, sS, pP);
 		List<Long> list = new ArrayList<Long>();
 		UserDto user = new UserDto("jimmy", "wall", "j_wall@wild.com", "jwall77777", "abc", "123 wilderness",
@@ -222,5 +222,43 @@ public class TestFunctionalFlow {
 			e.printStackTrace();
 		}
 		
-	}*/
+		appointment = new CalendarAppointmentDto(20, 11, 2018, 21, 11,
+				2018, 00, 20, 00, 10, "cpeter77775", 0, "This appointment was created needs to be accepted", "jwild77777", petIds, "NOT ACCEPTED",
+				"SCHEDULED", "", "casual", 50.00);
+		try {
+			uS.updateService("cpeter77775");
+			sS.updateService("cpeter77775");
+			oP.requestSitter(appointment);
+			List<CalendarAppointmentDto> appointmentList = sP.getAppointments();
+			sP.acceptAppt(appointmentList.get(0).getBlockId().intValue());
+			appointmentList = sP.getApptNotifications();
+			sP.getRatNotifications();
+			assertTrue(appointmentList.get(0).getAppointmentStatus().equals("ACCEPTED"));
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			List<CalendarAppointmentDto> appointmentList = sP.getAppointments();
+			sP.denyAppt(appointmentList.get(0).getBlockId().intValue());
+			appointmentList = sP.getApptNotifications();
+			sP.getRatNotifications();
+			assertTrue(appointmentList.get(0).getAppointmentStatus().equals("REFUSED"));
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			sP.rateSitter("cpeter77775", 3.0);
+			sP.getApptNotifications();
+			List<String> appointmentList = sP.getRatNotifications();
+			assertTrue(appointmentList.get(0).equals("You were given a 3.0 rating!"));
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
