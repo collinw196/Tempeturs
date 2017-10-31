@@ -198,7 +198,7 @@ public class TestFunctionalFlow {
 		petIds.add(pet3.getId().intValue());
 		
 		appointment = new CalendarAppointmentDto(20, 11, 2017, 21, 11,
-				2017, 00, 20, 00, 10, "jwall77777", 0, "This appointment was created needs to be accepted", "jwild77777", petIds, "NOT ACCEPTED",
+				2017, 00, 20, 00, 10, "jwall77777", 0, "This appointment was created needs to be accepted", "Appt", "jwild77777", petIds, "NOT ACCEPTED",
 				"SCHEDULED", "", "casual", 50.00);
 		
 		try {
