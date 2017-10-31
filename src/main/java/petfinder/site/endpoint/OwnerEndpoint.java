@@ -165,23 +165,7 @@ public class OwnerEndpoint {
         
         String jsonString = objectMapper.writeValueAsString(appointment);
 		HttpEntity entity = new NStringEntity(
-		        jsonString, ContentType.APPLICATION_JSON);
-		
-		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getUsername() + "/_source",
-		        Collections.singletonMap("pretty", "true"));
-		
-		jsonString = EntityUtils.toString(response.getEntity());
-		
-		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list1 = user1.getNotificationIds();
-		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getOwnerUsername() + "/_source",
-		        Collections.singletonMap("pretty", "true"));
-		
-		jsonString = EntityUtils.toString(response.getEntity());
-		
-		user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list2 = user1.getNotificationIds();
-		
+		        jsonString, ContentType.APPLICATION_JSON);	
 		
 		clientService.getClient().performRequest(
 		        "PUT",
@@ -189,34 +173,9 @@ public class OwnerEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		
-		UpdateRequest request1 = new UpdateRequest(
-		        "users", 
-		        "external",  
-		        appointment.getUsername());
-		UpdateRequest request2 = new UpdateRequest(
-		        "users", 
-		        "external",  
-		        appointment.getOwnerUsername());
+		userService.updateNotifications((int)count, appointment.getUsername(), appointment.getOwnerUsername());
 		
-		String jsonRequest1String = "{\"notificationIds\": [";
-		String jsonRequest2String = "{\"notificationIds\": [";
-		for (Long i : list1){
-			jsonRequest1String += i + ", " ;
-		}
-		for (Long i : list2){
-			jsonRequest2String += i + ", " ;
-		}
-		
-		jsonRequest1String += count + "]}";
-		jsonRequest2String += count + "]}";
-		
-		request1.doc(jsonRequest1String, XContentType.JSON);
-		request2.doc(jsonRequest2String, XContentType.JSON);
-		
-		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
-		updateResponse = clientService.getHighClient().update(request2);
-		
-		return new ResponseEntity<String>("Added " + updateResponse, HttpStatus.OK);        
+		return new ResponseEntity<String>("Added", HttpStatus.OK);        
 	}
 	
 	@RequestMapping(value = "/appointment/filter", method = RequestMethod.POST)
@@ -271,12 +230,18 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/appointment/cancel/{id}", method = RequestMethod.POST)
 	public ResponseEntity<String> cancelSitter(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
 		UpdateRequest request1 = new UpdateRequest(
 		        "calendarappointments", 
 		        "external",  
 		        Integer.toString(id));
-		String jsonString = "{"  
-				+ "\"paymentAmount\": \"" + 59.99 + "\","
+		double value = appointment.getPaymentAmount() + 9.99;
+		jsonString = "{"  
+				+ "\"paymentAmount\": \"" + value + "\","
 				+ "\"appointmentStatus\": \"CANCELLED\","
 				+ "\"notificationMessage\": \"Appointment has been cancelled\""
 				+ "}";
@@ -284,6 +249,8 @@ public class OwnerEndpoint {
 		request1.doc(jsonString, XContentType.JSON);
 
 		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		
+		userService.updateNotifications(id, appointment.getUsername(), appointment.getOwnerUsername());
 
 		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
@@ -320,10 +287,9 @@ public class OwnerEndpoint {
 		        "calendarappointments", 
 		        "external",  
 		        Integer.toString(id));
-		double value = appointment.getPaymentAmount() + 9.99;
 		
 		jsonString = "{"  
-								+ "\"paymentAmount\": \"" + value + "\","
+								+ "\"paymentAmount\": \"" + 0.00 + "\","
 								+ "\"appointmentStatus\": \"PAYED\","
 								+ "\"notificationMessage\": \"Appointment has been payed\""
 								+ "}";
@@ -332,47 +298,7 @@ public class OwnerEndpoint {
 		
 		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
 		
-		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getUsername() + "/_source",
-		        Collections.singletonMap("pretty", "true"));
-		
-		jsonString = EntityUtils.toString(response.getEntity());
-		
-		UserDto user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list1 = user1.getNotificationIds();
-		response = clientService.getClient().performRequest("GET", "/users/external/" + appointment.getOwnerUsername() + "/_source",
-		        Collections.singletonMap("pretty", "true"));
-		
-		jsonString = EntityUtils.toString(response.getEntity());
-		
-		user1 = objectMapper.readValue(jsonString, UserDto.class);
-		List<Long> list2 = user1.getNotificationIds();
-		
-		request1 = new UpdateRequest(
-		        "users", 
-		        "external",  
-		        appointment.getUsername());
-		UpdateRequest request2 = new UpdateRequest(
-		        "users", 
-		        "external",  
-		        appointment.getOwnerUsername());
-		
-		String jsonRequest1String = "{\"notificationIds\": [";
-		String jsonRequest2String = "{\"notificationIds\": [";
-		for (Long i : list1){
-			jsonRequest1String += i + ", " ;
-		}
-		for (Long i : list2){
-			jsonRequest2String += i + ", " ;
-		}
-		
-		jsonRequest1String += id + "]}";
-		jsonRequest2String += id + "]}";
-		
-		request1.doc(jsonRequest1String, XContentType.JSON);
-		request2.doc(jsonRequest2String, XContentType.JSON);
-		
-		updateResponse = clientService.getHighClient().update(request1);
-		updateResponse = clientService.getHighClient().update(request2);
+		userService.updateNotifications(id, appointment.getUsername(), appointment.getOwnerUsername());
 		
 		return new ResponseEntity<String>("Payed", HttpStatus.OK);
 	}

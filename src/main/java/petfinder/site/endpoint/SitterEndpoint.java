@@ -1,6 +1,7 @@
 package petfinder.site.endpoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import petfinder.site.common.calendar.CalendarAppointmentDto;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.sitter.SitterService;
@@ -100,16 +102,85 @@ public class SitterEndpoint {
 		// Some of these functions may work better in the DTO/DAO
 		// - Dylan
 	
-	public void acceptAppt(){
-		// Sitter accepting an owner's request to have them sit
+	@RequestMapping(value = "/appointment/accept/{id}", method = RequestMethod.POST)
+	public ResponseEntity<String> acceptAppt(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		UpdateRequest request1 = new UpdateRequest(
+		        "calendarappointments", 
+		        "external",  
+		        Integer.toString(id));
+		jsonString = "{"  
+				+ "\"appointmentStatus\": \"ACCEPTED\","
+				+ "\"notificationMessage\": \"Appointment has been accepted\""
+				+ "}";
+
+		request1.doc(jsonString, XContentType.JSON);
+
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		
+		userService.updateNotifications(id, appointment.getUsername(), appointment.getOwnerUsername());
+
+		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
 	
-	public void denyAppt(){
-		// Sitter denying owner's request to have them sit
+	@RequestMapping(value = "/appointment/deny/{id}", method = RequestMethod.POST)
+	public ResponseEntity<String> denyAppt(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		UpdateRequest request1 = new UpdateRequest(
+		        "calendarappointments", 
+		        "external",  
+		        Integer.toString(id));
+		jsonString = "{"  
+				+ "\"appointmentStatus\": \"REFUSED\","
+				+ "\"notificationMessage\": \"Appointment has been refused\""
+				+ "}";
+
+		request1.doc(jsonString, XContentType.JSON);
+
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		
+		userService.updateNotifications(id, appointment.getUsername(), appointment.getOwnerUsername());
+
+		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
 	
 	public void editPreference(){
 		// Sitter no longer likes dogs. or something
+	}
+	
+	@RequestMapping(value = "/appointment/cancel/{id}", method = RequestMethod.POST)
+	public ResponseEntity<String> cancelSitter(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		UpdateRequest request1 = new UpdateRequest(
+		        "calendarappointments", 
+		        "external",  
+		        Integer.toString(id));
+		double value = appointment.getPaymentAmount() + 9.99;
+		jsonString = "{"  
+				+ "\"paymentAmount\": \"" + value + "\","
+				+ "\"appointmentStatus\": \"CANCELLED\","
+				+ "\"notificationMessage\": \"Appointment has been cancelled\""
+				+ "}";
+
+		request1.doc(jsonString, XContentType.JSON);
+
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		
+		userService.updateNotifications(id, appointment.getUsername(), appointment.getOwnerUsername());
+
+		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/rat/{username}/{value}", method = RequestMethod.POST)
@@ -142,11 +213,42 @@ public class SitterEndpoint {
 			jsonRequest1String += i + ", " ;
 		}
 		
-		jsonRequest1String += -1 + "]}";
+		jsonRequest1String += -value + "]}";
 		
 		request1.doc(jsonRequest1String, XContentType.JSON);
 		
 		updateResponse = clientService.getHighClient().update(request1);
 		return new ResponseEntity<String>("Rated " + updateResponse, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/notifications/appt", method = RequestMethod.GET)
+	public List<CalendarAppointmentDto> getApptNotifications() throws IOException{		
+		userService.updateService(userService.getUsername());
+		ArrayList<CalendarAppointmentDto> notificationList = new ArrayList<CalendarAppointmentDto>();
+		for (Long id : userService.getUser().getNotificationIds()){
+			Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+			        Collections.singletonMap("pretty", "true"));
+			
+			String jsonString = EntityUtils.toString(response.getEntity());
+			
+			CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+			notificationList.add(appointment);
+		}
+		return notificationList;
+	}
+	
+	@RequestMapping(value = "/notifications/rat", method = RequestMethod.GET)
+	public List<String> getRatNotifications() throws IOException{		
+		userService.updateService(userService.getUsername());
+		ArrayList<String> notificationList = new ArrayList<String>();
+		for (Long id : userService.getUser().getNotificationIds()){
+			if(id < 0){
+				long value = id * -1;
+				notificationList.add("You were given a " + value + " rating!");
+			}
+		}
+		userService.removeNotId();
+		userService.writeUser();
+		return notificationList;
 	}
 }
