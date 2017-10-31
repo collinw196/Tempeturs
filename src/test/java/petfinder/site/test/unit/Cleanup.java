@@ -9,7 +9,7 @@ import petfinder.site.common.elastic.ElasticClientService;
 
 public class Cleanup {
 	
-	/*@Test
+	@Test
 	public void testPutOwner() {
 		ElasticClientService cS = new ElasticClientService();
 		try {
@@ -41,6 +41,6 @@ public class Cleanup {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 }
