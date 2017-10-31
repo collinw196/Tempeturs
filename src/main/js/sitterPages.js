@@ -34,10 +34,13 @@ export class WeekView extends React.Component{
     
     render() {
         return(
-            <div class="col-wrapper">
-                <div class="col col-670">[Page Content]</div>
-                <div class="col col-250">[Page Sidebar]</div>
+            <div class="container">
+                <div class="row">
+                <div class="col-md-4">.col-md-4</div>
+                <div class="col-md-4">.col-md-4</div>
+                <div class="col-md-4">.col-md-4</div>
             </div>
+        </div>
         );
     }
 }
