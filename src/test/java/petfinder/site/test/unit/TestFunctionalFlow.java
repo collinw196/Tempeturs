@@ -105,12 +105,6 @@ public class TestFunctionalFlow {
 		
 		
 		
-		
-		
-		
-		
-		
-		
 		user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild77777", "abc", "123 wilderness",
 				"", "", "77777", "Texas", "5555555555", "male", "owner", "USER", list);
 		try {
