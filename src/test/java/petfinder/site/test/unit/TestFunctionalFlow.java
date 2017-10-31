@@ -29,7 +29,7 @@ import petfinder.site.endpoint.UserEndpoint;
 
 public class TestFunctionalFlow {
 	
-	@Test
+	/*@Test
 	public void testOwnerFunctionality() {
 		ElasticClientService cS = new ElasticClientService();
 		OwnerService oS = new OwnerService();
@@ -100,12 +100,6 @@ public class TestFunctionalFlow {
 		}
 		
 	
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -228,5 +222,5 @@ public class TestFunctionalFlow {
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 }
