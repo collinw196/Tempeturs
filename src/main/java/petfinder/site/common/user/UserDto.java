@@ -253,7 +253,7 @@ public class UserDto {
 	}
 
 
-	public void removeNotId(Long id) {
-		notificationIds.remove(id);		
+	public void removeNotId() {
+		notificationIds.clear();		
 	}
 }

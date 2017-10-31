@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.pet.PetService;
 import petfinder.site.endpoint.PetEndpoint;
 
 public class TestPetEndpoint {
@@ -18,7 +19,8 @@ public class TestPetEndpoint {
 	@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
-		PetEndpoint pP = new PetEndpoint(cS);
+		PetService pS = new PetService();
+		PetEndpoint pP = new PetEndpoint(cS, pS);
 		PetDto pet = new PetDto("rodger", "dog", 4, "");
 		PetDto pet1 = new PetDto("nick", "cat", 5, "");
 		ResponseEntity<String> res = null;

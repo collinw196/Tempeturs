@@ -1,30 +1,29 @@
 package petfinder.site.common.calendar;
 
 public class CalendarBlockDto {
-	protected Long blockId;
-	protected int startDay;
-	protected int startMonth;
-	protected int startYear;
-	protected int endDay;
-	protected int endMonth;
-	protected int endYear;
-	protected int startMin;
-	protected int startHour;
-	protected int endMin;
-	protected int endHour;
-	protected String username;
-	protected int repeatStrategy;
-	protected String notificationMessage;
+	private Long blockId;
+	private int startDay;
+	private int startMonth;
+	private int startYear;
+	private int endDay;
+	private int endMonth;
+	private int endYear;
+	private int startMin;
+	private int startHour;
+	private int endMin;
+	private int endHour;
+	private String username;
+	private int repeatStrategy;
+	private String notificationMessage;
 	
 	public CalendarBlockDto(){
 		
 	}
 
-	public CalendarBlockDto(Long blockId, int startDay, int startMonth, int startYear, int endDay, int endMonth,
+	public CalendarBlockDto(int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
 			String notficationMessage) {
 		super();
-		this.blockId = blockId;
 		this.startDay = startDay;
 		this.startMonth = startMonth;
 		this.startYear = startYear;
@@ -38,6 +37,58 @@ public class CalendarBlockDto {
 		this.username = username;
 		this.repeatStrategy = repeatStrategy;
 		this.notificationMessage = notficationMessage;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CalendarBlockDto other = (CalendarBlockDto) obj;
+		if (blockId == null) {
+			if (other.blockId != null)
+				return false;
+		} else if (!blockId.equals(other.blockId))
+			return false;
+		if (endDay != other.endDay)
+			return false;
+		if (endHour != other.endHour)
+			return false;
+		if (endMin != other.endMin)
+			return false;
+		if (endMonth != other.endMonth)
+			return false;
+		if (endYear != other.endYear)
+			return false;
+		if (notificationMessage == null) {
+			if (other.notificationMessage != null)
+				return false;
+		} else if (!notificationMessage.equals(other.notificationMessage))
+			return false;
+		if (repeatStrategy != other.repeatStrategy)
+			return false;
+		if (startDay != other.startDay)
+			return false;
+		if (startHour != other.startHour)
+			return false;
+		if (startMin != other.startMin)
+			return false;
+		if (startMonth != other.startMonth)
+			return false;
+		if (startYear != other.startYear)
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
 	}
 
 	/**

@@ -9,17 +9,17 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	private String appointmentStatus;
 	private String notes;
 	private String urgency;
-	private String paymentAmount;
+	private double paymentAmount;
 	
 	public CalendarAppointmentDto(){
 		
 	}
 	
-	public CalendarAppointmentDto(Long blockId, int startDay, int startMonth, int startYear, int endDay, int endMonth,
+	public CalendarAppointmentDto(int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
 			String notficationMessage, String ownerUsername, List<Integer> petIds, String acceptedStatus,
-			String appointmentStatus, String notes, String urgency, String paymentAmount) {
-		super(blockId, startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
+			String appointmentStatus, String notes, String urgency, double paymentAmount) {
+		super(startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
 				username, repeatStrategy, notficationMessage);
 		this.ownerUsername = ownerUsername;
 		this.petIds = petIds;
@@ -28,6 +28,53 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		this.notes = notes;
 		this.urgency = urgency;
 		this.paymentAmount = paymentAmount;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CalendarAppointmentDto other = (CalendarAppointmentDto) obj;
+		if (acceptedStatus == null) {
+			if (other.acceptedStatus != null)
+				return false;
+		} else if (!acceptedStatus.equals(other.acceptedStatus))
+			return false;
+		if (appointmentStatus == null) {
+			if (other.appointmentStatus != null)
+				return false;
+		} else if (!appointmentStatus.equals(other.appointmentStatus))
+			return false;
+		if (notes == null) {
+			if (other.notes != null)
+				return false;
+		} else if (!notes.equals(other.notes))
+			return false;
+		if (ownerUsername == null) {
+			if (other.ownerUsername != null)
+				return false;
+		} else if (!ownerUsername.equals(other.ownerUsername))
+			return false;
+		if (Double.doubleToLongBits(paymentAmount) != Double.doubleToLongBits(other.paymentAmount))
+			return false;
+		if (petIds == null) {
+			if (other.petIds != null)
+				return false;
+		} else if (!petIds.equals(other.petIds))
+			return false;
+		if (urgency == null) {
+			if (other.urgency != null)
+				return false;
+		} else if (!urgency.equals(other.urgency))
+			return false;
+		return true;
 	}
 
 	/**
@@ -93,13 +140,13 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	/**
 	 * @return the paymentAmount
 	 */
-	public String getPaymentAmount() {
+	public double getPaymentAmount() {
 		return paymentAmount;
 	}
 	/**
 	 * @param paymentAmount the paymentAmount to set
 	 */
-	public void setPaymentAmount(String paymentAmount) {
+	public void setPaymentAmount(double paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
 

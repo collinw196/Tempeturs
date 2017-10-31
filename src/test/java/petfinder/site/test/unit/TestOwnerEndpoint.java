@@ -56,7 +56,6 @@ public class TestOwnerEndpoint {
 			e.printStackTrace();
 		}		
 		
-		assertTrue(owner.equals(ownerTest));
 		try {
 			cS.getClient().performRequest("DELETE", "/owner/external/" + "jwild77777",
 					Collections.<String, String>emptyMap());
@@ -64,7 +63,7 @@ public class TestOwnerEndpoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertTrue(owner.equals(ownerTest));
 	}
-	
-
 }

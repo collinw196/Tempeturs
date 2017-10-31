@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.sitter.SitterDto;
+import petfinder.site.common.sitter.SitterService;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.endpoint.SitterEndpoint;
@@ -18,13 +19,14 @@ public class TestSitterEndpoint {
 	@Test
 	public void testGetMethods() {
 		ElasticClientService cS = new ElasticClientService();
+		SitterService sS = new SitterService();
 		UserService us = new UserService(cS);
 		SitterDto sitter = new SitterDto("jwild77777", "333", "444", "dog", "cat", "horse", 0, "77777");
 		UserDto user = new UserDto();
 		user.setUsername("jwild77777");
 		user.setZip("77777");
 		us.addUser(user);
-		SitterEndpoint sP = new SitterEndpoint(cS, us);
+		SitterEndpoint sP = new SitterEndpoint(cS, us, sS);
 		sP.regSitter(sitter);
 		try {
 			sP.finishRegSitter();

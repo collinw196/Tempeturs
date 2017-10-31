@@ -3,7 +3,9 @@ package petfinder.site.endpoint;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
@@ -13,10 +15,15 @@ import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -72,6 +79,7 @@ public class OwnerEndpoint {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private PetEndpoint petEndpoint;
+	private boolean isFilterUsed;
 	
 	public OwnerEndpoint() {
 		
@@ -84,6 +92,20 @@ public class OwnerEndpoint {
 		petService = ps;
 		sitterService = new SitterService();
 		objectMapper = new ObjectMapper();
+		calendarService = new CalendarService(cS);
+		petEndpoint = new PetEndpoint();
+	}
+	
+	public OwnerEndpoint(ElasticClientService cS, UserService us, PetService ps, OwnerService oS,
+			CalendarService clS, SitterService sS, PetEndpoint pE) {
+		clientService = cS;
+		ownerService = oS;
+		userService = us;
+		petService = ps;
+		sitterService = sS;
+		objectMapper = new ObjectMapper();
+		calendarService = clS;
+		petEndpoint = pE;
 	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
@@ -129,8 +151,9 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/appointment/request", method = RequestMethod.POST)
 	public ResponseEntity<String> requestSitter(@RequestBody CalendarAppointmentDto appointment) throws ParseException, IOException{
+		appointment.setNotificationMessage("Appointmnent has been scheduled");
 		appointment.setOwnerUsername(userService.getUsername());
-		Response response = clientService.getClient().performRequest("GET", "/pets/external/_count",
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/_count",
 				Collections.<String, String>emptyMap());
 		
 		String jsonString1 = EntityUtils.toString(response.getEntity());
@@ -143,42 +166,42 @@ public class OwnerEndpoint {
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);
 		
-		Response indexResponse = clientService.getClient().performRequest(
+		clientService.getClient().performRequest(
 		        "PUT",
 		        "/calendarappointments/external/" + count,
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		
-		jsonString = "{"
-				+ "\"script\" : {"
-					+ "\"source\": \"ctx._source.notificationIds.add(params.id)\","
-					+ "\"lang\": \"painless\","
-					+ "\"params\" : {"
-						+ "\"id\" : " + count
-					+ "}"
-				+ "}"
-			+ "}";
+		UpdateRequest request1 = new UpdateRequest(
+		        "users", 
+		        "external",  
+		        appointment.getUsername());
+		UpdateRequest request2 = new UpdateRequest(
+		        "users", 
+		        "external",  
+		        appointment.getOwnerUsername());
 		
-		indexResponse = clientService.getClient().performRequest(
-		        "POST",
-		        "/users/external/" + appointment.getUsername() + "/_update",
-		        Collections.<String, String>emptyMap(),
-		        entity);
+		jsonString = "{\"notificationIds\": [\"" + count + "\"]}";
 		
-		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
-        
+		request1.doc(jsonString, XContentType.JSON);
+		request2.doc(jsonString, XContentType.JSON);
+		
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		updateResponse = clientService.getHighClient().update(request2);
+		
+		return new ResponseEntity<String>("Added " + updateResponse, HttpStatus.OK);        
 	}
 	
 	@RequestMapping(value = "/appointment/filter", method = RequestMethod.POST)
 	public ResponseEntity<String> setFilter(@RequestBody SitterSearchFilter filter){
 		sitterService.setFilter(filter);
+		isFilterUsed = true;
 		return new ResponseEntity<String>("Set", HttpStatus.OK);
 	}
 	
-	//filterUse should only be a 1 or a 0. 1 for true and 0 false.
 	@SuppressWarnings("null")
-	@RequestMapping(value = "/appointment/sort/{sortSetting}/{filerUse}", method = RequestMethod.GET)
-	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting, @PathVariable(name = "filterUse") int isSet,
+	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.GET)
+	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting,
 			@RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
 		SearchRequest searchRequest = new SearchRequest("sitter"); 
 		searchRequest.types("external");
@@ -201,7 +224,7 @@ public class OwnerEndpoint {
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
 			if (calendarService.isFree(sitter, appointment)){
 				//Using 1 here as a boolean. Input will either be a 1 or a 0
-				if(isSet == 1 && sitterService.getFilter().doesMatch(sitter)){
+				if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
 					sitterList.add(sitter);			
 				}
 			}
@@ -209,83 +232,96 @@ public class OwnerEndpoint {
 		SitterComparator comp = new SitterComparator();
 		comp.setSortType(setting);
 		comp.setZip(userService.getUser().getZip());
-		List<String> types = null;
+		List<String> types = new ArrayList<String>();
 		for(PetDto pet : petService.getPets()){
 			types.add(pet.getType());
 		}
 		comp.setTypes(types);
 		Collections.sort(sitterList, comp);
+		isFilterUsed = false;
 		return sitterList;
 	}
 	
 	@RequestMapping(value = "/appointment/cancel/{id}", method = RequestMethod.POST)
 	public ResponseEntity<String> cancelSitter(@PathVariable(name = "id") int id) throws IOException{
-		String jsonString = "{"
-								+ "\"script\" : {"
-									+ "\"source\": \"ctx._source.paymentAmount += params.amount; ctx._source.appointmentStatus = params.status;\","
-									+ "\"lang\": \"painless\","
-									+ "\"params\" : {"
-										+ "\"amount\" : 9.99,"
-										+ "\"status\" : \"CANCELLED\""
-		        					+ "}"
-		    					+ "}"
-							+ "}";
-		
-		HttpEntity entity = new NStringEntity(
-				jsonString, ContentType.APPLICATION_JSON);
-		Response indexResponse = clientService.getClient().performRequest(
-		        "POST",
-		        "/calendarBlocks/external/" + id + "/_update",
-		        Collections.<String, String>emptyMap(),
-		        entity);
-		return new ResponseEntity<String>("Cancelled " + indexResponse, HttpStatus.OK);
+		UpdateRequest request1 = new UpdateRequest(
+		        "calendarappointments", 
+		        "external",  
+		        Integer.toString(id));
+		String jsonString = "{"  
+				+ "\"paymentAmount\": \"" + 59.99 + "\","
+				+ "\"appointmentStatus\": \"CANCELLED\","
+				+ "\"notificationMessage\": \"Appointment has been cancelled\""
+				+ "}";
+
+		request1.doc(jsonString, XContentType.JSON);
+
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+
+		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addpet", method = RequestMethod.POST)
-	public ResponseEntity<String> addPet(@RequestBody PetDto pet) throws IOException {
+	public ResponseEntity<String> addPet(@RequestBody PetDto pet) throws IOException {		
 		ResponseEntity<String> res = petEndpoint.regPet(pet);
 		int id = Integer.parseInt(res.getBody());
 		
-		String jsonString = "{"
-						+ "\"doc\": {"
-							+ "\"petIds\": \"" + id + "\""
-						+ "}"
-					+ "}";
-
-		HttpEntity entity = new NStringEntity(
-		jsonString, ContentType.APPLICATION_JSON);
-		Response indexResponse = clientService.getClient().performRequest(
-		        "POST",
-		        "/owner/external/" + userService.getUsername() + "/_update",
-		        Collections.<String, String>emptyMap(),
-		        entity);
+		UpdateRequest request1 = new UpdateRequest(
+		        "owner", 
+		        "external",  
+		        userService.getUsername());
+		
+		String jsonString = "{\"petIds\": [\"" + id + "\"]}";
+		
+		request1.doc(jsonString, XContentType.JSON);
+		
+		clientService.getHighClient().update(request1);
 		
 		petService.setCurCount(0);
-		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
+		return new ResponseEntity<String>(Integer.toString(id), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/appointment/pay/{id}", method = RequestMethod.POST)
-	public  ResponseEntity<String> paySitter(@PathVariable(name = "id") int id) throws IOException{
-		String jsonString = "{"
-				+ "\"script\" : {"
-					+ "\"source\": \"ctx._source.paymentAmount = params.amount; ctx._source.appointmentStatus = params.status;\","
-					+ "\"lang\": \"painless\","
-					+ "\"params\" : {"
-						+ "\"amount\" : 0,"
-						+ "\"status\" : \"PAYED\""
-					+ "}"
-				+ "}"
-			+ "}";
+	public  ResponseEntity<String> paySitter(@PathVariable(name = "id") int id) throws IOException{		
+		UpdateRequest request1 = new UpdateRequest(
+		        "calendarappointments", 
+		        "external",  
+		        Integer.toString(id));
 		
-		HttpEntity entity = new NStringEntity(
-				jsonString, ContentType.APPLICATION_JSON);
-		Response indexResponse = clientService.getClient().performRequest(
-		        "POST",
-		        "/calendarBlocks/external/" + id + "/_update",
-		        Collections.<String, String>emptyMap(),
-		        entity);
+		String jsonString = "{"  
+								+ "\"paymentAmount\": \"" + 59.99 + "\","
+								+ "\"appointmentStatus\": \"PAYED\","
+								+ "\"notificationMessage\": \"Appointment has been payed\""
+								+ "}";
 		
-		return new ResponseEntity<String>("Payed " + indexResponse, HttpStatus.OK);
+		request1.doc(jsonString, XContentType.JSON);
+		
+		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
+		
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		
+		request1 = new UpdateRequest(
+		        "users", 
+		        "external",  
+		        appointment.getUsername());
+		UpdateRequest request2 = new UpdateRequest(
+		        "users", 
+		        "external",  
+		        appointment.getOwnerUsername());
+		
+		jsonString = "{\"notificationIds\": [\"" + id + "\"]}";
+		
+		request1.doc(jsonString, XContentType.JSON);
+		request2.doc(jsonString, XContentType.JSON);
+		
+		updateResponse = clientService.getHighClient().update(request1);
+		updateResponse = clientService.getHighClient().update(request2);
+		
+		return new ResponseEntity<String>("Payed", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
@@ -325,15 +361,15 @@ public class OwnerEndpoint {
 		userService.updateService(userService.getUsername());
 		ArrayList<CalendarAppointmentDto> notificationList = new ArrayList<CalendarAppointmentDto>();
 		for (Long id : userService.getUser().getNotificationIds()){
-			Response response = clientService.getClient().performRequest("GET", "/calendarappointment/external/" + id + "/_source",
+			Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
 			        Collections.singletonMap("pretty", "true"));
 			
 			String jsonString = EntityUtils.toString(response.getEntity());
 			
 			CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
 			notificationList.add(appointment);
-			userService.removeNotId(id);
 		}
+		userService.removeNotId();
 		userService.writeUser();
 		return notificationList;
 	}

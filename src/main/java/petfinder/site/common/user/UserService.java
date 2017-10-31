@@ -49,8 +49,8 @@ public class UserService {
 		return userDao.getUser().getUsername();
 	}
 	
-	public void removeNotId(Long id){
-		userDao.getUser().removeNotId(id);
+	public void removeNotId(){
+		userDao.getUser().removeNotId();
 	}
 	
 	public void writeUser() throws IOException {
