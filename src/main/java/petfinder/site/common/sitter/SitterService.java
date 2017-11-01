@@ -28,6 +28,10 @@ public class SitterService {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
+	public SitterService(){
+		
+	}
+	
 	public SitterService(ElasticClientService cS) {
 		sitterDao = new SitterDao();
 		clientService = cS;
