@@ -62,7 +62,23 @@ export class Login extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	var url = 'https://tempeturs-group-2.herokuapp.com/api/owner/' + this.state.username;
+    	const {username,
+    		password} = this.state;
+    		
+    	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
+    	
+    	axios.get(url, {withCredentials:true}, {
+		    username,
+		    password
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+    	
+    	url = 'https://tempeturs-group-2.herokuapp.com/api/owner/' + this.state.username;
     	
     	axios.get(url)
 		  .then(function (response) {
