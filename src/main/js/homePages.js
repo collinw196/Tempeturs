@@ -67,7 +67,7 @@ export class Login extends React.Component {
     		
     	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
     	
-    	axios.get(url, {withCredentials:true}, {
+    	axios.post(url, {withCredentials:true}, {
 		    username,
 		    password
 		  })
