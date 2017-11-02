@@ -43,7 +43,6 @@ public class UserEndpoint {
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regUser(@RequestBody UserDto user) throws IOException {
 		user.setRole("USER");
-		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 		userService.addUser(user);
 		
 		return new ResponseEntity<String>("Added to service", HttpStatus.OK);

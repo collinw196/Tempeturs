@@ -23,11 +23,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
 	
-	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -57,6 +52,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		 auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		 auth.userDetailsService(userDetailsService);
 	}
 }
