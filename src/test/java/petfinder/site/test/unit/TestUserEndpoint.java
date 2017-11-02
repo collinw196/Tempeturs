@@ -51,6 +51,8 @@ public class TestUserEndpoint {
 			e.printStackTrace();
 		}
 		user.setPassword("abc");
+		System.out.println(user.toString());
+		System.out.println(userTest.toString());
 		assertTrue(user.equals(userTest));
 	}
 
