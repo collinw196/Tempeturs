@@ -20,8 +20,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
-	@Autowired
-	BCryptPasswordEncoder bcryptEncoder;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -52,6 +50,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		 auth.userDetailsService(userDetailsService).passwordEncoder(bcryptEncoder);
+		 auth.userDetailsService(userDetailsService);
 	}
 }
