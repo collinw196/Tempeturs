@@ -59,7 +59,7 @@ public class UserDto {
 	}
 	
 	public boolean equals(UserDto value){
-		if (!(BCrypt.checkpw(password, value.getPassword()))) {
+		if (!password.equals(value.getPassword())) {
 		    return false;
 		}
 		if(firstName.equals(value.getFirstName()) && lastName.equals(value.getLastName()) &&

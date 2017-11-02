@@ -36,6 +36,10 @@ public class CalendarService {
 	@Autowired
 	private ElasticClientService clientService;
 	
+	public CalendarService(){
+		
+	}
+	
 	public CalendarService(ElasticClientService eS) {
 		appointmentDao = new CalendarAppointmentDao();
 		blockDao = new CalendarBlockDao();

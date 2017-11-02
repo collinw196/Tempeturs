@@ -16,6 +16,7 @@ import petfinder.site.common.pet.PetService;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.endpoint.OwnerEndpoint;
+import petfinder.site.endpoint.UserEndpoint;
 
 public class TestOwnerEndpoint {
 	
@@ -34,10 +35,20 @@ public class TestOwnerEndpoint {
 		List<Integer> list1 = new ArrayList<Integer>();
 		list1.add(1);
 		list1.add(2);
-		OwnerDto owner = new OwnerDto("jwild77777", list1, "333", "444", 2, 2020, "will");
-		UserDto user = new UserDto();
-		user.setUsername("jwild77777");
-		us.addUser(user);
+		UserEndpoint uP = new UserEndpoint(us);
+		List<Integer> list2 = new ArrayList<Integer>();
+		list2.add(1);
+		list2.add(2);
+		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild7777", "abc", "123 wilderness",
+				"", "", "77777", "Texas", "5555555555", "male", "owner", "USER", list2);
+		try {
+			uP.regUser(user);
+			uP.finishRegUser();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		OwnerDto owner = new OwnerDto("jwild7777", list1, "333", "444", 2, 2020, "will");
 		ps.setPets(list);
 		OwnerEndpoint oP = new OwnerEndpoint(cS, us, ps);
 		oP.regOwner(owner);
@@ -50,20 +61,26 @@ public class TestOwnerEndpoint {
 		
 		OwnerDto ownerTest = null;
 		try {
-			ownerTest = oP.findOwner("jwild77777");
+			ownerTest = oP.findOwner("jwild7777");
 		} catch (UnsupportedOperationException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		
 		try {
-			cS.getClient().performRequest("DELETE", "/owner/external/" + "jwild77777",
+			cS.getClient().performRequest("DELETE", "/owner/external/" + "jwild7777",
 					Collections.<String, String>emptyMap());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		try {
+			cS.getClient().performRequest("DELETE", "/users/external/" + "jwild7777",
+					Collections.<String, String>emptyMap());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertTrue(owner.equals(ownerTest));
 	}
 }

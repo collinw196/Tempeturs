@@ -1,9 +1,12 @@
 package petfinder.site.common.sitter;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class SitterSearchFilter {
 	private String username;
 	private String topPreference;
-	private double ratingLimit;
+	private double ratingLimit; 
 	
 	public SitterSearchFilter(){
 		username = "";

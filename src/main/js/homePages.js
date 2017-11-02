@@ -62,6 +62,31 @@ export class Login extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	const {username,
+    		password} = this.state;
+    		
+    	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
+    	
+    	axios.post(url, {withCredentials:true}, {
+		    username,
+		    password
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+    	
+    	url = 'https://tempeturs-group-2.herokuapp.com/api/owner/' + this.state.username;
+    	
+    	axios.get(url)
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
     	
     	if (this.state.type == 'owner') {
     		this.props.history.push('/owner/home');
@@ -81,7 +106,7 @@ export class Login extends React.Component {
 						Username:<br />
 						<input type="text" name="username" /><br />
 						Password:<br />
-						<input type="text" name="password" /><br />
+						<input type="password" name="password" /><br />
 						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
 						<input type="submit" value="Submit" /><br />

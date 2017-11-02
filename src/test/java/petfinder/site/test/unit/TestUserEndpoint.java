@@ -25,7 +25,7 @@ public class TestUserEndpoint {
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(1);
 		list.add(2);
-		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild77777", "abc", "123 wilderness",
+		UserDto user = new UserDto("jack", "wild", "j_wild@wild.com", "jwild7777", "abc", "123 wilderness",
 				"", "", "77777", "Texas", "5555555555", "male", "owner", "USER", list);
 		try {
 			uP.regUser(user);
@@ -37,20 +37,22 @@ public class TestUserEndpoint {
 		
 		UserDto userTest = null;
 		try {
-			userTest = uP.findUser("jwild77777");
+			userTest = uP.findUser("jwild7777");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
-			cS.getClient().performRequest("DELETE", "/users/external/" + "jwild77777",
+			cS.getClient().performRequest("DELETE", "/users/external/" + "jwild7777",
 					Collections.<String, String>emptyMap());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		user.setPassword("abc");
+		System.out.println(user.toString());
+		System.out.println(userTest.toString());
 		assertTrue(user.equals(userTest));
 	}
 

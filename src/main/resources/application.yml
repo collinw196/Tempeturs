@@ -4,6 +4,8 @@ management:
 
 ---
 spring:
+  thymeleaf:
+    prefix: classpath:/templates
   profiles: development
 
 web:

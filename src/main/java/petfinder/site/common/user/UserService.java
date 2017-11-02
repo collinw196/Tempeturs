@@ -31,6 +31,10 @@ public class UserService {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
+	public UserService(){
+		
+	}
+	
 	public UserService(ElasticClientService cS) {
 		userDao = new UserDao();
 		clientService = cS;
