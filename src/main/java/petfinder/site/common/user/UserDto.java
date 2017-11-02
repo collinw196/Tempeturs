@@ -59,7 +59,11 @@ public class UserDto {
 	}
 	
 	public boolean equals(UserDto value){
+<<<<<<< HEAD
 		if (!(password.equals(value.getPassword()))) {
+=======
+		if (!password.equals(value.getPassword())) {
+>>>>>>> branch 'master' of https://gitlab.com/fall17-group2/group-2.git
 		    return false;
 		}
 		if(firstName.equals(value.getFirstName()) && lastName.equals(value.getLastName()) &&

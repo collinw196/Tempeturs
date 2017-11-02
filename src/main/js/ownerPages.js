@@ -94,7 +94,20 @@ export class OwnerReserve extends React.Component {
 
 export class OwnerAppoint extends React.Component {
 	constructor(props) {
-	    super(props);
+        super(props);
+        this.state = {
+            message: 'Welcome'
+        };
+    }
+    
+    componentDidMount() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get')
+        .then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
     }
     
 	render() {

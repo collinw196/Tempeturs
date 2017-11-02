@@ -118,6 +118,7 @@ public class OwnerEndpoint {
 		
 		OwnerDto owner = objectMapper.readValue(jsonString, OwnerDto.class);
 		ownerService.setOwner(owner);
+		userService.updateService(username);
 		return owner;
 	}
 	
