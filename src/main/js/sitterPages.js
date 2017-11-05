@@ -36,11 +36,11 @@ export class WeekView extends React.Component{
         return(
             <div class="container">
                 <div class="row">
-                <table>
+                <table width="100%">
                 	<tr>
-                		<td>Col1</td>
-                		<td>Col2</td>
-                		<td>Col3</td>
+                		<td width="300">Col1</td>
+                		<td width="300">Col2</td>
+                		<td width="300">Col3</td>
                 	</tr>
                 </table>
             </div>
