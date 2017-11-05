@@ -38,10 +38,10 @@ export class WeekView extends React.Component{
                 <div class="row">
                 <table width="100%">
                     <tr height="10%">
-                       <input>
+                       <form onSubmit={this.handleSubmit}>
                             <input type="submit" value="<-" style="float: left;"> 
                             <input type="submit" value="->" style="float: right;">
-                       </input>
+                       </form>
                     </tr>
                 	<tr>
                 		<td width="100">Col1</td>
