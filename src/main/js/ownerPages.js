@@ -52,11 +52,23 @@ export class OwnerReserve extends React.Component {
 			appointmentStatus: 'SCHEDULED',
 			notes: '',
 			urgency: '',
-			paymentAmount: 50.00	    	
+			paymentAmount: 50.00,
+			petOptions: [],
+			sitterOptions: []	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    componentDidMount() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
+        	.then(data => {
+            	this.setState({sitterOptions: data.data});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 	
     handleChange(event) {
