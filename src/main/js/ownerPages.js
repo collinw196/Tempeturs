@@ -48,41 +48,128 @@ export class OwnerReserve extends React.Component {
 			repeatStrategy: 1,
 			notificationMessage: 'This appointment has been scheduled',
 			type: 'Appt',
-			petIds: '',
+			petIds: [],
 			appointmentStatus: 'SCHEDULED',
 			notes: '',
 			urgency: '',
 			paymentAmount: 50.00,
+			SortOption: '',
 			petOptions: [],
-			sitterOptions: []	    	
+			sitterOptions: [],
+			filterUsername: '',
+			filterPref: '',
+			filterRat: ''	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.getSitters = this.getSitters.bind(this);
+	    this.setFilter = this.setFilter.bind(this);
     }
     
     componentDidMount() {
         axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
         	.then(data => {
-            	this.setState({sitterOptions: data.data});
+            	this.setState({petOptions: data.data});
             })
             .catch(function(error) {
                 console.log(error);
             });
     }
+    
+    setFilter() {
+	    const {filterUsername,
+	    	filterPerf,
+	    	filterRat} = this.state;
+		    	
+		    axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/filter', {withCredentials:true}, {
+			    filterUsername,
+		    	filterPerf,
+		    	filterRat
+			  })
+			  .then(function (response) {
+			    console.log(response);
+			  })
+			  .catch(function (error) {
+			    console.log(error);
+			  });
+    }
+	}
+    
+    getSitters() {
+	    axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/{this.state.SortOption}')
+        	.then(data => {
+            	this.setState({sitterOptions: data.data});
+            })
+            .catch(function(error) {
+            });
+	}
 	
     handleChange(event) {
 	    const target = event.target;
 	    const value = target.value;
 	    const name = target.name;
-	
-	    this.setState({
-	      [name]: value
-	    });
+	    
+	    if(name === 'petNames'){
+	    	this.setState({
+	    		petIds: this.state.petIds.concat([value])
+	    	});
+	    } else {
+		    this.setState({
+		      [name]: value
+		    });
+		}
 	}
 	
     handleSubmit(event) {
     	event.preventDefault();
+    	const {startDay,
+			startMonth,
+			startYear,
+			endDay,
+			endMonth,
+			endYear,
+			startMin,
+			startHour,
+			endMin,
+			endHour,
+			username,
+			repeatStrategy,
+			notificationMessage,
+			type,
+			petIds,
+			appointmentStatus,
+			notes,
+			urgency,
+			paymentAmount} = this.state;
+		    	
+		    axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/request', {withCredentials:true}, {
+			    startDay,
+				startMonth,
+				startYear,
+				endDay,
+				endMonth,
+				endYear,
+				startMin,
+				startHour,
+				endMin,
+				endHour,
+				username,
+				repeatStrategy,
+				notificationMessage,
+				type,
+				petIds,
+				appointmentStatus,
+				notes,
+				urgency,
+				paymentAmount
+			  })
+			  .then(function (response) {
+			    console.log(response);
+			  })
+			  .catch(function (error) {
+			    console.log(error);
+			  });
     }
     
 	render() {
@@ -289,18 +376,37 @@ export class OwnerReserve extends React.Component {
 						Urgency:<br />
 						<select name="urgency" onChange={this.handleChange} required>
 							<option value="Casual" selected>Casual</option>
-							<option value="Necessary" selected>Necessary</option>
-							<option value="Emergency" selected>Emergency</option>
+							<option value="Necessary" >Necessary</option>
+							<option value="Emergency" >Emergency</option>
 						</select><br />
 						Pets To be Watched:<br />
-						<select id="petNames" name="petNames" onChange={this.handleChange} required>
-						</select><br />
+						{this.state.petOptions.map(e => (
+							<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}>{e.name}</input>
+	                    ))}
 					</form>
 				</div>
 				<div>
 					<form>
+						Filter Settings:
+						<input name="filterUsername" type="text" value={this.state.filterUsername} onChange={this.handleChange} /><br />
+						<input name="filterPref" type="text" value={this.state.filterPref} onChange={this.handleChange} /><br />
+						<input name="filterRat" type="text" value={this.state.filterRat} onChange={this.handleChange} /><br />
+						<input type="button" value="Set Filter" onClick={this.setFilter} /><br />
+						Sort Choice:
+						<select name="SortOption" onChange={this.handleChange} required>
+							<option value="0">1. Location 2. Rating 3. Preference</option>
+							<option value="1">1. Location 2. Preference 3. Rating</option>       
+						    <option value="2">1. Rating 2. Preference 3. Location</option>       
+						    <option value="3">1. Rating 2. Location 3. Preference</option>       
+						    <option value="4">1. Preference 2. Location 3. Rating</option>       
+						    <option value="5">1. Preference 2. Rating 3. Location</option>                  
+						</select>
+						<input type="button" value="Get Sitters" onClick={this.getSitters} /><br />
 						Options:<br />
-						<select id="sitterOptions" name="sitterChoice" onChange={this.handleChange}>
+						<select name="username" onChange={this.handleChange}>
+							{this.state.petOptions.map(e => (
+								<option value={e.username}>{e.username}</option>
+	                    	))}
 						</select><br />
 					</form>
 				</div>
