@@ -43,7 +43,8 @@ export class WeekView extends React.Component{
                 		<td width="100">
                 		    <tr>
                 		        <script>
-                                    document.write("11/7/2017");
+                		            var today = new Date();
+                                    document.write(today.getMonth() + "/" + today.getDate() + "/" + today.getYear());
                                 </script>
                             </tr>
                 		    <tr></tr>
