@@ -7,6 +7,7 @@ import { PetInfo, OwnerPayment } from 'js/ownerRegistration';
 import { SitterInfo } from 'js/sitterRegistration';
 import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd } from 'js/ownerPages';
 import { SitterHome, WeekView } from 'js/sitterPages';
+import { Notifications } from 'js/notifications';
 
 export default class Index extends React.Component {
 	render() {
@@ -26,6 +27,7 @@ export default class Index extends React.Component {
 					<Route exact path="/owner/pets/add" component={OwnerPetsAdd} />				
 					<Route exact path="/sitter/home" component={SitterHome} />
 					<Route exact path="/sitter/calendar" component={WeekView} />
+					<Route exact path="/sitter/notifications" component={Notifications} />
 				</div>
 			</HashRouter>
 		);
