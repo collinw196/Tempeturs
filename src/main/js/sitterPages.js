@@ -36,12 +36,241 @@ export class WeekView extends React.Component{
         return(
             <div class="container">
                 <div class="row">
-                <table>
-                	<tr>
-                		<td>Col1</td>
-                		<td>Col2</td>
-                		<td>Col3</td>
-                	</tr>
+                <button height="10%" type="button" align="left">Previous</button>
+                <button height="10%" type="button" align="right">Next</button>
+                <table width="100%">
+                	<tr height="90%" valign="bottom">
+                		<td width="14">
+                		    <p id="date"></p>
+                		    <script>
+                		        var today = new Date();
+                		        var par = document.getElementById("date");
+                		        par.innerHTML = (today.getMonth() + "/" + today.getDate() + "/" + today.getYear());
+                            </script>
+                        </td>
+                		<td width="14">Col2</td>
+                		<td width="14">Col3</td>
+                		<td width="14">Col4</td>
+                		<td width="14">Col5</td>
+                		<td width="14">Col6</td>
+                		<td width="14">Col7</td>
+                    </tr>
+        		    <tr>
+        		        <td width="14">Row1</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row2</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row3</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row4</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row5</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row6</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row7</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row8</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row9</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row10</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row11</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row12</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row13</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row14</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row15</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row16</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row17</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row18</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row19</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row20</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row21</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row22</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row23</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
+        		    <tr>
+        		        <td width="14">Row24</td>
+        		        <td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+                		<td width="14"></td>
+        		    </tr>
                 </table>
             </div>
         </div>
