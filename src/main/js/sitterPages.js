@@ -30,6 +30,30 @@ export class SitterHome extends React.Component {
 export class WeekView extends React.Component{
     constructor(props){
         super(props);
+        
+        this.getDateHeader = this.getDateHeader.bind(this);
+    }
+    
+    getDateHeader(offset, id){
+        var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var today = new Date();
+        var par = document.getElementById(id);
+        var day = today.getDate();
+        var month = today.getMonth();
+        var year = today.getYear();
+        for (var i = 0; i < offset; i++){
+            day++;
+            if(day > monthArr[month]){
+                day = 1;
+                month++;
+                if(month > 12){
+                    month = 1;
+                    year++;
+                }
+            }
+        }
+        par.innerHTML = (month + "/" + day + "/" + year);
+        
     }
     
     render() {
@@ -42,11 +66,7 @@ export class WeekView extends React.Component{
                 	<tr height="90%" valign="bottom">
                 		<td width="14">
                 		    <p id="date"></p>
-                		    <script>
-                		        var today = new Date();
-                		        var par = document.getElementById("date");
-                		        par.innerHTML = (today.getMonth() + "/" + today.getDate() + "/" + today.getYear());
-                            </script>
+                		   {this.getDateHeader(0, "date")}
                         </td>
                 		<td width="14">Col2</td>
                 		<td width="14">Col3</td>
