@@ -5,7 +5,7 @@ import { Home, Login } from 'js/homePages';
 import { Registration } from 'js/registrationMain';
 import { PetInfo, OwnerPayment } from 'js/ownerRegistration';
 import { SitterInfo } from 'js/sitterRegistration';
-import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd } from 'js/ownerPages';
+import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, OwnerSwitch } from 'js/ownerPages';
 import { SitterHome, WeekView } from 'js/sitterPages';
 
 export default class Index extends React.Component {
@@ -23,7 +23,8 @@ export default class Index extends React.Component {
 					<Route exact path="/owner/reserve" component={OwnerReserve} />
 					<Route exact path="/owner/appoint" component={OwnerAppoint} />
 					<Route exact path="/owner/pets" component={OwnerPets} />	
-					<Route exact path="/owner/pets/add" component={OwnerPetsAdd} />				
+					<Route exact path="/owner/pets/add" component={OwnerPetsAdd} />	
+					<Route exact path="/owner/sitterSwitch" component={OwnerSwitch} />					
 					<Route exact path="/sitter/home" component={SitterHome} />
 					<Route exact path="/sitter/calendar" component={WeekView} />
 				</div>

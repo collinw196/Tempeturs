@@ -355,6 +355,21 @@ public class OwnerEndpoint {
 		return notificationList;
 	}
 	
+	@RequestMapping(value = "/pets/get", method = RequestMethod.GET)
+	public List<PetDto> getPets() throws IOException{
+		ArrayList<PetDto> petList = new ArrayList<PetDto>();
+		for (int petId : ownerService.getOwner().getPetIds()){
+			Response response = clientService.getClient().performRequest("GET", "/pets/external/" + petId + "/_source",
+			        Collections.singletonMap("pretty", "true"));
+			
+			String jsonString = EntityUtils.toString(response.getEntity());
+			
+			PetDto pet = objectMapper.readValue(jsonString, PetDto.class);
+			petList.add(pet);
+		}
+		return petList;
+	}
+	
 	
 	
 	

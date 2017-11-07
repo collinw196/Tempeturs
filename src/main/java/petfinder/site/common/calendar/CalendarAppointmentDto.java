@@ -5,7 +5,6 @@ import java.util.List;
 public class CalendarAppointmentDto extends CalendarBlockDto {
 	private String ownerUsername;
 	private List<Integer> petIds;
-	private String acceptedStatus;
 	private String appointmentStatus;
 	private String notes;
 	private String urgency;
@@ -17,13 +16,12 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	
 	public CalendarAppointmentDto(int startDay, int startMonth, int startYear, int endDay, int endMonth,
 			int endYear, int startMin, int startHour, int endMin, int endHour, String username, int repeatStrategy,
-			String notficationMessage, String type, String ownerUsername, List<Integer> petIds, String acceptedStatus,
+			String notficationMessage, String type, String ownerUsername, List<Integer> petIds,
 			String appointmentStatus, String notes, String urgency, double paymentAmount) {
 		super(startDay, startMonth, startYear, endDay, endMonth, endYear, startMin, startHour, endMin, endHour,
 				username, repeatStrategy, notficationMessage, type);
 		this.ownerUsername = ownerUsername;
 		this.petIds = petIds;
-		this.acceptedStatus = acceptedStatus;
 		this.appointmentStatus = appointmentStatus;
 		this.notes = notes;
 		this.urgency = urgency;
@@ -49,11 +47,6 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		if (getClass() != obj.getClass())
 			return false;
 		CalendarAppointmentDto other = (CalendarAppointmentDto) obj;
-		if (acceptedStatus == null) {
-			if (other.acceptedStatus != null)
-				return false;
-		} else if (!acceptedStatus.equals(other.acceptedStatus))
-			return false;
 		if (appointmentStatus == null) {
 			if (other.appointmentStatus != null)
 				return false;
@@ -107,18 +100,6 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 	 */
 	public void setPetIds(List<Integer> petIds) {
 		this.petIds = petIds;
-	}
-	/**
-	 * @return the acceptedStatus
-	 */
-	public String getAcceptedStatus() {
-		return acceptedStatus;
-	}
-	/**
-	 * @param acceptedStatus the acceptedStatus to set
-	 */
-	public void setAcceptedStatus(String acceptedStatus) {
-		this.acceptedStatus = acceptedStatus;
 	}
 	/**
 	 * @return the appointmentStatus
