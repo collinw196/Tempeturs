@@ -93,7 +93,6 @@ export class OwnerReserve extends React.Component {
 			  .catch(function (error) {
 			    console.log(error);
 			  });
-    }
 	}
     
     getSitters() {
