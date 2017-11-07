@@ -40,7 +40,9 @@ export class WeekView extends React.Component{
                 <button height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
-                		<td width="100">Col1</td>
+                		<td width="100">Col1
+                		    <tr>Hi</tr>
+                		</td>
                 		<td width="100">Col2</td>
                 		<td width="100">Col3</td>
                 		<td width="100">Col4</td>
