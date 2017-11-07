@@ -66,6 +66,8 @@ export class Login extends React.Component {
     		password} = this.state;
     		
     	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
+    	console.log(password);
+    	console.log(username);
     	
     	axios.post(url, {withCredentials:true}, {
 		    username,
@@ -104,9 +106,9 @@ export class Login extends React.Component {
 					<h2>Sign in</h2>
 					<form onSubmit={this.handleSubmit}>
 						Username:<br />
-						<input type="text" name="username" /><br />
+						<input type="text" name="username" onChange={this.handleChange} required/><br />
 						Password:<br />
-						<input type="password" name="password" /><br />
+						<input type="password" name="password" onChange={this.handleChange} required/><br />
 						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
 						<input type="submit" value="Submit" /><br />
