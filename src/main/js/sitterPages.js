@@ -41,11 +41,20 @@ export class WeekView extends React.Component{
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
                 		<td width="100">
-                		    <p id="Day1"></p>
-                                <script>
-                                document.getElementById("Day1").innerHTML = getDate();
+                		    <tr>
+                		        <script>
+                                var now = new Date();
+                                var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+                                var date = ((now.getDate() < 10) ? "0" : "") + now.getDate();
+                                function fourdigits(number) {
+                                    return (number < 1000) ? number + 1900 : number;
+                                }
+                                today =  months[now.getMonth()] + " " +
+                                    date + ", " +
+                                    (fourdigits(now.getYear()));
+                                    document.write(today);
                                 </script>
-                		    <tr></tr>
+                            </tr>
                 		    <tr></tr>
                 		    <tr></tr>
                 		    <tr></tr>
