@@ -45,27 +45,26 @@ public class CustomUserDetailService implements UserDetailsService {
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 		SearchResponse response = null;
-		System.out.println("\n\n 2 Stop\n\n");
 		try {
 			response = clientService.getHighClient().search(searchRequest);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("\n\n 3 Stop\n\n");
 		if(response.getHits().getTotalHits() == 0){
-			System.out.println("\n\n 4 Stop\n\n");
 			throw new BadCredentialsException("Username and password not recognized");
 		}
 		
+		System.out.println("\n\n 2 Stop\n\n");
 		JSONObject json = new JSONObject(response.toString());
 		JSONObject firstHits = json.getJSONObject("hits");
+		System.out.println("\n\n 3 Stop\n\n");
 		JSONObject secondHits = firstHits.getJSONObject("hits");
 		JSONObject source = secondHits.getJSONObject("_source");
+		System.out.println("\n\n 4 Stop\n\n");
 		String jsonString = source.toString();
 		UserDto user = null;
 		
-		System.out.println("\n\n Second Stop\n\n");
 		try {
 			user = objectMapper.readValue(jsonString, UserDto.class);
 		} catch (IOException e) {
