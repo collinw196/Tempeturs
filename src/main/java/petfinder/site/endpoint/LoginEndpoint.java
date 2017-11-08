@@ -63,12 +63,16 @@ public class LoginEndpoint {
 		try {
 			auth = authenticationManager.authenticate(token);
 		} catch (BadCredentialsException  e) {
+			System.out.println("\n\n Please No\n\n");
 			throw e;
 		}
+		
+		System.out.println("\n\n Fourth Stop\n\n");
 
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		securityContext.setAuthentication(auth);
 		SecurityContextHolder.setContext(securityContext);
+		System.out.println("\n\n Fifth Stop\n\n");
 		return "Success.";
 	}
 }

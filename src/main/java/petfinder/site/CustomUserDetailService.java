@@ -35,6 +35,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("\n\nFirst Stop\n\n");
 		SearchRequest searchRequest = new SearchRequest("users"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
@@ -60,6 +61,8 @@ public class CustomUserDetailService implements UserDetailsService {
 		JSONObject source = secondHits.getJSONObject("_source");
 		String jsonString = source.toString();
 		UserDto user = null;
+		
+		System.out.println("\n\n Second Stop\n\n");
 		try {
 			user = objectMapper.readValue(jsonString, UserDto.class);
 		} catch (IOException e) {
@@ -68,9 +71,13 @@ public class CustomUserDetailService implements UserDetailsService {
 		}
         String role = user.getRole();
  
-        List<SimpleGrantedAuthority> authList = getAuthorities(role);		
+        List<SimpleGrantedAuthority> authList = getAuthorities(role);
+        
+        UserDetails authUser = new User(user.getUsername(), user.getPassword(), authList);
+        
+        System.out.println("\n\n Third Stop\n\n");
 		
-        return new User(user.getUsername(), user.getPassword(), authList);
+        return authUser;
 	}
 	
 	private List<SimpleGrantedAuthority> getAuthorities(String role) {
