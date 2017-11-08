@@ -52,6 +52,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		sourceBuilder.query(matchQueryBuilder); 
 		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
+		System.out.println("\n\n Stop -2 \n\n");
 		try {
 			response = clientService.getHighClient().search(searchRequest);
 		} catch (IOException e) {
@@ -61,7 +62,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		if(response.getHits().getTotalHits() == 0){
 			throw new BadCredentialsException("Username and password not recognized");
 		}
-		System.out.println("\n\n Stop -2 \n\n");
+
 		JSONObject json = new JSONObject(response.toString());
 		JSONObject firstHits = json.getJSONObject("hits");
 		JSONArray secondHits = firstHits.getJSONArray("hits");
