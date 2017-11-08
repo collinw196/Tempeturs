@@ -69,6 +69,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		String jsonString = source.toString();
 		UserDto user = null;
 		
+		System.out.println("\n\n Stop -2 \n\n");
 		try {
 			user = objectMapper.readValue(jsonString, UserDto.class);
 		} catch (IOException e) {
@@ -76,8 +77,11 @@ public class CustomUserDetailService implements UserDetailsService {
 			e.printStackTrace();
 		}
         String role = user.getRole();
+        
+        System.out.println("\n\n Stop -1 \n\n");
  
         List<SimpleGrantedAuthority> authList = getAuthorities(role);
+        System.out.println("\n\n Stop 0 \n\n");
         
         UserDetails authUser = new User(user.getUsername(), user.getPassword(), authList);
         
