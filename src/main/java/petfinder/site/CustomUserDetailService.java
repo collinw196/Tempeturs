@@ -45,13 +45,16 @@ public class CustomUserDetailService implements UserDetailsService {
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 		SearchResponse response = null;
+		System.out.println("\n\n 2 Stop\n\n");
 		try {
 			response = clientService.getHighClient().search(searchRequest);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("\n\n 3 Stop\n\n");
 		if(response.getHits().getTotalHits() == 0){
+			System.out.println("\n\n 4 Stop\n\n");
 			throw new BadCredentialsException("Username and password not recognized");
 		}
 		
