@@ -43,6 +43,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("\n\n Stop -3 \n\n");
 		System.out.println(username);
 		SearchRequest searchRequest = new SearchRequest("users"); 
 		searchRequest.types("external");
@@ -60,7 +61,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		if(response.getHits().getTotalHits() == 0){
 			throw new BadCredentialsException("Username and password not recognized");
 		}
-		
+		System.out.println("\n\n Stop -2 \n\n");
 		JSONObject json = new JSONObject(response.toString());
 		JSONObject firstHits = json.getJSONObject("hits");
 		JSONArray secondHits = firstHits.getJSONArray("hits");
@@ -69,7 +70,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		String jsonString = source.toString();
 		UserDto user = null;
 		
-		System.out.println("\n\n Stop -2 \n\n");
+		
 		try {
 			user = objectMapper.readValue(jsonString, UserDto.class);
 		} catch (IOException e) {
