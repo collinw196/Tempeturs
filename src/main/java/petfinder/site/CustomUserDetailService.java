@@ -60,8 +60,8 @@ public class CustomUserDetailService implements UserDetailsService {
 		JSONObject firstHits = json.getJSONObject("hits");
 		System.out.println("\n\n 3 Stop\n\n");
 		JSONObject secondHits = firstHits.getJSONObject("hits");
-		JSONObject source = secondHits.getJSONObject("_source");
 		System.out.println("\n\n 4 Stop\n\n");
+		JSONObject source = secondHits.getJSONObject("_source");
 		String jsonString = source.toString();
 		UserDto user = null;
 		
