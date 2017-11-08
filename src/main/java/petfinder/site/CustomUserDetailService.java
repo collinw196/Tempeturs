@@ -80,7 +80,8 @@ public class CustomUserDetailService implements UserDetailsService {
         List<SimpleGrantedAuthority> authList = getAuthorities(role);
         
         UserDetails authUser = new User(user.getUsername(), user.getPassword(), authList);
-		
+        
+        System.out.println("\n\n Stop One \n\n");		
         return authUser;
 	}
 	
