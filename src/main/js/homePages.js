@@ -62,16 +62,12 @@ export class Login extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {username,
-    		password} = this.state;
     		
     	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
-    	console.log(password);
-    	console.log(username);
     	
     	axios.post(url, {withCredentials:true}, {
-		    username: this.state.username.value,
-		    password: this.state.password.value
+		    username: ' + this.state.username.value + ',
+		    password: '+ this.state.password.value + '
 		  })
 		  .then(function (response) {
 		    console.log(response);
