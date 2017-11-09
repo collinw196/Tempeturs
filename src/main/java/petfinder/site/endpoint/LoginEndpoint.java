@@ -60,6 +60,7 @@ public class LoginEndpoint {
 	public String login(@RequestBody LoginDto loginDto) {		
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 		Authentication auth = null;
+		System.out.println(loginDto.getUsername());
 		try {
 			auth = authenticationManager.authenticate(token);
 		} catch (BadCredentialsException  e) {
