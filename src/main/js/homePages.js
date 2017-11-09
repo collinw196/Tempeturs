@@ -70,8 +70,8 @@ export class Login extends React.Component {
     	console.log(username);
     	
     	axios.post(url, {withCredentials:true}, {
-		    username,
-		    password
+		    username: this.state.username.value,
+		    password: this.state.password.value
 		  })
 		  .then(function (response) {
 		    console.log(response);
