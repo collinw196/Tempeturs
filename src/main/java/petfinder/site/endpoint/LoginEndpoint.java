@@ -61,7 +61,6 @@ public class LoginEndpoint {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 		Authentication auth = null;
 		try {
-			System.out.println("\n\n Stop Two \n\n");
 			auth = authenticationManager.authenticate(token);
 		} catch (BadCredentialsException  e) {
 			System.out.println("\n\n Stop 2 \n\n");

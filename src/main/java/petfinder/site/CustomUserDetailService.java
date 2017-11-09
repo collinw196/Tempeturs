@@ -52,19 +52,16 @@ public class CustomUserDetailService implements UserDetailsService {
 		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
-			System.out.println("\n\n Stop -3 \n\n");
 			response = clientService.getHighClient().search(searchRequest);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		System.out.println("\n" + response.toString());
 		if(response.getHits().getTotalHits() == 0){
 			System.out.println("\n\n Stop -2 \n\n");
 			throw new BadCredentialsException("Username and password not recognized");
 		}
-		System.out.println("\n\n Stop -1.5 \n\n");
 		JSONObject json = new JSONObject(response.toString());
 		JSONObject firstHits = json.getJSONObject("hits");
 		JSONArray secondHits = firstHits.getJSONArray("hits");
@@ -73,7 +70,6 @@ public class CustomUserDetailService implements UserDetailsService {
 		String jsonString = source.toString();
 		UserDto user = null;
 		
-		System.out.println("\n\n Stop -1 \n\n");
 		try {
 			user = objectMapper.readValue(jsonString, UserDto.class);
 		} catch (IOException e) {
@@ -83,7 +79,6 @@ public class CustomUserDetailService implements UserDetailsService {
         String role = user.getRole();
         
         List<SimpleGrantedAuthority> authList = getAuthorities(role);
-        System.out.println("\n\n Stop 0 \n\n");
         
         UserDetails authUser = new User(user.getUsername(), user.getPassword(), authList);
         

@@ -17,6 +17,7 @@ public class ElasticClientService {
 	RestHighLevelClient highClient;
 	
 	public ElasticClientService() {
+		System.out.println("\n\n Please be here. \n\n");
 		final String ACCESS_KEY = "6w9ihs67x6";
 		final String SECRET_KEY = "bjp06vix8x";
 		final String URL = "banyan-3198160.us-east-1.bonsaisearch.net";
@@ -35,6 +36,8 @@ public class ElasticClientService {
                 .build();
         
         highClient = new RestHighLevelClient(restClient);
+        
+        System.out.println("\n\n And Here \n\n");
 	}
 	
 	public RestClient getClient() {
