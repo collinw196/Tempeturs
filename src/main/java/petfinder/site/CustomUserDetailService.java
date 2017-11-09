@@ -58,8 +58,10 @@ public class CustomUserDetailService implements UserDetailsService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("\n\n Stop -2 \n\n");
+		
+		System.out.println("\n" + response.toString());
 		if(response.getHits().getTotalHits() == 0){
+			System.out.println("\n\n Stop -2 \n\n");
 			throw new BadCredentialsException("Username and password not recognized");
 		}
 		System.out.println("\n\n Stop -1.5 \n\n");
