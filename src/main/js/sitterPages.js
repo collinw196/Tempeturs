@@ -72,8 +72,9 @@ export class WeekView extends React.Component{
                 		<td width="14">Col6</td>
                 		<td width="14">Col7</td>
                     </tr>
+                    //Row 1
         		    <tr>
-        		        <td width="14">Row1</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -81,8 +82,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 2
         		    <tr>
-        		        <td width="14">Row2</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -90,8 +92,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 3
         		    <tr>
-        		        <td width="14">Row3</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -99,8 +102,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 4
         		    <tr>
-        		        <td width="14">Row4</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -108,8 +112,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 5
         		    <tr>
-        		        <td width="14">Row5</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -117,8 +122,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 6
         		    <tr>
-        		        <td width="14">Row6</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -126,8 +132,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 7
         		    <tr>
-        		        <td width="14">Row7</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -135,8 +142,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 8
         		    <tr>
-        		        <td width="14">Row8</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -144,8 +152,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 9
         		    <tr>
-        		        <td width="14">Row9</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -153,8 +162,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 10
         		    <tr>
-        		        <td width="14">Row10</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -162,8 +172,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 11
         		    <tr>
-        		        <td width="14">Row11</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -171,8 +182,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 12
         		    <tr>
-        		        <td width="14">Row12</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -180,8 +192,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 13
         		    <tr>
-        		        <td width="14">Row13</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -189,8 +202,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 14
         		    <tr>
-        		        <td width="14">Row14</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -198,8 +212,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 15
         		    <tr>
-        		        <td width="14">Row15</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -207,8 +222,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 16
         		    <tr>
-        		        <td width="14">Row16</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -216,8 +232,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 17
         		    <tr>
-        		        <td width="14">Row17</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -225,8 +242,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 18
         		    <tr>
-        		        <td width="14">Row18</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -234,8 +252,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 19
         		    <tr>
-        		        <td width="14">Row19</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -243,8 +262,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 20
         		    <tr>
-        		        <td width="14">Row20</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -252,8 +272,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 21
         		    <tr>
-        		        <td width="14">Row21</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -261,8 +282,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 22
         		    <tr>
-        		        <td width="14">Row22</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -270,8 +292,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 23
         		    <tr>
-        		        <td width="14">Row23</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
@@ -279,8 +302,9 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
+        		    //Row 24
         		    <tr>
-        		        <td width="14">Row24</td>
+        		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
