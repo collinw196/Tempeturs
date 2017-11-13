@@ -66,7 +66,7 @@ export class WeekView extends React.Component{
                 	<tr height="90%" valign="bottom">
                 		<td width="14">
                 		    <p id="date"></p>
-                		   {this.getDateHeader(0, 'date')}
+                		   <!--{this.getDateHeader(0, 'date')}-->
                         </td>
                 		<td width="14">Col2</td>
                 		<td width="14">Col3</td>
