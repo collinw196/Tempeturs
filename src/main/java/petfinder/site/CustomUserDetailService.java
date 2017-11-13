@@ -57,9 +57,7 @@ public class CustomUserDetailService implements UserDetailsService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("\n" + username + "\n");
 		if(response.getHits().getTotalHits() == 0){
-			System.out.println("\n\n Stop -2 \n\n");
 			throw new BadCredentialsException("Username and password not recognized");
 		}
 		JSONObject json = new JSONObject(response.toString());
@@ -81,8 +79,7 @@ public class CustomUserDetailService implements UserDetailsService {
         List<SimpleGrantedAuthority> authList = getAuthorities(role);
         
         UserDetails authUser = new User(user.getUsername(), user.getPassword(), authList);
-        
-        System.out.println("\n\n Stop One \n\n");		
+		
         return authUser;
 	}
 	

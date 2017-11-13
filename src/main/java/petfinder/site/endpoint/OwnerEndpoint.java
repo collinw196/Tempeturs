@@ -307,6 +307,7 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
 	public List<CalendarAppointmentDto> getAppointments() throws IOException{
+        System.out.println("\n\n" + userService.getUsername() + "\n\n");
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
@@ -316,22 +317,25 @@ public class OwnerEndpoint {
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 		SearchResponse response = null;
+        System.out.println("\n\n Stop One \n\n");
 		try {
 			response = clientService.getHighClient().search(searchRequest);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+        System.out.println("\n\n Stop Two \n\n");
 		SearchHits hits = response.getHits();
 		SearchHit[] searchHits = hits.getHits();
 		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
+        System.out.println("\n\n Stop Three \n\n");
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
 			if (calendarService.isOpen(appointment)){
 				appointmentList.add(appointment);			
 			}
 		}
+        System.out.println("\n\n Stop Four \n\n");
 		AppointmentComparator comp = new AppointmentComparator();
 		Collections.sort(appointmentList, comp);
 		return appointmentList;

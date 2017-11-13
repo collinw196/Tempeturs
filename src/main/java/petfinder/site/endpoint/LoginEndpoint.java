@@ -60,19 +60,15 @@ public class LoginEndpoint {
 	public String login(@RequestBody LoginDto loginDto) {		
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 		Authentication auth = null;
-		System.out.println(loginDto.getUsername());
 		try {
 			auth = authenticationManager.authenticate(token);
 		} catch (BadCredentialsException  e) {
-			System.out.println("\n\n Stop 2 \n\n");
 			throw e;
 		}
 
-		System.out.println("\n\n Stop Three \n\n");
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		securityContext.setAuthentication(auth);
 		SecurityContextHolder.setContext(securityContext);
-		System.out.println("\n\n Stop Four \n\n");
 		return "Success.";
 	}
 }
