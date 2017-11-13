@@ -41,7 +41,7 @@ export class Login extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	username:'',
+	    	username: '',
 	    	password: '',
 	    	type: ''
 	    };
@@ -65,16 +65,20 @@ export class Login extends React.Component {
     		
     	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
     	
-    	axios.post(url, {withCredentials:true}, {
-		    username: ' + this.state.username.value + ',
-		    password: '+ this.state.password.value + '
-		  })
-		  .then(function (response) {
-		    console.log(response);
-		  })
-		  .catch(function (error) {
-		    console.log(error);
-		  });
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/login',
+		    data: {
+		        username: this.state.username,
+		        password: this.state.password
+		    }
+		})
+		.then(function (response) {
+	      console.log(response);
+	    })
+	    .catch(function (error) {
+	      console.log(error);
+	    });
     	
     	url = 'https://tempeturs-group-2.herokuapp.com/api/owner/' + this.state.username;
     	
