@@ -82,7 +82,7 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 2
+        		    /*Row 2*/
         		    <tr>
         		        <td width="14"></td>
         		        <td width="14"></td>
@@ -92,7 +92,7 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 3
+        		    /*Row 3*/
         		    <tr>
         		        <td width="14"></td>
         		        <td width="14"></td>
@@ -102,7 +102,7 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 4
+        		    /*Row 4*/
         		    <tr>
         		        <td width="14"></td>
         		        <td width="14"></td>
