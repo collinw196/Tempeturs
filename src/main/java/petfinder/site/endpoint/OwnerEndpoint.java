@@ -21,6 +21,7 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
@@ -304,6 +305,7 @@ public class OwnerEndpoint {
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+		boolQuery.must(QueryBuilders.existsQuery("ownerUsername"));
 		boolQuery.must(QueryBuilders.matchQuery("ownerUsername", userService.getUsername()));
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
 		sourceBuilder.query(boolQuery);  
