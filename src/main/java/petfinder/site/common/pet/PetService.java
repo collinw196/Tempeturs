@@ -1,11 +1,21 @@
 package petfinder.site.common.pet;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.http.ParseException;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import petfinder.site.common.elastic.ElasticClientService;
+import petfinder.site.common.owner.OwnerService;
 
 /**
  * Created by jlutteringer on 8/23/17.
@@ -14,6 +24,12 @@ import org.springframework.stereotype.Service;
 public class PetService {
 	@Autowired
 	private PetDao petDao;
+	@Autowired
+	private OwnerService ownerService;
+	@Autowired
+	private ElasticClientService clientService;
+	@Autowired
+	private ObjectMapper objectMapper;
 	int curCount;
 	
 	public PetService() {
@@ -63,5 +79,17 @@ public class PetService {
 			list.add(pet.getId().intValue());
 		}
 		return list;
+	}
+	
+	public void updateService () throws ParseException, IOException{
+		for(int id : ownerService.getOwner().getPetIds()){
+			Response response = clientService.getClient().performRequest("GET", "/pets/external/" + id + "/_source",
+			        Collections.singletonMap("pretty", "true"));
+			
+			String jsonString = EntityUtils.toString(response.getEntity());
+			
+			PetDto pet = objectMapper.readValue(jsonString, PetDto.class);
+			addPet(pet);
+		}
 	}
 }

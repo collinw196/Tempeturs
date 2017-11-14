@@ -111,14 +111,7 @@ public class OwnerEndpoint {
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
-		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + username + "/_source",
-		        Collections.singletonMap("pretty", "true"));
-		
-		String jsonString = EntityUtils.toString(response.getEntity());
-		
-		OwnerDto owner = objectMapper.readValue(jsonString, OwnerDto.class);
-		ownerService.setOwner(owner);
-		userService.updateService(username);
+		OwnerDto owner = ownerService.updateService(username);
 		return owner;
 	}
 	

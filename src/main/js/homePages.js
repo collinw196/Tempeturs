@@ -70,7 +70,8 @@ export class Login extends React.Component {
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/login',
 		    data: {
 		        username: this.state.username,
-		        password: this.state.password
+		        password: this.state.password,
+		        type: this.state.type
 		    }
 		})
 		.then(function (response) {
