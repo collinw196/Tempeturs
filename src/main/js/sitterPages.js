@@ -72,7 +72,7 @@ export class WeekView extends React.Component{
                 		<td width="14">Col6</td>
                 		<td width="14">Col7</td>
                     </tr>
-                    /*Row 1*/
+                    <!--Row 1-->
         		    <tr>
         		        <td width="14"></td>
         		        <td width="14"></td>
