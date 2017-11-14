@@ -32,6 +32,10 @@ public class PetService {
 	private ObjectMapper objectMapper;
 	int curCount;
 	
+	public PetService(){
+		curCount = 0;
+	}
+	
 	public PetService(OwnerService oS, ElasticClientService cS) {
 		petDao = new PetDao();
 		objectMapper = new ObjectMapper();
