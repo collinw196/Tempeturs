@@ -86,9 +86,9 @@ public class OwnerEndpoint {
 		
 	}
 	
-	public OwnerEndpoint(ElasticClientService cS, UserService us, PetService ps) {
+	public OwnerEndpoint(ElasticClientService cS, UserService us, PetService ps, OwnerService oS) {
 		clientService = cS;
-		ownerService = new OwnerService();
+		ownerService = oS;
 		userService = us;
 		petService = ps;
 		sitterService = new SitterService(cS);

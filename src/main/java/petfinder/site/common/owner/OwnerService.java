@@ -27,8 +27,11 @@ public class OwnerService {
 	@Autowired
 	private UserService userService;
 	
-	public OwnerService (){
+	public OwnerService (ElasticClientService cS, UserService uS){
 		ownerDao = new OwnerDao();
+		clientService = cS;
+		userService = uS;
+		objectMapper = new ObjectMapper();
 	}
 
 	public OwnerDto getOwner() {
