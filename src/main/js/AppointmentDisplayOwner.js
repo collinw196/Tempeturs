@@ -15,8 +15,9 @@ export class OwnerApptDisplay extends React.Component {
     }
 	
 	componentDidMount() {
+		var value = this.props.location.query.blockId;
 		this.setState({
-			blockId: this.props.location.query.blockId
+			blockId: value
 		});	
 		
 		console.log(this.state.blockId);
