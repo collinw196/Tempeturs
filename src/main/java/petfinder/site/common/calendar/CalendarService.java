@@ -122,7 +122,6 @@ public class CalendarService {
 	public boolean isOpen(CalendarAppointmentDto appointment) {
 		boolean isOpen = false;
 		String value = appointment.getAppointmentStatus();
-		System.out.println(value + "\n\n\n");
 		if(value.equals("SCHEDULED") || value.equals("ACCEPTED") || value.equals("FINISHED")){
 			isOpen = true;
 		}
