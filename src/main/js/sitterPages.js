@@ -38,8 +38,8 @@ export class WeekView extends React.Component{
         var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         var today = new Date();
         var day = today.getDate();
-        var month = today.getMonth();
-        var year = today.getYear();
+        var month = today.getMonth() + 1;
+        var year = today.getFullYear();
         for (var i = 0; i < offset; i++){
             day++;
             if(day > monthArr[month - 1]){
@@ -64,20 +64,22 @@ export class WeekView extends React.Component{
                 <button height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
-                		<td width="14"></td>
-                		<td width="14">
+                		<td width="14%"></td>
+                		<td width="14%">
                 			<p>{this.getDateHeader(0)}</p>
                         </td>
-                		<td width="14">Col3</td>
-                		<td width="14">Col4</td>
-                		<td width="14">Col5</td>
-                		<td width="14">Col6</td>
-                		<td width="14">Col7</td>
-                		<td width="14">Col8</td>
+                		<td width="14%">Col3</td>
+                		<td width="14%">Col4</td>
+                		<td width="14%">Col5</td>
+                		<td width="14%">Col6</td>
+                		<td width="14%">Col7</td>
+                		<td width="14%">Col8</td>
                     </tr>
         		    <tr>
         		        <td width="14">12:00am</td>
-        		        <td width="14"></td>
+        		        <td width="14">
+        		        	<p>{this.getDateHeader(1)}</p>
+        		        </td>
         		        <td width="14"></td>
                 		<td width="14"></td>
                 		<td width="14"></td>
