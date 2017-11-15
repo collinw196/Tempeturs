@@ -41,7 +41,7 @@ export class WeekView extends React.Component{
         var year = today.getYear();
         for (var i = 0; i < offset; i++){
             day++;
-            if(day > monthArr[month]){
+            if(day > monthArr[month - 1]){
                 day = 1;
                 month++;
                 if(month > 12){
@@ -62,15 +62,14 @@ export class WeekView extends React.Component{
                 <button height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
-                		<td width="14">
-                		    <p id="date"></p>
+                		<td width="14"></td>
+                		<td width="14"><p id="date"></p>
                 		    <script>
                 		        var today = new Date();
                 		        var par = document.getElementById("date");
                 		        par.innerHTML = (today.getMonth() + '/' + today.getDate() + '/' + today.getYear());
                             </script>
                         </td>
-                		<td width="14">Col2</td>
                 		<td width="14">Col3</td>
                 		<td width="14">Col4</td>
                 		<td width="14">Col5</td>
