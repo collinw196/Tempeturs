@@ -442,7 +442,7 @@ export class OwnerAppoint extends React.Component {
 			<div className="container padded">
 				<div><h4>Current Appointments</h4></div>
 				<div id="currentAppoints">
-				{this.state.apptList[0]}
+				{this.state.apptList[0].urgency}
 				</div>
 			</div>
 		);
