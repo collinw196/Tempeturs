@@ -12,4 +12,4 @@ deploy:
  - gem install dpl
  - dpl --provider=heroku --app=$APP_NAME --api-key=$API_KEY
  only:
- - ExtendOwnerPagesPt2
+ - AddOwnerList
