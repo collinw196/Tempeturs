@@ -1,6 +1,7 @@
 package petfinder.site.common.calendar;
 
 public class CalendarBlockDto {
+
 	private Long blockId;
 	private int startDay;
 	private int startMonth;
@@ -96,6 +97,15 @@ public class CalendarBlockDto {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "CalendarBlockDto [blockId=" + blockId + ", startDay=" + startDay + ", startMonth=" + startMonth
+				+ ", startYear=" + startYear + ", endDay=" + endDay + ", endMonth=" + endMonth + ", endYear=" + endYear
+				+ ", startMin=" + startMin + ", startHour=" + startHour + ", endMin=" + endMin + ", endHour=" + endHour
+				+ ", username=" + username + ", repeatStrategy=" + repeatStrategy + ", notificationMessage="
+				+ notificationMessage + ", type=" + type + "]";
 	}
 
 	/**
