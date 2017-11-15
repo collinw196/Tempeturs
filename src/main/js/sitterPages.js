@@ -30,8 +30,6 @@ export class SitterHome extends React.Component {
 export class WeekView extends React.Component{
     constructor(props){
         super(props);
-        
-        this.getDateHeader = this.getDateHeader.bind(this);
     }
     
     getDateHeader(offset, id){
@@ -53,8 +51,8 @@ export class WeekView extends React.Component{
             }
         }
         par.innerHTML = (month + '/' + day + '/' + year);
-        
     }
+    
     
     render() {
         return(
@@ -64,16 +62,24 @@ export class WeekView extends React.Component{
                 <button height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
-                		<td width="14">Col1</td>
+                		<td width="14">
+                		    <p id="date"></p>
+                		    <script>
+                		        var today = new Date();
+                		        var par = document.getElementById("date");
+                		        par.innerHTML = (today.getMonth() + '/' + today.getDate() + '/' + today.getYear());
+                            </script>
+                        </td>
                 		<td width="14">Col2</td>
                 		<td width="14">Col3</td>
                 		<td width="14">Col4</td>
                 		<td width="14">Col5</td>
                 		<td width="14">Col6</td>
                 		<td width="14">Col7</td>
+                		<td width="14">Col8</td>
                     </tr>
-                    <!--Row 1-->
         		    <tr>
+        		        <td width="14">12:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -82,8 +88,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    /*Row 2*/
         		    <tr>
+        		        <td width="14">1:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -92,8 +98,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    /*Row 3*/
         		    <tr>
+        		        <td width="14">2:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -102,8 +108,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    /*Row 4*/
         		    <tr>
+        		        <td width="14">3:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -112,8 +118,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 5
         		    <tr>
+        		        <td width="14">4:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -122,8 +128,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 6
         		    <tr>
+        		        <td width="14">5:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -132,8 +138,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 7
         		    <tr>
+        		        <td width="14">6:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -142,8 +148,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 8
         		    <tr>
+        		        <td width="14">7:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -152,8 +158,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 9
         		    <tr>
+        		        <td width="14">8:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -162,8 +168,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 10
         		    <tr>
+        		        <td width="14">9:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -172,8 +178,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 11
         		    <tr>
+        		        <td width="14">10:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -182,8 +188,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 12
         		    <tr>
+        		        <td width="14">11:00am</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -192,8 +198,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 13
         		    <tr>
+        		        <td width="14">12:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -202,8 +208,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 14
         		    <tr>
+        		        <td width="14">1:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -212,8 +218,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 15
         		    <tr>
+        		        <td width="14">2:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -222,8 +228,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 16
         		    <tr>
+        		        <td width="14">3:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -232,8 +238,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 17
         		    <tr>
+        		        <td width="14">4:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -242,8 +248,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 18
         		    <tr>
+        		        <td width="14">5:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -252,8 +258,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 19
         		    <tr>
+        		        <td width="14">6:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -262,8 +268,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 20
         		    <tr>
+        		        <td width="14">7:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -272,8 +278,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 21
         		    <tr>
+        		        <td width="14">8:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -282,8 +288,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 22
         		    <tr>
+        		        <td width="14">9:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -292,8 +298,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 23
         		    <tr>
+        		        <td width="14">10:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
@@ -302,8 +308,8 @@ export class WeekView extends React.Component{
                 		<td width="14"></td>
                 		<td width="14"></td>
         		    </tr>
-        		    //Row 24
         		    <tr>
+        		        <td width="14">11:00pm</td>
         		        <td width="14"></td>
         		        <td width="14"></td>
                 		<td width="14"></td>
