@@ -130,7 +130,7 @@ public class SitterEndpoint {
 	
 	@RequestMapping(value = "/block/create", method = RequestMethod.POST)
 	public ResponseEntity<String> createBlock(@RequestBody CalendarBlockDto appointment) throws ParseException, IOException{
-		appointment.setUsername(userService.getUsername());
+		//appointment.setUsername(userService.getUsername());
 		appointment.setNotificationMessage("Block has been created");
 		appointment.setType("Block");
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/_count",
