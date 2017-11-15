@@ -380,7 +380,10 @@ export class OwnerReserve extends React.Component {
 						</select><br />
 						Pets To be Watched:<br />
 						{this.state.petOptions.map(e => (
-							<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}>{e.name}</input>
+							<span>
+								<h7>{e.name}</h7>
+								<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}/>
+							</span>
 	                    ))}
 					</form>
 				</div>
