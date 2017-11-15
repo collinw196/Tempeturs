@@ -439,16 +439,17 @@ export class OwnerAppoint extends React.Component {
 		});
     }
     
-    formatHour(hour) {
+    formatHour(hour, minute) {
     	var value;
+    	var min = this.formatMin(minute);
     	if(hour > 12){
     		hour - 12;
-    		value = hour + ' ' + 'PM';
+    		value = hour + ':' + min + ' ' + 'PM';
     	} else if(hour === 0){
     		hour = 12;
-    		value = hour + ' ' + 'AM';
+    		value = hour + ':' + min + ' ' + 'AM';
     	}else {
-    		value = hour + ' ' + 'AM';
+    		value = hour + ':' + min + ' ' + 'AM';
     	}
     	
     	return value;
@@ -469,8 +470,8 @@ export class OwnerAppoint extends React.Component {
 				<div><h4>Current Appointments</h4></div>
 				<div id="currentAppoints">
 				{this.state.apptList.map(e => (
-					<div> 
-						<h6>Appt ID: {e.blockId}</h6>
+					<div>
+						<Link to={'/owner/appt/display?blockId=' + e.blockId}><h6>Appt ID: {e.blockId}</h6></Link>
 						<table>
 							<tr>
 								<td> Sitter Username </td>
@@ -478,11 +479,11 @@ export class OwnerAppoint extends React.Component {
 							</tr>
 							<tr>
 								<td> Start </td>
-								<td> {e.startMonth}/{e.startMonth} @ {this.formatHour(e.startHour)}:{this.formatMin(e.startMin)}</td>
+								<td> {e.startMonth}/{e.startMonth} @ {this.formatHour(e.startHour, e.startMin)}</td>
 							</tr>
 							<tr>
 								<td> End </td>
-								<td> {e.endMonth}/{e.endMonth} @ {this.formatHour(e.endHour)}:{this.formatMin(e.endMin)}</td>
+								<td> {e.endMonth}/{e.endMonth} @ {this.formatHour(e.endHour, e.endMin)}</td>
 							</tr>
 							
 						</table>
