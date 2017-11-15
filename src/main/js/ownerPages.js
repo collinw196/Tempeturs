@@ -418,24 +418,30 @@ export class OwnerAppoint extends React.Component {
 	constructor(props) {
         super(props);
         this.state = {
-            message: 'Welcome'
+            message: 'Welcome',
+            apptList: [],
+            appName: [],
+            ownerName: [],
+            
         };
     }
     
     componentDidMount() {
         axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get')
-        .then(function (response) {
-		    console.log(response);
+        .then(data => {
+		    this.setState({apptList: data.data});
 		})
 		.catch(function (error) {
 		    console.log(error);
 		});
     }
     
+    
 	render() {
 		return (
 			<div className="container padded">
 				<div><h4>Current Appointments</h4></div>
+				<tbody>{apptList}</tbody>
 				<div id="currentAppoints">
 				</div>
 			</div>
