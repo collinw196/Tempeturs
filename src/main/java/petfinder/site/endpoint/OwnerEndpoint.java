@@ -191,6 +191,7 @@ public class OwnerEndpoint {
 		sourceBuilder.query(QueryBuilders.matchAllQuery()); 
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
 			response = clientService.getHighClient().search(searchRequest);

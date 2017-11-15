@@ -424,6 +424,9 @@ export class OwnerAppoint extends React.Component {
             message: 'Welcome',
         		apptList: []
         };
+        
+        this.formatHour = this.formatHour.bind(this);
+        this.formatMin = this.formatMin.bind(this);
     }
 
     componentDidMount() {
@@ -434,6 +437,30 @@ export class OwnerAppoint extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
+    }
+    
+    formatHour(hour) {
+    	var value;
+    	if(hour > 12){
+    		hour - 12;
+    		value = hour + ' ' + 'PM';
+    	} else if(hour === 0){
+    		hour = 12;
+    		value = hour + ' ' + 'AM';
+    	}else {
+    		value = hour + ' ' + 'AM';
+    	}
+    	
+    	return value;
+    }
+    
+    formatMin(minute){
+    	var value = minute;
+    	if(minute === 0 || minute === 5){
+    		value = '0' + minute;
+    	}
+    	
+    	return value;
     }
 
 	render() {
@@ -451,11 +478,11 @@ export class OwnerAppoint extends React.Component {
 							</tr>
 							<tr>
 								<td> Start </td>
-								<td> {e.startDay} "/" {e.startMonth} @ {e.startHour}:{e.startMin} </td>
+								<td> {e.startMonth}/{e.startMonth} @ {this.formatHour(e.startHour)}:{this.formatMin(e.startMin)}</td>
 							</tr>
 							<tr>
 								<td> End </td>
-								<td> {e.endDay} "/" {e.endMonth} @ {e.endHour}:{e.startMin} </td>
+								<td> {e.endMonth}/{e.endMonth} @ {this.formatHour(e.endHour)}:{this.formatMin(e.endMin)}</td>
 							</tr>
 							
 						</table>
