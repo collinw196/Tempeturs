@@ -443,7 +443,7 @@ export class OwnerAppoint extends React.Component {
     	var value;
     	var min = this.formatMin(minute);
     	if(hour > 12){
-    		hour - 12;
+    		hour = hour - 12;
     		value = hour + ':' + min + ' ' + 'PM';
     	} else if(hour === 0){
     		hour = 12;
@@ -479,11 +479,11 @@ export class OwnerAppoint extends React.Component {
 							</tr>
 							<tr>
 								<td> Start </td>
-								<td> {e.startMonth}/{e.startMonth} @ {this.formatHour(e.startHour, e.startMin)}</td>
+								<td> {e.startMonth}/{e.startDay} @ {this.formatHour(e.startHour, e.startMin)}</td>
 							</tr>
 							<tr>
 								<td> End </td>
-								<td> {e.endMonth}/{e.endMonth} @ {this.formatHour(e.endHour, e.endMin)}</td>
+								<td> {e.endMonth}/{e.endDay} @ {this.formatHour(e.endHour, e.endMin)}</td>
 							</tr>
 							
 						</table>

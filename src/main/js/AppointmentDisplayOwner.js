@@ -17,14 +17,16 @@ export class OwnerApptDisplay extends React.Component {
 	componentDidMount() {
 		this.setState({
 			blockId: this.props.location.query.blockId
-		});		
+		});	
+		
+		console.log(this.state.blockId);
     }
     
 	render() {
 		return (
 			<div className="container padded">
 				<div>
-					<h5>{this.state.blockId}</h5>
+					<h5>Id: {this.state.blockId}</h5>
 				</div>
 			</div>
 		);
