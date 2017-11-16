@@ -50,11 +50,11 @@ export class WeekView extends React.Component{
         for (var i = 0; i < this.state.appointments.size; i++){
         	var yearRange = this.state.appointments[i].startYear;
     		if (hour == this.state.appointments[i].startHour) {
-    			return ("Appointment Scheduled: ");
+    			return ('Appointment Scheduled: ');
     		}
     	}
     	
-    	return ("Appt Not Scheduled");
+    	return ('Appt Not Scheduled');
     } 
     
     getDateHeader(offset){
