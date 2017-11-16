@@ -55,7 +55,7 @@ export class WeekView extends React.Component{
         console.log(this.state.appointments[i].startYear);
         	var yearRange = this.state.appointments[i].startYear;
     		if (hour === this.state.appointments[i].startHour) {
-    			return ('Appointment Scheduled: \n' + appointments[i].startHour + '-' + appointments[i].endHour);
+    			return ('Appointment Scheduled: \n' + this.state.appointments[i].startHour + '-' + this.state.appointments[i].endHour);
     		}
     	}
     	
