@@ -59,7 +59,7 @@ export class WeekView extends React.Component{
     		}
     	}
     	
-    	return ('Appt Not Scheduled');
+    	return ();
     } 
     
     getDateHeader(offset){
@@ -118,62 +118,62 @@ export class WeekView extends React.Component{
         		    <tr>
         		        <td width="12%">12:00am</td>
         		        <td width="12%">{this.displayAppointmentData(0)}</td>
-        		        <td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(0)}</td>
+                		<td width="12%">{this.displayAppointmentData(0)}</td>
+                		<td width="12%">{this.displayAppointmentData(0)}</td>
+                		<td width="12%">{this.displayAppointmentData(0)}</td>
+                		<td width="12%">{this.displayAppointmentData(0)}</td>
+                		<td width="12%">{this.displayAppointmentData(0)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">1:00am</td>
-        		        <td width="12%"></td>
-        		        <td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(1)}</td>
+        		        <td width="12%">{this.displayAppointmentData(1)}</td>
+                		<td width="12%">{this.displayAppointmentData(1)}</td>
+                		<td width="12%">{this.displayAppointmentData(1)}</td>
+                		<td width="12%">{this.displayAppointmentData(1)}</td>
+                		<td width="12%">{this.displayAppointmentData(1)}</td>
+                		<td width="12%">{this.displayAppointmentData(1)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">2:00am</td>
-        		        <td width="12%"></td>
-        		        <td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(2)}</td>
+        		        <td width="12%">{this.displayAppointmentData(2)}</td>
+                		<td width="12%">{this.displayAppointmentData(2)}</td>
+                		<td width="12%">{this.displayAppointmentData(2)}</td>
+                		<td width="12%">{this.displayAppointmentData(2)}</td>
+                		<td width="12%">{this.displayAppointmentData(2)}</td>
+                		<td width="12%">{this.displayAppointmentData(2)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">3:00am</td>
-        		        <td width="12%"></td>
-        		        <td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(3)}</td>
+        		        <td width="12%">{this.displayAppointmentData(3)}</td>
+                		<td width="12%">{this.displayAppointmentData(3)}</td>
+                		<td width="12%">{this.displayAppointmentData(3)}</td>
+                		<td width="12%">{this.displayAppointmentData(3)}</td>
+                		<td width="12%">{this.displayAppointmentData(3)}</td>
+                		<td width="12%">{this.displayAppointmentData(3)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">4:00am</td>
-        		        <td width="12%"></td>
-        		        <td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(4)}</td>
+        		        <td width="12%">{this.displayAppointmentData(4)}</td>
+                		<td width="12%">{this.displayAppointmentData(4)}</td>
+                		<td width="12%">{this.displayAppointmentData(4)}</td>
+                		<td width="12%">{this.displayAppointmentData(4)}</td>
+                		<td width="12%">{this.displayAppointmentData(4)}</td>
+                		<td width="12%">{this.displayAppointmentData(4)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">5:00am</td>
-        		        <td width="12%"></td>
-        		        <td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
-                		<td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(5)}</td>
+        		        <td width="12%">{this.displayAppointmentData(5)}</td>
+                		<td width="12%">{this.displayAppointmentData(5)}</td>
+                		<td width="12%">{this.displayAppointmentData(5)}</td>
+                		<td width="12%">{this.displayAppointmentData(5)}</td>
+                		<td width="12%">{this.displayAppointmentData(5)}</td>
+                		<td width="12%">{this.displayAppointmentData(5)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">6:00am</td>
