@@ -50,8 +50,6 @@ export class WeekView extends React.Component{
     
     displayAppointmentData(hour) {
         for (var i = 0; i < this.state.appointments.length; i++){
-        console.log(this.state.appointments[i].startYear);
-        	var yearRange = this.state.appointments[i].startYear;
     		if (hour === this.state.appointments[i].startHour) {
     			return ('Appointment Scheduled: \n' + this.state.appointments[i].startHour + '-' + this.state.appointments[i].endHour);
     		}
@@ -113,7 +111,7 @@ export class WeekView extends React.Component{
                     </tr>
         		    <tr>
         		        <td width="12%">12:00am</td>
-        		        <td width="12%">{this.displayAppointmentData(0)}</td>
+        		        <td width="12%"><Link to = "sitter/appointmentInfo">{this.displayAppointmentData(0)}</td>
         		        <td width="12%">{this.displayAppointmentData(0)}</td>
                 		<td width="12%">{this.displayAppointmentData(0)}</td>
                 		<td width="12%">{this.displayAppointmentData(0)}</td>
