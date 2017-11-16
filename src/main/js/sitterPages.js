@@ -59,7 +59,7 @@ export class WeekView extends React.Component{
     		}
     	}
     	
-    	return (<RedSquare />);
+    	return ('Empty');
     } 
     
     getDateHeader(offset){
