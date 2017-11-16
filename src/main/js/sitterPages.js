@@ -32,7 +32,34 @@ export class WeekView extends React.Component{
         super(props);
         
         this.getDateHeader = this.getDateHeader.bind(this);
+        
+        this.foo();
     }
+    
+    foo() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
+        	.then(data => {
+            	this.setState({appointments: data.data});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+    
+    bar(row, col) {
+        var day = today.getDate();
+        var month = today.getMonth() + 1;
+        var year = today.getFullYear();
+        
+        for (var i = 0; i < this.state.appointments.size; i++){
+        	var yearRange = this.state.appointments[i].startYear;
+    		if (..) {
+    			return (<RedSquare />);
+    		}
+    	}
+    	
+    	return (<BlueSquare />);
+    } 
     
     getDateHeader(offset){
         var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -68,19 +95,31 @@ export class WeekView extends React.Component{
                 		<td width="14%">
                 			<p>{this.getDateHeader(0)}</p>
                         </td>
-                		<td width="14%">Col3</td>
-                		<td width="14%">Col4</td>
-                		<td width="14%">Col5</td>
-                		<td width="14%">Col6</td>
-                		<td width="14%">Col7</td>
-                		<td width="14%">Col8</td>
+                		<td width="14%">
+                			<p>{this.getDateHeader(1)}</p>
+                		</td>
+                		<td width="14%">
+                			<p>{this.getDateHeader(2)}</p>
+                		</td>
+                		<td width="14%">
+                			<p>{this.getDateHeader(3)}</p>
+                		</td>
+                		<td width="14%">
+                			<p>{this.getDateHeader(4)}</p>
+                		</td>
+                		<td width="14%">
+                			<p>{this.getDateHeader(5)}</p>
+                		</td>
+                		<td width="14%">
+                			<p>{this.getDateHeader(6)}</p>
+                		</td>
                     </tr>
         		    <tr>
         		        <td width="14%">12:00am</td>
         		        <td width="14%">
         		        	<p>{this.getDateHeader(1)}</p>
         		        </td>
-        		        <td width="14%"></td>
+        		        <td width="14%">{this.bar(4, 5)}</td>
                 		<td width="14%"></td>
                 		<td width="14%"></td>
                 		<td width="14%"></td>
