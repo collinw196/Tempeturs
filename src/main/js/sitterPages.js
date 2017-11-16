@@ -112,7 +112,7 @@ export class WeekView extends React.Component{
                     </tr>
         		    <tr>
         		        <td width="12%">12:00am</td>
-        		        <td width="12%"></td>
+        		        <td width="12%">{this.displayAppointmentData(0)}</td>
         		        <td width="12%"></td>
                 		<td width="12%"></td>
                 		<td width="12%"></td>
