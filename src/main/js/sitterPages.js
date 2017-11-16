@@ -46,14 +46,14 @@ export class WeekView extends React.Component{
             });
     }
     
-    bar(row, col) {
+    bar(hour) {
         var day = today.getDate();
         var month = today.getMonth() + 1;
         var year = today.getFullYear();
         
         for (var i = 0; i < this.state.appointments.size; i++){
         	var yearRange = this.state.appointments[i].startYear;
-    		if (..) {
+    		if (this.state.appointments[i].startHour == hour) {
     			return (<RedSquare />);
     		}
     	}
@@ -116,10 +116,8 @@ export class WeekView extends React.Component{
                     </tr>
         		    <tr>
         		        <td width="14%">12:00am</td>
-        		        <td width="14%">
-        		        	<p>{this.getDateHeader(1)}</p>
-        		        </td>
-        		        <td width="14%">{this.bar(4, 5)}</td>
+        		        <td width="14%"></td>
+        		        <td width="14%">{this.bar(0)}</td>
                 		<td width="14%"></td>
                 		<td width="14%"></td>
                 		<td width="14%"></td>
