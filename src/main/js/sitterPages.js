@@ -101,7 +101,7 @@ export class WeekView extends React.Component{
                 			<p>{this.getDateHeader(3)}</p>
                 		</td>
                 		<td width="12%">
-                			<p>{this.getDateHeaderR(4)}</p>
+                			<p>{this.getDateHeader(4)}</p>
                 		</td>
                 		<td width="12%">
                 			<p>{this.getDateHeader(5)}</p>
