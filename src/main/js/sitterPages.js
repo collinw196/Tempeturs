@@ -30,10 +30,12 @@ export class SitterHome extends React.Component {
 export class WeekView extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+	    	appointments: [],
+	    };
         
         this.getDateHeader = this.getDateHeader.bind(this);
-        
-        this.getAppointmentData();
+        this.getAppointmentData = this.getAppointmentData.bind(this);
     }
     
     getAppointmentData() {
@@ -44,15 +46,18 @@ export class WeekView extends React.Component{
             .catch(function(error) {
                 console.log(error);
             });
+            console.log(this.state.appointments);
     }
     
     displayAppointmentData(hour) {
-        /*for (var i = 0; i < this.state.appointments.size; i++){
+    	console.log(this.state.appointments.size);
+        for (var i = 0; i < this.state.appointments.size; i++){
+        console.log(this.state.appointments[i].startYear);
         	var yearRange = this.state.appointments[i].startYear;
-    		if (hour == this.state.appointments[i].startHour) {
-    			return ('Appointment Scheduled: ');
+    		if (hour === this.state.appointments[i].startHour) {
+    			return ('Appointment Scheduled: \n');
     		}
-    	}*/
+    	}
     	
     	return ('Appt Not Scheduled');
     } 
