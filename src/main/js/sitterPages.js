@@ -38,7 +38,7 @@ export class WeekView extends React.Component{
         this.getAppointmentData = this.getAppointmentData.bind(this);
     }
     
-    getAppointmentData() {
+    componentDidMount() {
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(data => {
             	this.setState({appointments: data.data});
