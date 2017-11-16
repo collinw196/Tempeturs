@@ -30,7 +30,54 @@ export class SitterHome extends React.Component {
 export class WeekView extends React.Component{
     constructor(props){
         super(props);
+        
+        this.getDateHeader = this.getDateHeader.bind(this);
+        
+        this.getAppointmentData();
     }
+    
+    getAppointmentData() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
+        	.then(data => {
+            	this.setState({appointments: data.data});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+    
+    displayAppointmentData(hour) {
+        /*for (var i = 0; i < this.state.appointments.size; i++){
+        	var yearRange = this.state.appointments[i].startYear;
+    		if (hour == this.state.appointments[i].startHour) {
+    			return ('Appointment Scheduled: ');
+    		}
+    	}*/
+    	
+    	return ('Appt Not Scheduled');
+    } 
+    
+    getDateHeader(offset){
+        var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth() + 1;
+        var year = today.getFullYear();
+        for (var i = 0; i < offset; i++){
+            day++;
+            if(day > monthArr[month - 1]){
+                day = 1;
+                month++;
+                if(month > 12){
+                    month = 1;
+                    year++;
+                }
+            }
+        }
+        var value = month + '/' + day + '/' + year;
+        return value;
+    }
+    
     
     render() {
         return(
@@ -40,236 +87,268 @@ export class WeekView extends React.Component{
                 <button height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
-                		<td width="14">
-                		    <p id="date"></p>
-                		    <script>
-                		        var today = new Date();
-                		        var par = document.getElementById("date");
-                		        par.innerHTML = (today.getMonth() + "/" + today.getDate() + "/" + today.getYear());
-                            </script>
+                		<td width="12%"></td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(0)}</p>
                         </td>
-                		<td width="14">Col2</td>
-                		<td width="14">Col3</td>
-                		<td width="14">Col4</td>
-                		<td width="14">Col5</td>
-                		<td width="14">Col6</td>
-                		<td width="14">Col7</td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(1)}</p>
+                		</td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(2)}</p>
+                		</td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(3)}</p>
+                		</td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(4)}</p>
+                		</td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(5)}</p>
+                		</td>
+                		<td width="12%">
+                			<p>{this.getDateHeader(6)}</p>
+                		</td>
                     </tr>
         		    <tr>
-        		        <td width="14">Row1</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">12:00am</td>
+        		        <td width="12%">{this.displayAppointmentData(0)}</td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row2</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">1:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row3</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">2:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row4</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">3:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row5</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">4:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row6</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">5:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row7</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">6:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row8</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">7:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row9</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">8:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row10</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">9:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row11</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">10:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row12</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">11:00am</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row13</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">12:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row14</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">1:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row15</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">2:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row16</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">3:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row17</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">4:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row18</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">5:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row19</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">6:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row20</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">7:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row21</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">8:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row22</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">9:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row23</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">10:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
         		    <tr>
-        		        <td width="14">Row24</td>
-        		        <td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
-                		<td width="14"></td>
+        		        <td width="12%">11:00pm</td>
+        		        <td width="12%"></td>
+        		        <td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
+                		<td width="12%"></td>
         		    </tr>
                 </table>
             </div>
