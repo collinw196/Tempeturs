@@ -33,11 +33,11 @@ export class WeekView extends React.Component{
         
         this.getDateHeader = this.getDateHeader.bind(this);
         
-        this.foo();
+        this.getAppointmentData();
     }
     
-    foo() {
-        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
+    getAppointmentData() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(data => {
             	this.setState({appointments: data.data});
             })
@@ -46,15 +46,15 @@ export class WeekView extends React.Component{
             });
     }
     
-    bar(hour) {
+    displayAppointmentData(hour) {
         for (var i = 0; i < this.state.appointments.size; i++){
         	var yearRange = this.state.appointments[i].startYear;
-    		if (hour <= this.appointments[i].endHour && hour >= this.appointments[i].startHour) {
-    			return (<RedSquare />);
+    		if (hour == this.state.appointments[i].startHour) {
+    			return ("Appointment Scheduled: ");
     		}
     	}
     	
-    	return (<BlueSquare />);
+    	return ("Appt Not Scheduled");
     } 
     
     getDateHeader(offset){
