@@ -13,7 +13,7 @@ public class CalendarBlockDto {
 	private int startHour;
 	private int endMin;
 	private int endHour;
-	private String username;
+	private String username; // always the sitter username
 	private int repeatStrategy;
 	private String notificationMessage;
 	private String type;
