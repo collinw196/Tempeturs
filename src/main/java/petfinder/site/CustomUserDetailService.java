@@ -9,8 +9,11 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,17 +35,21 @@ public class CustomUserDetailService implements UserDetailsService {
 	private ElasticClientService clientService;
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	public CustomUserDetailService(ElasticClientService cS){
+		clientService = cS;
+		objectMapper = new ObjectMapper();
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println(username);
 		SearchRequest searchRequest = new SearchRequest("users"); 
 		searchRequest.types("external");
-		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
-		boolQuery.must(QueryBuilders.matchQuery("username", username));
+		MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("username", username);
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
-		sourceBuilder.query(boolQuery); 
-		sourceBuilder.from(0); 
-		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		sourceBuilder.query(matchQueryBuilder); 
+		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
 			response = clientService.getHighClient().search(searchRequest);
@@ -53,13 +60,14 @@ public class CustomUserDetailService implements UserDetailsService {
 		if(response.getHits().getTotalHits() == 0){
 			throw new BadCredentialsException("Username and password not recognized");
 		}
-		
 		JSONObject json = new JSONObject(response.toString());
 		JSONObject firstHits = json.getJSONObject("hits");
-		JSONObject secondHits = firstHits.getJSONObject("hits");
-		JSONObject source = secondHits.getJSONObject("_source");
+		JSONArray secondHits = firstHits.getJSONArray("hits");
+		JSONObject thirdHits = secondHits.getJSONObject(0);
+		JSONObject source = thirdHits.getJSONObject("_source");
 		String jsonString = source.toString();
 		UserDto user = null;
+		
 		try {
 			user = objectMapper.readValue(jsonString, UserDto.class);
 		} catch (IOException e) {
@@ -67,13 +75,15 @@ public class CustomUserDetailService implements UserDetailsService {
 			e.printStackTrace();
 		}
         String role = user.getRole();
- 
-        List<SimpleGrantedAuthority> authList = getAuthorities(role);		
+        
+        List<SimpleGrantedAuthority> authList = getAuthorities(role);
+        
+        UserDetails authUser = new User(user.getUsername(), user.getPassword(), authList);
 		
-        return new User(user.getUsername(), user.getPassword(), authList);
+        return authUser;
 	}
 	
-	private List<SimpleGrantedAuthority> getAuthorities(String role) {
+	public List<SimpleGrantedAuthority> getAuthorities(String role) {
         List<SimpleGrantedAuthority> authList = new ArrayList<>();
         authList.add(new SimpleGrantedAuthority("ROLE_USER"));
  

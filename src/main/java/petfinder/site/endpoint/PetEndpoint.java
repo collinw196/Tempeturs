@@ -54,9 +54,6 @@ public class PetEndpoint {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public PetDto findPet(@PathVariable(name = "id") Long id) throws IOException {
-		if(clientService.getClient() == null) {
-			return null;
-		}
 		Response response = clientService.getClient().performRequest("GET", "/pets/external/" + id + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		

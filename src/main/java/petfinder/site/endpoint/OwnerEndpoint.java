@@ -21,6 +21,7 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
@@ -86,9 +87,9 @@ public class OwnerEndpoint {
 		
 	}
 	
-	public OwnerEndpoint(ElasticClientService cS, UserService us, PetService ps) {
+	public OwnerEndpoint(ElasticClientService cS, UserService us, PetService ps, OwnerService oS) {
 		clientService = cS;
-		ownerService = new OwnerService();
+		ownerService = oS;
 		userService = us;
 		petService = ps;
 		sitterService = new SitterService(cS);
@@ -111,14 +112,7 @@ public class OwnerEndpoint {
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
-		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + username + "/_source",
-		        Collections.singletonMap("pretty", "true"));
-		
-		String jsonString = EntityUtils.toString(response.getEntity());
-		
-		OwnerDto owner = objectMapper.readValue(jsonString, OwnerDto.class);
-		ownerService.setOwner(owner);
-		userService.updateService(username);
+		OwnerDto owner = ownerService.updateService(username);
 		return owner;
 	}
 	
@@ -310,11 +304,13 @@ public class OwnerEndpoint {
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+		boolQuery.must(QueryBuilders.existsQuery("ownerUsername"));
 		boolQuery.must(QueryBuilders.matchQuery("ownerUsername", userService.getUsername()));
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
 		sourceBuilder.query(boolQuery);  
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
 			response = clientService.getHighClient().search(searchRequest);
@@ -322,7 +318,6 @@ public class OwnerEndpoint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		SearchHits hits = response.getHits();
 		SearchHit[] searchHits = hits.getHits();
 		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
