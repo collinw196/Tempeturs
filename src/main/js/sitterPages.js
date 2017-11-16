@@ -41,7 +41,6 @@ export class WeekView extends React.Component{
     componentDidMount() {
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(data => {
-        		console.log(data);
             	this.setState({appointments: data.data});
             })
             .catch(function(error) {
@@ -50,17 +49,13 @@ export class WeekView extends React.Component{
     }
     
     displayAppointmentData(hour) {
-    	console.log(this.state.appointments);
-    	console.log(this.state.appointments.size);
-        for (var i = 0; i < this.state.appointments.size; i++){
+        for (var i = 0; i < this.state.appointments.length; i++){
         console.log(this.state.appointments[i].startYear);
         	var yearRange = this.state.appointments[i].startYear;
     		if (hour === this.state.appointments[i].startHour) {
     			return ('Appointment Scheduled: \n' + this.state.appointments[i].startHour + '-' + this.state.appointments[i].endHour);
     		}
     	}
-    	
-    	return ('');
     } 
     
     getDateHeader(offset){
