@@ -47,13 +47,9 @@ export class WeekView extends React.Component{
     }
     
     bar(hour) {
-        var day = today.getDate();
-        var month = today.getMonth() + 1;
-        var year = today.getFullYear();
-        
         for (var i = 0; i < this.state.appointments.size; i++){
         	var yearRange = this.state.appointments[i].startYear;
-    		if (this.state.appointments[i].startHour == hour) {
+    		if (hour <= this.appointments[i].endHour && hour >= this.appointments[i].startHour) {
     			return (<RedSquare />);
     		}
     	}
