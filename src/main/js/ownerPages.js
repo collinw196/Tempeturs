@@ -380,7 +380,10 @@ export class OwnerReserve extends React.Component {
 						</select><br />
 						Pets To be Watched:<br />
 						{this.state.petOptions.map(e => (
-							<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}>{e.name}</input>
+							<span>
+								<h7>{e.name}</h7>
+								<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}/>
+							</span>
 	                    ))}
 					</form>
 				</div>
@@ -418,25 +421,31 @@ export class OwnerAppoint extends React.Component {
 	constructor(props) {
         super(props);
         this.state = {
-            message: 'Welcome'
+            message: 'Welcome',
+            apptList: [],
+            appName: [],
+            ownerName: [],
+            
         };
     }
     
     componentDidMount() {
         axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get')
-        .then(function (response) {
-		    console.log(response);
+        .then(data => {
+		    this.setState({apptList: data.data});
 		})
 		.catch(function (error) {
 		    console.log(error);
 		});
     }
     
+    
 	render() {
 		return (
 			<div className="container padded">
 				<div><h4>Current Appointments</h4></div>
 				<div id="currentAppoints">
+				{this.state.apptList[0].urgency}
 				</div>
 			</div>
 		);

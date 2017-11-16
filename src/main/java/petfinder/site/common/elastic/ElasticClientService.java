@@ -35,6 +35,7 @@ public class ElasticClientService {
                 .build();
         
         highClient = new RestHighLevelClient(restClient);
+        
 	}
 	
 	public RestClient getClient() {

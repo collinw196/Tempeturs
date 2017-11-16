@@ -76,6 +76,18 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 			return false;
 		return true;
 	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + "CalendarAppointmentDto [ownerUsername=" + ownerUsername + ", petIds=" + petIds + ", appointmentStatus="
+				+ appointmentStatus + ", notes=" + notes + ", urgency=" + urgency + ", paymentAmount=" + paymentAmount
+				+ "]";
+	}
 
 	/**
 	 * @return the ownerUsername

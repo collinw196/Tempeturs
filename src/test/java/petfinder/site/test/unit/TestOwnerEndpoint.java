@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
+import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
 import petfinder.site.common.user.UserDto;
@@ -23,8 +24,9 @@ public class TestOwnerEndpoint {
 	@Test
 	public void testPutOwner() {
 		ElasticClientService cS = new ElasticClientService();
-		UserService us= new UserService(cS);
-		PetService ps = new PetService();
+		UserService us = new UserService(cS);
+		OwnerService oS = new OwnerService(cS, us);
+		PetService ps = new PetService(oS, cS);
 		List<PetDto> list = new ArrayList<PetDto>();
 		PetDto pet1 = new PetDto();
 		PetDto pet2 = new PetDto();
@@ -50,7 +52,7 @@ public class TestOwnerEndpoint {
 		}
 		OwnerDto owner = new OwnerDto("jwild7777", list1, "333", "444", 2, 2020, "will");
 		ps.setPets(list);
-		OwnerEndpoint oP = new OwnerEndpoint(cS, us, ps);
+		OwnerEndpoint oP = new OwnerEndpoint(cS, us, ps, oS);
 		oP.regOwner(owner);
 		try {
 			oP.finishRegOwner();
