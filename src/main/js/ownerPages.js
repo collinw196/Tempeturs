@@ -82,29 +82,33 @@ export class OwnerReserve extends React.Component {
 	    	filterPerf,
 	    	filterRat} = this.state;
 
-		    axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/filter', {withCredentials:true}, {
-			    filterUsername,
-		    	filterPerf,
-		    	filterRat
-			  })
-			  .then(function (response) {
-			    console.log(response);
-			  })
-			  .catch(function (error) {
-			    console.log(error);
-			  });
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/filter',
+		    data: {
+			    filterUsername: this.state.filterUsername,
+		    	filterPerf: this.state.filterPerf,
+		    	filterRat: this.state.filterRat
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
 	}
 
     getSitters() {
     	axios({
 		    method: 'GET',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + {this.state.SortOption},
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/{this.state.SortOption}',
 		    data: {
 		    	startDay: this.state.startDay,
 				startMonth: this.state.startMonth,
 				startYear: this.state.startYear,
 				endDay: this.state.endMonth,
-				endMonth: this.state.,
+				endMonth: this.state.endMonth,
 				endYear: this.state.endYear,
 				startMin: this.state.startMin,
 				startHour: this.state.startHour,
@@ -156,7 +160,7 @@ export class OwnerReserve extends React.Component {
 				startMonth: this.state.startMonth,
 				startYear: this.state.startYear,
 				endDay: this.state.endMonth,
-				endMonth: this.state.,
+				endMonth: this.state.endMonth,
 				endYear: this.state.endYear,
 				startMin: this.state.startMin,
 				startHour: this.state.startHour,
@@ -399,7 +403,7 @@ export class OwnerReserve extends React.Component {
 				</div>
 				<div>
 					<form>
-						Filter Settings:</br>
+						Filter Settings:<br />
 						Username:
 						<input name="filterUsername" type="text" value={this.state.filterUsername} onChange={this.handleChange} /><br />
 						Top Preference:
