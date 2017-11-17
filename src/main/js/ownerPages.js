@@ -414,7 +414,7 @@ export class OwnerReserve extends React.Component {
 						<input type="button" value="Set Filter" onClick={this.setFilter} /><br />
 						Sort Choice:
 						<select name="SortOption" onChange={this.handleChange} required>
-							<option value="0">1. Location 2. Rating 3. Preference</option>
+							<option value="0" selected>1. Location 2. Rating 3. Preference</option>
 							<option value="1">1. Location 2. Preference 3. Rating</option>
 						    <option value="2">1. Rating 2. Preference 3. Location</option>
 						    <option value="3">1. Rating 2. Location 3. Preference</option>

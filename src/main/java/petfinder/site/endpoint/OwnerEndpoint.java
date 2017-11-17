@@ -204,9 +204,9 @@ public class OwnerEndpoint {
 		SearchHit[] searchHits = hits.getHits();
 		ArrayList<SitterDto> sitterList = new ArrayList<SitterDto>();
 		for (SearchHit hit : searchHits){
+			System.out.println(hit.getSourceAsString());
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
 			if (calendarService.isFree(sitter, appointment)){
-				//Using 1 here as a boolean. Input will either be a 1 or a 0
 				if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
 					sitterList.add(sitter);			
 				}
@@ -222,6 +222,7 @@ public class OwnerEndpoint {
 		comp.setTypes(types);
 		Collections.sort(sitterList, comp);
 		isFilterUsed = false;
+		System.out.println("\n\n\nI got Here");
 		return sitterList;
 	}
 	
