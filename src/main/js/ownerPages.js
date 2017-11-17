@@ -96,12 +96,37 @@ export class OwnerReserve extends React.Component {
 	}
 
     getSitters() {
-	    axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/{this.state.SortOption}')
-        	.then(data => {
-            	this.setState({sitterOptions: data.data});
-            })
-            .catch(function(error) {
-            });
+    	axios({
+		    method: 'GET',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + {this.state.SortOption},
+		    data: {
+		    	startDay: this.state.startDay,
+				startMonth: this.state.startMonth,
+				startYear: this.state.startYear,
+				endDay: this.state.endMonth,
+				endMonth: this.state.,
+				endYear: this.state.endYear,
+				startMin: this.state.startMin,
+				startHour: this.state.startHour,
+				endMin: this.state.endMin,
+				endHour: this.state.endHour,
+				username: this.state.username,
+				repeatStrategy: this.state.repeatStrategy,
+				notificationMessage: this.state.notificationMessage,
+				type: this.state.type,
+				petIds: this.state.petIds,
+				appointmentStatus: this.state.appointmentStatus,
+				notes: this.state.notes,
+				urgency: this.state.urgency,
+				paymentAmount: this.state.paymentAmount
+		    }
+		})
+       	.then(data => {
+        	this.setState({sitterOptions: data.data});
+        })
+        .catch(function(error) {
+        	console.log(error);
+        });
 	}
 
     handleChange(event) {
@@ -122,53 +147,38 @@ export class OwnerReserve extends React.Component {
 
     handleSubmit(event) {
     	event.preventDefault();
-    	const {startDay,
-			startMonth,
-			startYear,
-			endDay,
-			endMonth,
-			endYear,
-			startMin,
-			startHour,
-			endMin,
-			endHour,
-			username,
-			repeatStrategy,
-			notificationMessage,
-			type,
-			petIds,
-			appointmentStatus,
-			notes,
-			urgency,
-			paymentAmount} = this.state;
 
-		    axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/appointment/request', {withCredentials:true}, {
-			    startDay,
-				startMonth,
-				startYear,
-				endDay,
-				endMonth,
-				endYear,
-				startMin,
-				startHour,
-				endMin,
-				endHour,
-				username,
-				repeatStrategy,
-				notificationMessage,
-				type,
-				petIds,
-				appointmentStatus,
-				notes,
-				urgency,
-				paymentAmount
-			  })
-			  .then(function (response) {
-			    console.log(response);
-			  })
-			  .catch(function (error) {
-			    console.log(error);
-			  });
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/request',
+		    data: {
+		    	startDay: this.state.startDay,
+				startMonth: this.state.startMonth,
+				startYear: this.state.startYear,
+				endDay: this.state.endMonth,
+				endMonth: this.state.,
+				endYear: this.state.endYear,
+				startMin: this.state.startMin,
+				startHour: this.state.startHour,
+				endMin: this.state.endMin,
+				endHour: this.state.endHour,
+				username: this.state.username,
+				repeatStrategy: this.state.repeatStrategy,
+				notificationMessage: this.state.notificationMessage,
+				type: this.state.type,
+				petIds: this.state.petIds,
+				appointmentStatus: this.state.appointmentStatus,
+				notes: this.state.notes,
+				urgency: this.state.urgency,
+				paymentAmount: this.state.paymentAmount
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
     }
 
 	render() {
@@ -389,9 +399,12 @@ export class OwnerReserve extends React.Component {
 				</div>
 				<div>
 					<form>
-						Filter Settings:
+						Filter Settings:</br>
+						Username:
 						<input name="filterUsername" type="text" value={this.state.filterUsername} onChange={this.handleChange} /><br />
+						Top Preference:
 						<input name="filterPref" type="text" value={this.state.filterPref} onChange={this.handleChange} /><br />
+						Rating Limit:
 						<input name="filterRat" type="text" value={this.state.filterRat} onChange={this.handleChange} /><br />
 						<input type="button" value="Set Filter" onClick={this.setFilter} /><br />
 						Sort Choice:
