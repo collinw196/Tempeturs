@@ -100,9 +100,10 @@ export class OwnerReserve extends React.Component {
 	}
 
     getSitters() {
+    var urlValue = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + this.state.SortOption;
     	axios({
 		    method: 'GET',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + this.state.SortOption,
+		    url: urlValue,
 		    data: {
 		    	startDay: this.state.startDay,
 				startMonth: this.state.startMonth,
@@ -385,7 +386,7 @@ export class OwnerReserve extends React.Component {
 						    <option value="45">45</option>
 						    <option value="50">50</option>
 						    <option value="55">55</option>
-						</select>
+						</select><br />
 						Urgency:<br />
 						<select name="urgency" onChange={this.handleChange} required>
 							<option value="Casual" selected>Casual</option>
