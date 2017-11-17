@@ -102,7 +102,7 @@ export class OwnerReserve extends React.Component {
     getSitters() {
     	axios({
 		    method: 'GET',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/{this.state.SortOption}',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + this.state.SortOption,
 		    data: {
 		    	startDay: this.state.startDay,
 				startMonth: this.state.startMonth,
