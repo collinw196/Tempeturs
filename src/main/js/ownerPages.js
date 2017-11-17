@@ -103,7 +103,7 @@ export class OwnerReserve extends React.Component {
     	var urlValue = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + this.state.SortOption;
     	console.log(this.state);
     	axios({
-		    method: 'GET',
+		    method: 'POST',
 		    url: urlValue,
 		    data: {
 		    	startDay: this.state.startDay,

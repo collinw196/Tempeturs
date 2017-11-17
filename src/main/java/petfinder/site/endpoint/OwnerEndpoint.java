@@ -181,8 +181,7 @@ public class OwnerEndpoint {
 		return new ResponseEntity<String>("Set", HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("null")
-	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.GET)
+	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.POST)
 	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting,
 			@RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
 		System.out.println("\n\n\nI got Here");
