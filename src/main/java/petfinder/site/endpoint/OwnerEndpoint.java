@@ -185,6 +185,7 @@ public class OwnerEndpoint {
 	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.GET)
 	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting,
 			@RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
+		System.out.println("\n\n\nI got Here");
 		SearchRequest searchRequest = new SearchRequest("sitter"); 
 		searchRequest.types("external");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
@@ -203,8 +204,8 @@ public class OwnerEndpoint {
 		SearchHits hits = response.getHits();
 		SearchHit[] searchHits = hits.getHits();
 		ArrayList<SitterDto> sitterList = new ArrayList<SitterDto>();
+		System.out.println("\n\n\n" + searchHits.length);
 		for (SearchHit hit : searchHits){
-			System.out.println(hit.getSourceAsString());
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
 			if (calendarService.isFree(sitter, appointment)){
 				if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
@@ -222,7 +223,6 @@ public class OwnerEndpoint {
 		comp.setTypes(types);
 		Collections.sort(sitterList, comp);
 		isFilterUsed = false;
-		System.out.println("\n\n\nI got Here");
 		return sitterList;
 	}
 	
