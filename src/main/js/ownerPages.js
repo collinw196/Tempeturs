@@ -34,16 +34,16 @@ export class OwnerReserve extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	startDay: '',
-			startMonth: '',
+	    	startDay: 1,
+			startMonth: 1,
 			startYear: '',
-			endDay: '',
-			endMonth: '',
+			endDay: 1,
+			endMonth: 1,
 			endYear: '',
-			startMin: '',
-			startHour: '',
-			endMin: '',
-			endHour: '',
+			startMin: 0,
+			startHour: 0,
+			endMin: 0,
+			endHour: 1,
 			username: '',
 			repeatStrategy: 1,
 			notificationMessage: 'This appointment has been scheduled',
@@ -53,7 +53,7 @@ export class OwnerReserve extends React.Component {
 			notes: '',
 			urgency: '',
 			paymentAmount: 50.00,
-			SortOption: '',
+			SortOption: 0,
 			petOptions: [],
 			sitterOptions: [],
 			filterUsername: '',
@@ -100,7 +100,8 @@ export class OwnerReserve extends React.Component {
 	}
 
     getSitters() {
-    var urlValue = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + this.state.SortOption;
+    	var urlValue = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/sort/' + this.state.SortOption;
+    	console.log(this.state);
     	axios({
 		    method: 'GET',
 		    url: urlValue,
