@@ -27,34 +27,6 @@ export class SitterHome extends React.Component {
 	}
 }
 
-export class AppointmentView extends React.Component{
-	constructor(props) {
-	    super(props);
-	    this.state = {
-	    	blockId: ''
-	    };
-    }
-	
-	componentDidMount() {
-		var value = this.props.location.query.blockId;
-		this.setState({
-			blockId: value
-		});	
-		
-		console.log(this.state.blockId);
-    }
-    
-	render() {
-		return (
-			<div className="container padded">
-				<div>
-					<h5>Id: {this.state.blockId}</h5>
-				</div>
-			</div>
-		);
-	}
-}
-
 export class WeekView extends React.Component{
     constructor(props){
         super(props);
