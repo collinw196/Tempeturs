@@ -28,6 +28,18 @@ export class SitterHome extends React.Component {
 	}
 }
 
+export class AppointmentView extends React.Component{
+	constructor(props){
+		super(props);
+	}
+	
+	render() {
+		return (
+			
+		);
+	}
+}
+
 export class WeekView extends React.Component{
     constructor(props){
         super(props);
