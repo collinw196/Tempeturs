@@ -29,7 +29,7 @@ export default class Index extends React.Component {
 					<Route exact path="/owner/appt/display" component={OwnerApptDisplay} />			
 					<Route exact path="/sitter/home" component={SitterHome} />
 					<Route exact path="/sitter/calendar" component={WeekView} />
-					<Route exact path="/sitter/appointmentInfo" component={AppointmentView} />
+					<Route exact path="/sitter/calendar/appointmentInfo" component={AppointmentView} />
 				</div>
 			</HashRouter>
 		);
