@@ -35,7 +35,11 @@ export class AppointmentView extends React.Component{
 	
 	render() {
 		return (
-			
+			<div className="container padded">
+				<div>
+					<h5> </h5>
+				</div>
+			</div>
 		);
 	}
 }
