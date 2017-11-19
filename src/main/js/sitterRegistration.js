@@ -32,26 +32,23 @@ export class SitterInfo extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {accnumber,
-    		rounumber,
-    		pettype1,
-    		pettype2,
-    		pettype3} = this.state;
-    	
-    	axios.post('https://tempeturs-group-2.herokuapp.com/api/sitter/reg', {withCredentials:true}, {
-		    accnumber,
-    		rounumber,
-    		pettype1,
-    		pettype2,
-    		pettype3
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/reg',
+		    data: {
+			    accnumber: this.state.accnumber,
+		    	rounumber: this.state.rounumber,
+		    	pettype1: this.state.pettype1,
+		    	pettype2: this.state.pettype2,
+		    	pettype3: this.state.pettype3
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
-		  
+		});		  
 		  
     	this.props.history.push('/');
     }

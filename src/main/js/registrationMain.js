@@ -60,42 +60,31 @@ export class Registration extends React.Component {
 	    	});
 	    	location.reload();
 	    } else {
-	    	const {firstName,
-		    	lastName,
-		    	email,
-		    	username,
-		    	password,
-		    	repassword,
-		    	street1,
-		    	street2,
-		    	po,
-		    	zip,
-		    	state,
-		    	phone,
-		    	gender,
-		    	type} = this.state;
-		    	
-		    axios.post('https://tempeturs-group-2.herokuapp.com/api/user/reg', {withCredentials:true}, {
-			    firstName,
-		    	lastName,
-		    	email,
-		    	username,
-		    	password,
-		    	street1,
-		    	street2,
-		    	po,
-		    	zip,
-		    	state,
-		    	phone,
-		    	gender,
-		    	type
-			  })
-			  .then(function (response) {
+		    axios({
+			    method: 'POST',
+			    url: 'https://tempeturs-group-2.herokuapp.com/api/user/reg',
+			    data: {
+			    	firstName: this.state.firstName,
+			    	lastName: this.state.lastName,
+			    	email: this.state.email,
+			    	username: this.state.username,
+			    	password: this.state.password,
+			    	street1: this.state.street1,
+			    	street2: this.state.street2,
+			    	po: this.state.po,
+			    	zip: this.state.zip,
+			    	state: this.state.state,
+			    	phone: this.state.phone,
+			    	gender: this.state.gender,
+			    	type: this.state.type
+			    }
+			})
+			.then(function (response) {
 			    console.log(response);
-			  })
-			  .catch(function (error) {
+			})
+			.catch(function (error) {
 			    console.log(error);
-			  });
+			});
 			  
 	    	if (this.state.type == 'owner') {
 	    		this.props.history.push('/reg/owner');

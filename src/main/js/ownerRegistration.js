@@ -51,23 +51,22 @@ export class PetInfo extends React.Component {
     }
     
     pushData() {
-    	const {petname,
-    		pettype,
-    		age,
-    		notes} = this.state;
-    	
-    	axios.post('/api/pet/reg', {withCredentials:true}, {
-		    petname,
-    		pettype,
-    		age,
-    		notes
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg',
+		    data: {
+			    petname: this.state.petname,
+	    		pettype: this.state.pettype,
+	    		age: this.state.age,
+	    		notes: this.state.notes
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
+		});
 	}
 		  
     
@@ -131,26 +130,23 @@ export class OwnerPayment extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {crenumber,
-    		ccvnumber,
-    		expdatemonth,
-    		expdateyear,
-    		cardname} = this.state;
-    		
-    		
-    	axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {withCredentials:true}, {
-		    crenumber,
-    		ccvnumber,
-    		expdatemonth,
-    		expdateyear,
-    		cardname
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg',
+		    data: {
+			    crenumber: this.state.crenumber,
+	    		ccvnumber: this.state.ccvnumber,
+	    		expdatemonth: this.state.expdatemonth,
+	    		expdateyear: this.state.expdateyear,
+	    		cardname: this.state.cardname
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
+		});
 		  
 		  
     	this.props.history.push('/');
