@@ -129,6 +129,7 @@ export class OwnerReserve extends React.Component {
 		})
        	.then(data => {
         	this.setState({sitterOptions: data.data});
+        	console.log(sitterOptions);
         })
         .catch(function(error) {
         	console.log(error);
@@ -425,7 +426,7 @@ export class OwnerReserve extends React.Component {
 						<input type="button" value="Get Sitters" onClick={this.getSitters} /><br />
 						Options:<br />
 						<select name="username" onChange={this.handleChange}>
-							{this.state.petOptions.map(e => (
+							{this.state.sitterOptions.map(e => (
 								<option value={e.username}>{e.username}</option>
 	                    	))}
 						</select><br />
