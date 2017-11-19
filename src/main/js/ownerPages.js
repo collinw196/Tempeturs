@@ -129,7 +129,7 @@ export class OwnerReserve extends React.Component {
 		})
        	.then(data => {
         	this.setState({sitterOptions: data.data});
-        	console.log(sitterOptions);
+        	console.log(this.state.sitterOptions);
         })
         .catch(function(error) {
         	console.log(error);
