@@ -186,6 +186,7 @@ export class OwnerReserve extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
+		this.props.history.push('/owner/home');
     }
 
 	render() {
@@ -405,7 +406,7 @@ export class OwnerReserve extends React.Component {
 					</form>
 				</div>
 				<div>
-					<form>
+					<form onSubmit={this.handleSubmit}>
 						Filter Settings:<br />
 						Username:
 						<input name="filterUsername" type="text" value={this.state.filterUsername} onChange={this.handleChange} /><br />
