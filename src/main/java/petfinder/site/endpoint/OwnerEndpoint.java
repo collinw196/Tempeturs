@@ -181,8 +181,7 @@ public class OwnerEndpoint {
 		return new ResponseEntity<String>("Set", HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("null")
-	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.GET)
+	@RequestMapping(value = "/appointment/sort/{sortSetting}", method = RequestMethod.POST)
 	public List<SitterDto> sortSitters(@PathVariable(name = "sortSetting") int setting,
 			@RequestBody CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException{
 		SearchRequest searchRequest = new SearchRequest("sitter"); 
@@ -206,7 +205,6 @@ public class OwnerEndpoint {
 		for (SearchHit hit : searchHits){
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
 			if (calendarService.isFree(sitter, appointment)){
-				//Using 1 here as a boolean. Input will either be a 1 or a 0
 				if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
 					sitterList.add(sitter);			
 				}
