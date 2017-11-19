@@ -162,7 +162,7 @@ export class OwnerReserve extends React.Component {
 		    	startDay: this.state.startDay,
 				startMonth: this.state.startMonth,
 				startYear: this.state.startYear,
-				endDay: this.state.endMonth,
+				endDay: this.state.endDay,
 				endMonth: this.state.endMonth,
 				endYear: this.state.endYear,
 				startMin: this.state.startMin,
