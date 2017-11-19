@@ -430,6 +430,7 @@ export class OwnerReserve extends React.Component {
 								<option value={e.username}>{e.username}</option>
 	                    	))}
 						</select><br />
+						<input type="submit" value="Submit" /><br />
 					</form>
 				</div>
 			</div>
