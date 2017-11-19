@@ -296,7 +296,7 @@ export class OwnerReserve extends React.Component {
 
 						<h7>End Date of Appointment:</h7><br />
 						Month:
-						<select name="endtMonth" onChange={this.handleChange} required>
+						<select name="endMonth" onChange={this.handleChange} required>
 							<option value="1">January</option>
 						    <option value="2">February</option>
 						    <option value="3">March</option>
@@ -313,7 +313,7 @@ export class OwnerReserve extends React.Component {
 						Day:
 						<select name="endDay" onChange={this.handleChange} required>
 							<option value="1">1</option>
-						    <option value="21">2</option>
+						    <option value="2">2</option>
 						    <option value="3">3</option>
 						    <option value="4">4</option>
 						    <option value="5">5</option>
