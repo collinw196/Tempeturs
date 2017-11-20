@@ -28,37 +28,27 @@ export class Registration extends React.Component {
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
-	    this.validatePassword = this.validatePassword.bind(this);
     }
-    
-    validatePassword(){
-    	var password = document.getElementById('password'),
-    		confirm_password = document.getElementById('confirm_password');
-	    if(password.value != confirm_password.value) {
-	    	confirm_password.setCustomValidity('Passwords Don\'t Match');
-	    } else {
-	    	confirm_password.setCustomValidity('');
-	    }
-	}
     
      handleChange(event) {
 	    const target = event.target;
 	    const value = target.value;
 	    const name = target.name;
-	
-	    this.setState({
-	      [name]: value
-	    });
+	    
+	    else { 
+		    this.setState({
+		      [name]: value
+		    });
+		}
 	}
 	
     handleSubmit(event) {
     	event.preventDefault();
     	if(this.state.password !== this.state.repassword) {
-    			this.setState({
-	      		password: '',
-	    		repassword: ''   
-	    	});
-	    	location.reload();
+			this.setState({
+      			password: '',
+    			repassword: ''   
+    		});
 	    } else {
 		    axios({
 			    method: 'POST',
@@ -112,7 +102,7 @@ export class Registration extends React.Component {
 						Password:<br />
 						<input name="password" id="password" type="password" value={this.state.password} onChange={this.handleChange} required /><br />
 						Reenter Password:<br />
-						<input name="repassword" id="confirm-password" type="password" value={this.state.repassword} onChange={this.validatePassword} required /><br />
+						<input name="repassword" id="confirm-password" type="password" value={this.state.repassword} onChange={this.handleChange} required /><br />
 						
 						
 						Address:<br />
