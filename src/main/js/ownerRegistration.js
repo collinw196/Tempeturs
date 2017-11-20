@@ -9,8 +9,8 @@ export class PetInfo extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	petname: '',
-	    	pettype: '',
+	    	name: '',
+	    	type: '',
 	    	age: '',
 	    	notes: ''	    	
 	    };
@@ -36,8 +36,8 @@ export class PetInfo extends React.Component {
     	
     	this.pushData();
     	this.setState({
-	      	petname: '',
-	    	pettype: '',
+	      	name: '',
+	    	type: '',
 	    	age: '',
 	    	notes: ''	   
 	    });
@@ -51,23 +51,22 @@ export class PetInfo extends React.Component {
     }
     
     pushData() {
-    	const {petname,
-    		pettype,
-    		age,
-    		notes} = this.state;
-    	
-    	axios.post('/api/pet/reg', {withCredentials:true}, {
-		    petname,
-    		pettype,
-    		age,
-    		notes
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg',
+		    data: {
+			    name: this.state.name,
+	    		type: this.state.type,
+	    		age: this.state.age,
+	    		notes: this.state.notes
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
+		});
 	}
 		  
     
@@ -79,9 +78,9 @@ export class PetInfo extends React.Component {
 					<h5>Pet Information</h5>
 					<form onSubmit={this.handleSubmit}>
 						Pet Name:<br />
-						<input name="petname" type="text" value={this.state.petname} onChange={this.handleChange} required /><br />
+						<input name="name" type="text" value={this.state.name} onChange={this.handleChange} required /><br />
 						Pet Type:<br />
-						<select name="pettype" onChange={this.handleChange} required>
+						<select name="type" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
@@ -131,29 +130,59 @@ export class OwnerPayment extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {crenumber,
-    		ccvnumber,
-    		expdatemonth,
-    		expdateyear,
-    		cardname} = this.state;
-    		
-    		
-    	axios.post('https://tempeturs-group-2.herokuapp.com/api/owner/reg', {withCredentials:true}, {
-		    crenumber,
-    		ccvnumber,
-    		expdatemonth,
-    		expdateyear,
-    		cardname
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg',
+		    data: {
+			    crenumber: this.state.crenumber,
+	    		ccvnumber: this.state.ccvnumber,
+	    		expdatemonth: this.state.expdatemonth,
+	    		expdateyear: this.state.expdateyear,
+	    		cardname: this.state.cardname
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/user/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
 		  
 		  
-    	this.props.history.push('/');
+    	this.props.history.push('/login');
     }
     
 	render() {
