@@ -48,9 +48,20 @@ export class SitterInfo extends React.Component {
 		})
 		.catch(function (error) {
 		    console.log(error);
-		});		  
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});  
 		  
-    	this.props.history.push('/');
+    	this.props.history.push('/login');
     }
 	render() {
 		return (
