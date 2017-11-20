@@ -35,11 +35,9 @@ export class Registration extends React.Component {
 	    const value = target.value;
 	    const name = target.name;
 	    
-	    else { 
-		    this.setState({
-		      [name]: value
-		    });
-		}
+	    this.setState({
+	      [name]: value
+	    });
 	}
 	
     handleSubmit(event) {
