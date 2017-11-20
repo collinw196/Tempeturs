@@ -9,8 +9,8 @@ export class PetInfo extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	petname: '',
-	    	pettype: '',
+	    	name: '',
+	    	type: '',
 	    	age: '',
 	    	notes: ''	    	
 	    };
@@ -36,8 +36,8 @@ export class PetInfo extends React.Component {
     	
     	this.pushData();
     	this.setState({
-	      	petname: '',
-	    	pettype: '',
+	      	name: '',
+	    	type: '',
 	    	age: '',
 	    	notes: ''	   
 	    });
@@ -55,8 +55,8 @@ export class PetInfo extends React.Component {
 		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg',
 		    data: {
-			    petname: this.state.petname,
-	    		pettype: this.state.pettype,
+			    name: this.state.name,
+	    		type: this.state.type,
 	    		age: this.state.age,
 	    		notes: this.state.notes
 		    }
@@ -78,9 +78,9 @@ export class PetInfo extends React.Component {
 					<h5>Pet Information</h5>
 					<form onSubmit={this.handleSubmit}>
 						Pet Name:<br />
-						<input name="petname" type="text" value={this.state.petname} onChange={this.handleChange} required /><br />
+						<input name="name" type="text" value={this.state.name} onChange={this.handleChange} required /><br />
 						Pet Type:<br />
-						<select name="pettype" onChange={this.handleChange} required>
+						<select name="type" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>

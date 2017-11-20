@@ -9,11 +9,11 @@ export class SitterInfo extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	accnumber: '',
-	    	rounumber: '',
-	    	pettype1: '',
-	    	pettype2: '',
-	    	pettype3: ''	    	
+	    	accountNumber: '',
+	    	routingNumber: '',
+	    	preference1: '',
+	    	preference2: '',
+	    	preference3: ''	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -36,11 +36,11 @@ export class SitterInfo extends React.Component {
 		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/reg',
 		    data: {
-			    accnumber: this.state.accnumber,
-		    	rounumber: this.state.rounumber,
-		    	pettype1: this.state.pettype1,
-		    	pettype2: this.state.pettype2,
-		    	pettype3: this.state.pettype3
+			    accountNumber: this.state.accountNumber,
+		    	routingNumber: this.state.routingNumber,
+		    	preference1: this.state.preference1,
+		    	preference2: this.state.preference2,
+		    	preference3: this.state.preference3
 		    }
 		})
 		.then(function (response) {
@@ -81,11 +81,11 @@ export class SitterInfo extends React.Component {
 					<h5>Pet Sitter Information</h5>
 					<form onSubmit={this.handleSubmit}>
 						Payment Account Number:<br />
-						<input name="accnumber" type="number" value={this.state.accnumber} onChange={this.handleChange} required /><br />
+						<input name="accountNumber" type="number" value={this.state.accountNumber} onChange={this.handleChange} required /><br />
 						Payment Routing Number:<br />
-						<input name="rounumber" type="number" value={this.state.rounumber} onChange={this.handleChange} required /><br />
+						<input name="routingNumber" type="number" value={this.state.routingNumber} onChange={this.handleChange} required /><br />
 						Pet Preference 1:<br />
-						<select name="pettype1" onChange={this.handleChange} required>
+						<select name="preference1" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
@@ -94,7 +94,7 @@ export class SitterInfo extends React.Component {
 							<option value="fish" >Fish</option>
 						</select><br />
 						Pet Preference 2:<br />
-						<select name="pettype2" onChange={this.handleChange} required>
+						<select name="preference2" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
@@ -103,7 +103,7 @@ export class SitterInfo extends React.Component {
 							<option value="fish" >Fish</option>
 						</select><br />
 						Pet Preference 3:<br />
-						<select name="pettype3" onChange={this.handleChange} required>
+						<select name="preference3" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
