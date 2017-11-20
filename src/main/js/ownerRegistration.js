@@ -150,6 +150,28 @@ export class OwnerPayment extends React.Component {
 		
 		axios({
 		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/user/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+		axios({
+		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg/finish',
 		})
 		.then(function (response) {
