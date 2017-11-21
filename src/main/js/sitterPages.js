@@ -39,12 +39,6 @@ export class AppointmentView extends React.Component{
 			<div className="container padded">
 				<div>
 					
-					this.state.petOptions.map(e => (
-							<span>
-								<h7>{e.name}</h7>
-								<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}/>
-							</span>
-	                    ))
 				</div>
 			</div>
 		);
