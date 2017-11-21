@@ -143,13 +143,13 @@ export class WeekView extends React.Component{
                     </tr>
         		    <tr>
         		        <td width="12%">12:00am</td>
-        		        <td width="12%">{this.displayAppointmentData(0)}</td>
-        		        <td width="12%">{this.displayAppointmentData(0)}</td>
-                		<td width="12%">{this.displayAppointmentData(0)}</td>
-                		<td width="12%">{this.displayAppointmentData(0)}</td>
-                		<td width="12%">{this.displayAppointmentData(0)}</td>
-                		<td width="12%">{this.displayAppointmentData(0)}</td>
-                		<td width="12%">{this.displayAppointmentData(0)}</td>
+        		        <td width="12%">{this.displayAppointmentData(0, 0)}</td>
+        		        <td width="12%">{this.displayAppointmentData(0, 1)}</td>
+                		<td width="12%">{this.displayAppointmentData(0, 2)}</td>
+                		<td width="12%">{this.displayAppointmentData(0, 3)}</td>
+                		<td width="12%">{this.displayAppointmentData(0, 4)}</td>
+                		<td width="12%">{this.displayAppointmentData(0, 5)}</td>
+                		<td width="12%">{this.displayAppointmentData(0, 6)}</td>
         		    </tr>
         		    <tr>
         		        <td width="12%">1:00am</td>
