@@ -56,7 +56,7 @@ export class WeekView extends React.Component{
         super(props);
         this.state = {
 	    	appointments: []
-	    	var today = new Array(24);
+	    	today: [24];
 	    };
         
         this.getDateHeader = this.getDateHeader.bind(this);
