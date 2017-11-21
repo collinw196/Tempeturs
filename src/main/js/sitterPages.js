@@ -50,14 +50,15 @@ export class WeekView extends React.Component{
         super(props);
         this.state = {
 	    	appointments: [],
-	    	week: [24][7]
+	    	week: [24][7],
+	    	
+	    	for (var i = 0; i < week.length; i++) {
+        		for(var j = 0; j < week[i].length; j++) {
+        			week[i][j] = new Object();
+        		}
+        	}
 	    };
 	    
-        for (var i = 0; i < week.length; i++) {
-        	for(var j = 0; j < week[i].length; j++) {
-        		week[i][j] = new Object();
-        	}
-        }
         
         this.getDateHeader = this.getDateHeader.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
