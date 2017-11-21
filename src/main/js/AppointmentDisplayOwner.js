@@ -10,26 +10,31 @@ export class OwnerApptDisplay extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	blockId: ''
+	    	appointment: ''
 	    };
     }
 	
 	componentDidMount() {
 		const search = this.props.location.search;
 		const params = new URLSearchParams(search);
-		const value = params.get('blockId');
-		this.setState({
-			blockId: value
-		});	
+		const blockId = params.get('blockId');
 		
-		console.log(this.state.blockId);
+		var url = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + blockId;
+    	
+    	axios.get(url)
+		.then(data => {
+        	this.setState({appointment: data.data});
+        })
+		.catch(function (error) {
+		    console.log(error);
+		});
     }
     
 	render() {
 		return (
 			<div className="container padded">
 				<div>
-					<h5>Id: {this.state.blockId}</h5>
+					<h5>Id: {this.state.appointment.blockId}</h5>
 				</div>
 			</div>
 		);

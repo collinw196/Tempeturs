@@ -364,6 +364,16 @@ public class OwnerEndpoint {
 		return petList;
 	}
 	
+	@RequestMapping(value = "/appointment/get/{id}", method = RequestMethod.GET)
+	public CalendarAppointmentDto getAppointmentId(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		return appointment;
+	}
 	
 	
 	
