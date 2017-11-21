@@ -15,7 +15,9 @@ export class OwnerApptDisplay extends React.Component {
     }
 	
 	componentDidMount() {
-		var value = this.props.location.query.blockId;
+		const search = this.props.location.search;
+		const params = new URLSearchParams(search);
+		const value = params.get('blockId');
 		this.setState({
 			blockId: value
 		});	
