@@ -50,8 +50,14 @@ export class WeekView extends React.Component{
         super(props);
         this.state = {
 	    	appointments: [],
-	    	today: [24]
+	    	week: [24][7]
 	    };
+	    
+        for (var i = 0; i < week.length; i++) {
+        	for(var j = 0; j < week[i].length; j++) {
+        		week[i][j] = new Object();
+        	}
+        }
         
         this.getDateHeader = this.getDateHeader.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -130,7 +136,7 @@ export class WeekView extends React.Component{
                     </tr>
         		    <tr>
         		        <td width="12%">12:00am</td>
-        		        <td width="12%"><Link to="sitter/appointmentInfo">{this.displayAppointmentData(0)}</Link></td>
+        		        <td width="12%">{this.displayAppointmentData(0)}</td>
         		        <td width="12%">{this.displayAppointmentData(0)}</td>
                 		<td width="12%">{this.displayAppointmentData(0)}</td>
                 		<td width="12%">{this.displayAppointmentData(0)}</td>
