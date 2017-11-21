@@ -46,19 +46,20 @@ export class AppointmentView extends React.Component{
 }
 
 export class WeekView extends React.Component{
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
 	    	appointments: [],
 	    	week: [24][7],
-	    	
 	    };
 	    
         for (var i = 0; i < this.state.week.length; i++) {
         	for(var j = 0; j < this.state.week[i].length; j++) {
-        		this.state.week[i][j] = new Object(this.username = '', this.blockId = '', this.startHour = '', this.startMin = '', this.endHour = '', this.endMin = '');
+        		this.state.week[i][j] = new Object(this.username = '', this.blockId = '', 
+        			this.startHour = '', this.startMin = '', this.endHour = '', this.endMin = '');
         	}
         }
+        
         this.getDateHeader = this.getDateHeader.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     }
@@ -73,9 +74,15 @@ export class WeekView extends React.Component{
             });
     }
     
-    displayAppointmentData(hour) {
+    displayAppointmentData(hour, dayOffset) {
         for (var i = 0; i < this.state.appointments.length; i++){
     		if (hour === this.state.appointments[i].startHour) {
+    			this.state.week[hour - 1][dayOffset].username = this.state.appointments[i].username;
+    			this.state.week[hour - 1][dayOffset].blockId = this.state.appointments[i].blockId;
+    			this.state.week[hour - 1][dayOffset].startHour = this.state.appointments[i].startHour;
+    			this.state.week[hour - 1][dayOffset].startMin = this.state.appointments[i].startMin;
+    			this.state.week[hour - 1][dayOffset].endHour = this.state.appointments[i].endHour;
+    			this.state.week[hour - 1][dayOffset].endMin = this.state.appointments[i].endMin;
     			return ('Appointment Scheduled: \n' + this.state.appointments[i].startHour + '-' + this.state.appointments[i].endHour);
     		}
     	}
