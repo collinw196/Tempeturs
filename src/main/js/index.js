@@ -6,7 +6,7 @@ import { Registration } from 'js/registrationMain';
 import { PetInfo, OwnerPayment } from 'js/ownerRegistration';
 import { SitterInfo } from 'js/sitterRegistration';
 import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, OwnerSwitch } from 'js/ownerPages';
-import { SitterHome, WeekView } from 'js/sitterPages';
+import { SitterHome, WeekView, AppointmentView } from 'js/sitterPages';
 import { OwnerApptDisplay } from 'js/AppointmentDisplayOwner';
 
 export default class Index extends React.Component {

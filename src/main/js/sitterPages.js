@@ -31,13 +31,20 @@ export class SitterHome extends React.Component {
 export class AppointmentView extends React.Component{
 	constructor(props){
 		super(props);
+		
 	}
 	
 	render() {
 		return (
 			<div className="container padded">
 				<div>
-					<h5> </h5>
+					
+					this.state.petOptions.map(e => (
+							<span>
+								<h7>{e.name}</h7>
+								<input type="checkbox" name="petNames" value={e.id} onChange={this.handleChange}/>
+							</span>
+	                    ))
 				</div>
 			</div>
 		);
@@ -49,6 +56,7 @@ export class WeekView extends React.Component{
         super(props);
         this.state = {
 	    	appointments: []
+	    	var today = new Array(24);
 	    };
         
         this.getDateHeader = this.getDateHeader.bind(this);
