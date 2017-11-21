@@ -56,7 +56,7 @@ export class WeekView extends React.Component{
 	    
         for (var i = 0; i < this.state.week.length; i++) {
         	for(var j = 0; j < this.state.week[i].length; j++) {
-        		this.state.week[i][j] = new Object(var username = '', blockId = '', startHour = '', startMin = '', endHour = '', endMin = '');
+        		this.state.week[i][j] = new Object(this.username = '', blockId = '', startHour = '', startMin = '', endHour = '', endMin = '');
         	}
         }
         this.getDateHeader = this.getDateHeader.bind(this);
