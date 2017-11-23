@@ -19,9 +19,9 @@ export class OwnerApptDisplay extends React.Component {
 		const params = new URLSearchParams(search);
 		const blockId = params.get('blockId');
 		
-		var url = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + blockId;
-    	
-    	axios.get(url)
+		var appts = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + blockId;
+    	//var pets = 'https://tempeturs-group-2.herokuapp.com/api/pet;
+    	axios.get(appts)
 		.then(data => {
         	this.setState({appointment: data.data});
         })
@@ -35,6 +35,10 @@ export class OwnerApptDisplay extends React.Component {
 			<div className="container padded">
 				<div>
 					<h5>Id: {this.state.appointment.blockId}</h5>
+					<p>Sitter Username: {this.state.appointment.username}</p>
+					<p>Pets: </p>
+					
+					
 				</div>
 			</div>
 		);
