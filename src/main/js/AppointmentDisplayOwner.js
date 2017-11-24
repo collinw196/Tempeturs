@@ -23,7 +23,7 @@ export class OwnerApptDisplay extends React.Component {
 		var appts = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + blockId;
     	axios.get(appts)
 		.then(data => {
-        	this.setState({appointment: data.data, bID: blockId});
+        	this.setState({appointment: data.data});
         })
 		.catch(function (error) {
 		    console.log(error);
@@ -35,7 +35,7 @@ export class OwnerApptDisplay extends React.Component {
 
 		axios({
 		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel' + this.state.bId,
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel' + this.state.appointment.blockId,
 		    data: {
 		    }
 		})
@@ -54,7 +54,7 @@ export class OwnerApptDisplay extends React.Component {
 				<div>
 					<h5>Id: {this.state.appointment.blockId}</h5>
 					<p>Sitter Username: {this.state.appointment.username}</p>
-					//<p>Pets: </p> //getting pets is actually complicated
+					<p>Pets: </p> //getting pets is actually complicated
 				</div>
 				<div>
 					<form onSubmit={this.handleSubmit}>
