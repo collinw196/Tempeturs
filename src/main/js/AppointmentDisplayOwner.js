@@ -10,7 +10,8 @@ export class OwnerApptDisplay extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	appointment: ''
+	    	appointment: '',
+	    	bID: ''
 	    };
     }
 	
@@ -20,25 +21,46 @@ export class OwnerApptDisplay extends React.Component {
 		const blockId = params.get('blockId');
 		
 		var appts = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + blockId;
-    	//var pets = 'https://tempeturs-group-2.herokuapp.com/api/pet;
     	axios.get(appts)
 		.then(data => {
-        	this.setState({appointment: data.data});
+        	this.setState({appointment: data.data, bID: blockId});
         })
 		.catch(function (error) {
 		    console.log(error);
 		});
     }
-    
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel' + this.state.bId,
+		    data: {
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		this.props.history.push('/owner/home');
+    }
+	
 	render() {
 		return (
 			<div className="container padded">
 				<div>
 					<h5>Id: {this.state.appointment.blockId}</h5>
 					<p>Sitter Username: {this.state.appointment.username}</p>
-					<p>Pets: </p>
-					
-					
+					//<p>Pets: </p> //getting pets is actually complicated
+				</div>
+				<div>
+					<form onSubmit={this.handleSubmit}>
+						Cancel Appointment:<br />
+						<input type="submit" value = "Cancel" /><br />
+					</form>
 				</div>
 			</div>
 		);
