@@ -32,10 +32,13 @@ export class OwnerApptDisplay extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
+		const search = this.props.location.search;
+		const params = new URLSearchParams(search);
+		const blockId = params.get('blockId');
 
 		axios({
 		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel' + this.state.appointment.blockId,
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel/' + blockId,
 		    data: {
 		    }
 		})
