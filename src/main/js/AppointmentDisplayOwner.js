@@ -15,6 +15,7 @@ export class OwnerApptDisplay extends React.Component {
 	    	ownedPets: []
 	    };
 	    this.cancelAppt = this.cancelAppt.bind(this);
+	    this.paySitter = this.paySitter.bind(this);
     }
 	
 	componentDidMount() {
@@ -59,7 +60,7 @@ export class OwnerApptDisplay extends React.Component {
     
     paySitter(event) {
     	event.preventDefault();
-    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pay/'; //+ this.state.bID;
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pay/' + this.state.bID;
 		axios({
 		    method: 'POST',
 		    url: value,
