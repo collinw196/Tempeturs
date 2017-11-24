@@ -69,6 +69,7 @@ export class OwnerApptDisplay extends React.Component {
 		    console.log(response);
 		})
 		.catch(function (error) {
+			console.log("aaaah")
 		    console.log(error);
 		});
 		this.props.history.push('/owner/home');
