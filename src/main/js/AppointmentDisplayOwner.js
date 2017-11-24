@@ -59,7 +59,7 @@ export class OwnerApptDisplay extends React.Component {
     
     paySitter(event) {
     	event.preventDefault();
-    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pay/' + this.state.bID;
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pay/'; //+ this.state.bID;
 		axios({
 		    method: 'POST',
 		    url: value,
@@ -69,7 +69,6 @@ export class OwnerApptDisplay extends React.Component {
 		    console.log(response);
 		})
 		.catch(function (error) {
-			console.log('aaaah');
 		    console.log(error);
 		});
 		this.props.history.push('/owner/home');
