@@ -13,6 +13,7 @@ export class OwnerApptDisplay extends React.Component {
 	    	appointment: '',
 	    	bID: ''
 	    };
+	    this.cancelAppt = this.cancelAppt.bind(this);
     }
 	
 	componentDidMount() {
@@ -23,24 +24,20 @@ export class OwnerApptDisplay extends React.Component {
 		var appts = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + blockId;
     	axios.get(appts)
 		.then(data => {
-        	this.setState({appointment: data.data});
+        	this.setState({appointment: data.data, bID: blockId});
         })
 		.catch(function (error) {
 		    console.log(error);
 		});
     }
 	
-    handleSubmit(event) {
+    cancelAppt(event) {
     	event.preventDefault();
-		const search = this.props.location.search;
-		const params = new URLSearchParams(search);
-		const blockId = params.get('blockId');
-
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel/' + this.state.bID;
 		axios({
 		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel/' + blockId,
-		    data: {
-		    }
+		    url: value,
+		   
 		})
 		.then(function (response) {
 		    console.log(response);
@@ -62,7 +59,7 @@ export class OwnerApptDisplay extends React.Component {
 				<div>
 					<form onSubmit={this.handleSubmit}>
 						Cancel Appointment:<br />
-						<input type="submit" value = "Cancel" /><br />
+						<input type="button" value = "Cancel" onClick={this.cancelAppt}/><br />
 					</form>
 				</div>
 			</div>
