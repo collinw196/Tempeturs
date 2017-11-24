@@ -56,6 +56,23 @@ export class OwnerApptDisplay extends React.Component {
 		});
 		this.props.history.push('/owner/home');
     }
+    
+    paySitter(event) {
+    	event.preventDefault();
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pay/' + this.state.bID;
+		axios({
+		    method: 'POST',
+		    url: value,
+		   
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		this.props.history.push('/owner/home');
+    }
 	
     formatHour(hour, minute) {
     	var value;
@@ -106,6 +123,8 @@ export class OwnerApptDisplay extends React.Component {
 				</div>
 				<div>
 					<form onSubmit={this.handleSubmit}>
+						Pay Sitter:<br />
+						<input type="button" value = "Pay" onClick={this.paySitter}/><br />
 						Cancel Appointment:<br />
 						<input type="button" value = "Cancel" onClick={this.cancelAppt}/><br />
 					</form>
