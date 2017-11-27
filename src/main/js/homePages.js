@@ -74,8 +74,8 @@ export class Login extends React.Component {
 		        type: this.state.type
 		    }
 		})
-		.then(response => {
-        	this.setState({valid: response});
+		.then(function (response) {
+        	this.setState({valid: response.data});
         })
 	    .catch(function (error) {
 	      console.log(error);
@@ -95,7 +95,6 @@ export class Login extends React.Component {
 	    		startDisplay: 'Invalid username or password with this type of user',
 	    		username: '',
 		    	password: '',
-		    	type: '',
 		    	valid: ''
 	    	});
 	    }
