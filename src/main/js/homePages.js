@@ -50,6 +50,7 @@ export class Login extends React.Component {
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.submitLogin = this.submitLogin.bind(this);
     }
 	
     handleChange(event) {
@@ -62,10 +63,8 @@ export class Login extends React.Component {
 	    });
 	}
 	
-    handleSubmit(event) {
-    	event.preventDefault();
-    	
-    	axios({
+	submitLogin() {
+		axios({
 		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/login',
 		    data: {
@@ -75,16 +74,23 @@ export class Login extends React.Component {
 		    }
 		})
 		.then(response => {
-			console.log(response);
-			console.log(response.data);
+			console.log('res' + response);
+			console.log('data' + response.data);
             this.setState({valid: response.data});
         })
 	    .catch(function (error) {
 	      console.log(error);
 	    });
+	}
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	
+    	this.submitLogin();
 	    
-	    console.log(this.state.valid);
+	    console.log('valid' + this.state.valid);
 	    if(this.state.valid === 'Success'){
+	    console.log('here');
 		    if (this.state.type == 'owner') {
 	    		this.props.history.push('/owner/home');
 	    	}
