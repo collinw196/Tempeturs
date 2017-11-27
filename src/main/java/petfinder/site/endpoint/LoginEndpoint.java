@@ -90,6 +90,8 @@ public class LoginEndpoint {
 			return "Failure";
 		}
 		
+		System.out.println("\n\n\nHEEre\n\n\n\n");
+		
 		try {
 			userService.updateService(loginDto.getUsername());
 		} catch (IOException e1) {
@@ -98,6 +100,7 @@ public class LoginEndpoint {
 		}
 		
 		if(userService.getUser().getType().equals("both") || loginDto.getType() != userService.getUser().getType()){
+			System.out.println("\n\n\n This would be okay\n\n\n\n");
 			return "Failure";
 		}
 		
