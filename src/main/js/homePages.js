@@ -109,9 +109,9 @@ export class Login extends React.Component {
 					<p>{this.state.startDisplay}</p>
 					<form onSubmit={this.handleSubmit}>
 						Username:<br />
-						<input type="text" name="username" onChange={this.handleChange} required/><br />
+						<input type="text" name="username" value={this.state.username} onChange={this.handleChange} required/><br />
 						Password:<br />
-						<input type="password" name="password" onChange={this.handleChange} required/><br />
+						<input type="password" name="password" value={this.state.password} onChange={this.handleChange} required/><br />
 						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
 						<input type="submit" value="Submit" /><br />
