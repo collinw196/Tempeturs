@@ -86,7 +86,7 @@ public class LoginEndpoint {
 		Authentication auth = null;
 		try {
 			auth = authenticationManager.authenticate(token);
-		} catch (BadCredentialsException  e) {
+		} catch (Exception  e) {
 			return "Failure";
 		}
 		

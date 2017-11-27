@@ -74,13 +74,14 @@ export class Login extends React.Component {
 		        type: this.state.type
 		    }
 		})
-		.then(data => {
-        	this.setState({valid: data.data});
+		.then(response => {
+        	this.setState({valid: response});
         })
 	    .catch(function (error) {
 	      console.log(error);
 	    });
 	    
+	    console.log(this.state.valid);
 	    if(this.state.valid === 'Success'){
 		    if (this.state.type == 'owner') {
 	    		this.props.history.push('/owner/home');
