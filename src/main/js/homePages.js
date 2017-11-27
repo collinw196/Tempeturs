@@ -64,8 +64,6 @@ export class Login extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    		
-    	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
     	
     	axios({
 		    method: 'POST',
@@ -83,21 +81,23 @@ export class Login extends React.Component {
 	      console.log(error);
 	    });
 	    
-	    if(this.state.valid === 'Failure'){
-	    	this.setState({
+	    if(this.state.valid === 'Success'){
+		    if (this.state.type == 'owner') {
+	    		this.props.history.push('/owner/home');
+	    	}
+	    	else {
+	    		this.props.history.push('/sitter/home');
+	    	}
+	    }    	
+    	else {
+    		this.setState({
 	    		startDisplay: 'Invalid username or password with this type of user',
 	    		username: '',
 		    	password: '',
 		    	type: '',
 		    	valid: ''
 	    	});
-	    }    	
-    	else if (this.state.type == 'owner') {
-    		this.props.history.push('/owner/home');
-    	}
-    	else {
-    		this.props.history.push('/sitter/home');
-    	}
+	    }
     }
     	
 	
