@@ -74,8 +74,10 @@ export class Login extends React.Component {
 		        type: this.state.type
 		    }
 		})
-		.then(function (response) {
-        	this.setState({valid: response.data});
+		.then(response => {
+			console.log(response);
+			console.log(response.data);
+            this.setState({valid: response.data});
         })
 	    .catch(function (error) {
 	      console.log(error);
