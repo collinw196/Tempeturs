@@ -114,7 +114,7 @@ export class WeekView extends React.Component{
     }
     
     previous(){
-    	
+    	this.state.weekOffset = this.state.weekOffset - 1;
     }
     
     next(){
@@ -131,7 +131,7 @@ export class WeekView extends React.Component{
                 	<tr height="90%" valign="bottom">
                 		<td width="12%"></td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(0)}</p>
+                			<p>{this.getDateHeader(0 + 7 * this.state.weekOffset)}</p>
                         </td>
                 		<td width="12%">
                 			<p>{this.getDateHeader(1)}</p>
