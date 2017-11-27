@@ -50,7 +50,6 @@ export class Login extends React.Component {
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
-	    this.submitLogin = this.submitLogin.bind(this);
     }
 	
     handleChange(event) {
@@ -63,8 +62,10 @@ export class Login extends React.Component {
 	    });
 	}
 	
-	async submitLogin() {
-		await axios({
+    handleSubmit(event) {
+    	event.preventDefault();
+    	
+    	axios({
 		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/login',
 		    data: {
@@ -77,35 +78,29 @@ export class Login extends React.Component {
 			console.log('res: ' + response);
 			console.log('data: ' + response.data);
             this.setState({valid: response.data});
+            
+            console.log('valid: ' + this.state.valid);
+		    if(this.state.valid === 'Success'){
+		    console.log('here');
+			    if (this.state.type == 'owner') {
+		    		this.props.history.push('/owner/home');
+		    	}
+		    	else {
+		    		this.props.history.push('/sitter/home');
+		    	}
+		    }    	
+	    	else {
+	    		this.setState({
+		    		startDisplay: 'Invalid username or password with this type of user',
+		    		username: '',
+			    	password: '',
+			    	valid: ''
+		    	});
+		    }
         })
 	    .catch(function (error) {
 	      console.log(error);
 	    });
-	}
-	
-    handleSubmit(event) {
-    	event.preventDefault();
-    	
-    	this.submitLogin();
-	    
-	    console.log('valid: ' + this.state.valid);
-	    if(this.state.valid === 'Success'){
-	    console.log('here');
-		    if (this.state.type == 'owner') {
-	    		this.props.history.push('/owner/home');
-	    	}
-	    	else {
-	    		this.props.history.push('/sitter/home');
-	    	}
-	    }    	
-    	else {
-    		this.setState({
-	    		startDisplay: 'Invalid username or password with this type of user',
-	    		username: '',
-		    	password: '',
-		    	valid: ''
-	    	});
-	    }
     }
     	
 	
