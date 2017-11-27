@@ -300,6 +300,7 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
 	public List<CalendarAppointmentDto> getAppointments() throws IOException{
+		System.out.println("\n\n\n Lets Hope Again\n\n\n\n");
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
