@@ -115,10 +115,12 @@ export class WeekView extends React.Component{
     
     previous(){
     	this.state.weekOffset = this.state.weekOffset - 1;
+    	window.location.reload();
     }
     
     next(){
-    	
+    	this.state.weekOffset = this.state.weekOffset + 1;
+    	window.location.reload();
     }
     
     render() {
