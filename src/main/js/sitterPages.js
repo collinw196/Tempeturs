@@ -83,7 +83,10 @@ export class WeekView extends React.Component{
     			this.state.week[hour - 1][dayOffset].startMin = this.state.appointments[i].startMin;
     			this.state.week[hour - 1][dayOffset].endHour = this.state.appointments[i].endHour;
     			this.state.week[hour - 1][dayOffset].endMin = this.state.appointments[i].endMin;
-    			return ('Appointment Scheduled: \n' + this.state.appointments[i].startHour + '-' + this.state.appointments[i].endHour);
+    			return (
+    				<li><Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
+    					this.state.appointments[i].endHour</Link></li>
+    			);
     		}
     	}
     } 
