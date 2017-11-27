@@ -87,7 +87,7 @@ public class LoginEndpoint {
 		try {
 			auth = authenticationManager.authenticate(token);
 		} catch (BadCredentialsException  e) {
-			throw e;
+			return "Failure";
 		}
 		
 		try {
@@ -96,6 +96,11 @@ public class LoginEndpoint {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		if(userService.getUser().getType().equals("both") || loginDto.getType() != userService.getUser().getType()){
+			return "Failure";
+		}
+		
 		if(loginDto.getType().equals("owner")){
 			try {
 				ownerService.updateService(loginDto.getUsername());
@@ -116,6 +121,6 @@ public class LoginEndpoint {
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		securityContext.setAuthentication(auth);
 		SecurityContextHolder.setContext(securityContext);
-		return "Success.";
+		return "Success";
 	}
 }

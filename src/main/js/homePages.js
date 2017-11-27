@@ -41,9 +41,11 @@ export class Login extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
+	    	startDiplay: '',
 	    	username: '',
 	    	password: '',
-	    	type: ''
+	    	type: '',
+	    	valid: ''
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -74,24 +76,23 @@ export class Login extends React.Component {
 		        type: this.state.type
 		    }
 		})
-		.then(function (response) {
-	      console.log(response);
-	    })
+		.then(data => {
+        	this.setState({valid: data.data});
+        })
 	    .catch(function (error) {
 	      console.log(error);
 	    });
-    	
-    	url = 'https://tempeturs-group-2.herokuapp.com/api/owner/' + this.state.username;
-    	
-    	axios.get(url)
-		  .then(function (response) {
-		    console.log(response);
-		  })
-		  .catch(function (error) {
-		    console.log(error);
-		  });
-    	
-    	if (this.state.type == 'owner') {
+	    
+	    if(this.state.valid === 'Failure'){
+	    	this.setState({
+	    		startDisplay: 'Invalid username or password with this type of user',
+	    		username: '',
+		    	password: '',
+		    	type: '',
+		    	valid: ''
+	    	});
+	    }    	
+    	else if (this.state.type == 'owner') {
     		this.props.history.push('/owner/home');
     	}
     	else {
@@ -105,6 +106,7 @@ export class Login extends React.Component {
 			<div className="container padded">
 				<div>
 					<h2>Sign in</h2>
+					<p>{this.state.startDisplay}</p>
 					<form onSubmit={this.handleSubmit}>
 						Username:<br />
 						<input type="text" name="username" onChange={this.handleChange} required/><br />
