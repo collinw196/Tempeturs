@@ -103,7 +103,6 @@ public class LoginEndpoint {
 		
 		if(loginDto.getType().equals("owner")){
 			try {
-				System.out.println("\n\n\n Lets Hope\n\n\n\n");
 				ownerService.updateService(loginDto.getUsername());
 				petService.updateService();
 			} catch (IOException e) {

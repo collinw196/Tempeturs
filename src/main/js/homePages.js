@@ -75,13 +75,9 @@ export class Login extends React.Component {
 		    }
 		})
 		.then(response => {
-			console.log('res: ' + response);
-			console.log('data: ' + response.data);
             this.setState({valid: response.data});
             
-            console.log('valid: ' + this.state.valid);
 		    if(this.state.valid === 'Success'){
-		    console.log('here');
 			    if (this.state.type == 'owner') {
 		    		this.props.history.push('/owner/home');
 		    	}
