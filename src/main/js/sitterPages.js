@@ -51,6 +51,7 @@ export class WeekView extends React.Component{
         this.state = {
 	    	appointments: [],
 	    	week: [24][7],
+	    	weekOffset = 0
 	    };
 	    
         for (var i = 0; i < this.state.week.length; i++) {
@@ -84,8 +85,8 @@ export class WeekView extends React.Component{
     			this.state.week[hour - 1][dayOffset].endHour = this.state.appointments[i].endHour;
     			this.state.week[hour - 1][dayOffset].endMin = this.state.appointments[i].endMin;
     			return (
-    				<li><Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
-    					this.state.appointments[i].endHour</Link></li>
+    				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
+    					this.state.appointments[i].endHour</Link>
     			);
     		}
     	}
@@ -112,13 +113,20 @@ export class WeekView extends React.Component{
         return value;
     }
     
+    previous(){
+    	
+    }
+    
+    next(){
+    	
+    }
     
     render() {
         return(
             <div class="container">
                 <div class="row">
-                <button height="10%" type="button" align="left">Previous</button>
-                <button height="10%" type="button" align="right">Next</button>
+                <button onclick="previous()" height="10%" type="button" align="left">Previous</button>
+                <button onclick="next()" height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
                 		<td width="12%"></td>
