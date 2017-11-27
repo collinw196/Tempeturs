@@ -51,7 +51,7 @@ export class WeekView extends React.Component{
         this.state = {
 	    	appointments: [],
 	    	week: [24][7],
-	    	weekOffset = 0
+	    	weekOffset: 0
 	    };
 	    
         for (var i = 0; i < this.state.week.length; i++) {
