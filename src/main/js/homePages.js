@@ -63,8 +63,8 @@ export class Login extends React.Component {
 	    });
 	}
 	
-	submitLogin() {
-		axios({
+	async submitLogin() {
+		await axios({
 		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/login',
 		    data: {
@@ -74,8 +74,8 @@ export class Login extends React.Component {
 		    }
 		})
 		.then(response => {
-			console.log('res' + response);
-			console.log('data' + response.data);
+			console.log('res: ' + response);
+			console.log('data: ' + response.data);
             this.setState({valid: response.data});
         })
 	    .catch(function (error) {
@@ -88,7 +88,7 @@ export class Login extends React.Component {
     	
     	this.submitLogin();
 	    
-	    console.log('valid' + this.state.valid);
+	    console.log('valid: ' + this.state.valid);
 	    if(this.state.valid === 'Success'){
 	    console.log('here');
 		    if (this.state.type == 'owner') {
