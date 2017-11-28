@@ -51,12 +51,12 @@ export class WeekView extends React.Component{
 	    	weekOffset: 0
 	    };
 	    
-        for (var i = 0; i < this.state.week.length; i++) {
+        /*for (var i = 0; i < this.state.week.length; i++) {
         	for(var j = 0; j < this.state.week[i].length; j++) {
         		this.state.week[i][j] = new Object(this.username = '', this.blockId = -1, 
         			this.startHour = -1, this.startMin = -1, this.endHour = -1, this.endMin = -1);
         	}
-        }
+        }*/
         
         this.getDateHeader = this.getDateHeader.bind(this);
         this.displayAppointmentData = this.displayAppointmentData.bind(this);
@@ -77,10 +77,10 @@ export class WeekView extends React.Component{
     }
     
     displayAppointmentData(hour, dayOffset) {
-        for (var i = 0; i < this.state.appointments.length; i++){
+        /*for (var i = 0; i < this.state.appointments.length; i++){
     		if (hour === this.state.appointments[i].startHour) {
     			console.log('appointment found');
-    			/*this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
+    			this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
     			this.state.week[hour][dayOffset].blockId = this.state.appointments[i].blockId;
     			this.state.week[hour][dayOffset].startHour = this.state.appointments[i].startHour;
     			this.state.week[hour][dayOffset].startMin = this.state.appointments[i].startMin;
@@ -89,10 +89,10 @@ export class WeekView extends React.Component{
     			return (
     				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
     					this.state.appointments[i].endHour</Link>
-    			);*/
+    			);
     			return ('Appointment Found');
     		}
-    	}
+    	}*/
     	return ('Appt not found');
     } 
     
