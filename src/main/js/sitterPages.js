@@ -62,7 +62,9 @@ export class WeekView extends React.Component{
         }
         
         this.getDateHeader = this.getDateHeader.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
+        this.displayAppointmentData = this.displayAppointmentData.bind(this);
+        this.previous = this.previous.bind(this);
+        this.next = this.next.bind(this);
     }
     
     componentDidMount() {
@@ -84,10 +86,10 @@ export class WeekView extends React.Component{
     			this.state.week[hour][dayOffset].startMin = this.state.appointments[i].startMin;
     			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
     			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
-    			/*return (
+    			return (
     				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
     					this.state.appointments[i].endHour</Link>
-    			);*/
+    			);
     		}
     	}
     } 
