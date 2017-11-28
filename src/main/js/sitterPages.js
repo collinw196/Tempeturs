@@ -191,7 +191,7 @@ export class WeekView extends React.Component{
         	}
         }
         
-        console.log('I want to be here')
+        console.log('I want to be here');
         
         this.getDateHeader = this.getDateHeader.bind(this);
         this.displayAppointmentData = this.displayAppointmentData.bind(this);
