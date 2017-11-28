@@ -520,6 +520,20 @@ export class OwnerAppoint extends React.Component {
 export class OwnerPets extends React.Component {
 	constructor(props) {
 	    super(props);
+	     this.state = {
+	    	petList: [],
+	    };
+	    
+    }
+    
+    componentDidMount() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
+        	.then(data => {
+            	this.setState({petList: data.data});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
 	render() {
@@ -527,6 +541,15 @@ export class OwnerPets extends React.Component {
 			<div className="container padded">
 				<div><h4>Your Pet Information</h4></div>
 				<div id="petInfo">
+					{this.state.petOptions.map(e => (
+						<span>
+							<h7>{e.name}</h7>
+							<p>Age: {e.age}</p>
+							<p>Type: {e.type}</p>
+							<p>Notes: {e.notes}</p>
+							<Link to={'/owner/pet/edit?blockId=' + e.id}>Edit</Link>
+						</span>
+	                ))}
 				</div>
 				<div><Link to="/owner/pets/add">Add a pet</Link></div>
 			</div>
@@ -534,21 +557,19 @@ export class OwnerPets extends React.Component {
 	}
 }
 
-
-export class OwnerPetsAdd extends React.Component {
+export class OwnerPetsEdit extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	petname: '',
-	    	pettype: '',
-	    	age: '',
-	    	notes: ''
+	    	id: '',
+	    	name: '',
+	    	type: '',
+	    	age: -1,
+	    	notes: ''	
 	    };
 
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
-	    this.nextPet = this.nextPet.bind(this);
-	    this.pushData = this.pushData.bind(this);
     }
 
     handleChange(event) {
@@ -561,46 +582,27 @@ export class OwnerPetsAdd extends React.Component {
 	    });
 	}
 
-	nextPet(event) {
-    	event.preventDefault();
-
-    	this.pushData();
-    	this.setState({
-	      	petname: '',
-	    	pettype: '',
-	    	age: '',
-	    	notes: ''
-	    });
-    	location.reload();
-    }
-
     handleSubmit(event) {
     	event.preventDefault();
-    	this.pushData();
-    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/reg/owner/pay');
-    }
-
-    pushData() {
-    	const {petname,
-    		pettype,
-    		age,
-    		notes} = this.state;
-
-    	axios.post('/api/owner/pet/add', {withCredentials:true}, {
-		    petname,
-    		pettype,
-    		age,
-    		notes
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/edit',
+		    data: {
+		    	id: this.state.id,
+			    name: this.state.name,
+	    		type: this.state.type,
+	    		age: this.state.age,
+	    		notes: this.state.notes
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
-	}
-
-
+		});
+    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/owner/pets');
+    }
 
 	render() {
 		return (
@@ -609,9 +611,9 @@ export class OwnerPetsAdd extends React.Component {
 					<h5>Add a Pet</h5>
 					<form onSubmit={this.handleSubmit}>
 						Pet Name:<br />
-						<input name="petname" type="text" value={this.state.petname} onChange={this.handleChange} required /><br />
+						<input name="name" type="text" value={this.state.name} onChange={this.handleChange} /><br />
 						Pet Type:<br />
-						<select name="pettype" onChange={this.handleChange} required>
+						<select name="type" onChange={this.handleChange}>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" selected>Cat</option>
 							<option value="horse" selected>Horse</option>
@@ -624,8 +626,82 @@ export class OwnerPetsAdd extends React.Component {
 						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
 						*Notes:<br />
 						<input name="notes" type="text" value={this.state.notes} onChange={this.handleChange} /><br />
+  						<input type="submit" value="Submit" />
+  					</form>
+  				</div>
+			</div>
+		);
+	}
+}
 
-						<input type="button" value="Next Pet" onClick={this.nextPet} />
+export class OwnerPetsAdd extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	name: '',
+	    	type: '',
+	    	age: '',
+	    	notes: ''	
+	    };
+
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+
+	    this.setState({
+	      [name]: value
+	    });
+	}
+
+    handleSubmit(event) {
+    	event.preventDefault();
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg/new',
+		    data: {
+			    name: this.state.name,
+	    		type: this.state.type,
+	    		age: this.state.age,
+	    		notes: this.state.notes
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/owner/pets');
+    }
+
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Add a Pet</h5>
+					<form onSubmit={this.handleSubmit}>
+						Pet Name:<br />
+						<input name="name" type="text" value={this.state.name} onChange={this.handleChange} required /><br />
+						Pet Type:<br />
+						<select name="type" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" selected>Cat</option>
+							<option value="horse" selected>Horse</option>
+							<option value="ferret" selected>Ferret</option>
+							<option value="rabbit" selected>Rabbit</option>
+							<option value="fish" selected>Fish</option>
+						</select>
+						<br />
+						*Age:<br />
+						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
+						*Notes:<br />
+						<input name="notes" type="text" value={this.state.notes} onChange={this.handleChange} /><br />
   						<input type="submit" value="Submit" />
   					</form>
   				</div>

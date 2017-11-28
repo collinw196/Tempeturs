@@ -81,6 +81,62 @@ public class PetEndpoint {
 		return new ResponseEntity<String>(Integer.toString(count), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editPet(@RequestBody PetDto pet) throws IOException {
+		Long id = pet.getId();
+		PetDto newPet = petService.findPet(id);
+		if(!pet.getName().equals("")){
+			newPet.setName(pet.getName());
+		}
+		if(pet.getAge() >= 0){
+			newPet.setAge(pet.getAge());
+		}
+		if(!pet.getType().equals("")){
+			newPet.setType(pet.getType());
+		}
+		if(!pet.getNotes().equals("")){
+			newPet.setNotes(pet.getNotes());
+		}
+		String jsonString = objectMapper.writeValueAsString(newPet);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		clientService.getClient().performRequest(
+		        "PUT",
+		        "/pets/external/" + id,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/new", method = RequestMethod.POST)
+	public ResponseEntity<String> regNewPet(@RequestBody PetDto pet) throws IOException {
+		Response response = clientService.getClient().performRequest("GET", "/pets/external/_count",
+				Collections.<String, String>emptyMap());
+		
+		String jsonString1 = EntityUtils.toString(response.getEntity());
+		
+		JSONObject json = new JSONObject(jsonString1);
+        int count = json.getInt("count");
+        count = count + petService.getCurCount();
+		Long id = new Long(count);
+		pet.setId(id);
+		petService.addPet(pet);
+		
+		String jsonString = objectMapper.writeValueAsString(pet);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		clientService.getClient().performRequest(
+		        "PUT",
+		        "/pets/external/" + id,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
 	public ResponseEntity<String> finishRegPet() throws IOException {
 		List<PetDto> pets = petService.getPets();
