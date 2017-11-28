@@ -84,10 +84,10 @@ export class WeekView extends React.Component{
     			this.state.week[hour][dayOffset].startMin = this.state.appointments[i].startMin;
     			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
     			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
-    			return (
+    			/*return (
     				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
     					this.state.appointments[i].endHour</Link>
-    			);
+    			);*/
     		}
     	}
     } 
@@ -127,8 +127,8 @@ export class WeekView extends React.Component{
         return(
             <div class="container">
                 <div class="row">
-                <button onclick="previous()" height="10%" type="button" align="left">Previous</button>
-                <button onclick="next()" height="10%" type="button" align="right">Next</button>
+                <button height="10%" type="button" align="left">Previous</button>
+                <button height="10%" type="button" align="right">Next</button>
                 <table width="100%">
                 	<tr height="90%" valign="bottom">
                 		<td width="12%"></td>
@@ -146,7 +146,7 @@ export class WeekView extends React.Component{
                 		</td>
                 		<td width="12%">
                 			<p>{this.getDateHeader(4)}</p>
-                		</td>
+             `   		</td>
                 		<td width="12%">
                 			<p>{this.getDateHeader(5)}</p>
                 		</td>
