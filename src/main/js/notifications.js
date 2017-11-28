@@ -46,7 +46,6 @@ export class Notifications extends React.Component {
         }
     }
    
-   /////// 
     create(htmlStr) {
         var frag = document.createDocumentFragment(),
             temp = document.createElement('div');
@@ -56,10 +55,6 @@ export class Notifications extends React.Component {
         }
         return frag;
     }
-
-// You can use native DOM methods to insert the fragment:
-document.body.insertBefore(fragment, document.body.childNodes[0]);
-    ////////
     
     
 	render() {
@@ -68,12 +63,9 @@ document.body.insertBefore(fragment, document.body.childNodes[0]);
 				<div>
 					<h5>Notifications</h5>
 					<div>
-						<ul>
+						<ul id="list">
 							<li>Notification 1</li>
 							<li>Notification 2</li>
-							<li>Notification 3</li>
-							<li>Notification 4</li>
-							<li>Notification 5</li>
 						</ul>
 					</div>
 				</div>
