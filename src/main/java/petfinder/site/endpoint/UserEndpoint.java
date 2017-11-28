@@ -53,4 +53,9 @@ public class UserEndpoint {
 		userService.writeUser();
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/type", method = RequestMethod.POST)
+	public String getUserType() throws IOException {
+		return userService.getUser().getType();
+	}
 }

@@ -84,6 +84,17 @@ public class SitterEndpoint {
 		calendarService = clS;
 		objectMapper = new ObjectMapper();
 	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ResponseEntity<String> findSitter() {
+		try {
+			sitterService.updateService(userService.getUsername());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public SitterDto findSitter(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, IOException {
@@ -121,6 +132,25 @@ public class SitterEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> switchToSitter() throws IOException {
+		UpdateRequest request1 = new UpdateRequest(
+	        "users", 
+	        "external",  
+	        userService.getUsername());
+		
+		String jsonString = "{"  
+				+ "\"type\": \"both\""
+				+ "}";
+		
+		request1.doc(jsonString, XContentType.JSON);
+		
+		clientService.getHighClient().update(request1);
+		
+		finishRegSitter();
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
 	// These are empty functions without return types (since i dont know how they will be returned yet.
