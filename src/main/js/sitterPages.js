@@ -78,12 +78,12 @@ export class WeekView extends React.Component{
     displayAppointmentData(hour, dayOffset) {
         for (var i = 0; i < this.state.appointments.length; i++){
     		if (hour === this.state.appointments[i].startHour) {
-    			this.state.week[hour - 1][dayOffset].username = this.state.appointments[i].username;
-    			this.state.week[hour - 1][dayOffset].blockId = this.state.appointments[i].blockId;
-    			this.state.week[hour - 1][dayOffset].startHour = this.state.appointments[i].startHour;
-    			this.state.week[hour - 1][dayOffset].startMin = this.state.appointments[i].startMin;
-    			this.state.week[hour - 1][dayOffset].endHour = this.state.appointments[i].endHour;
-    			this.state.week[hour - 1][dayOffset].endMin = this.state.appointments[i].endMin;
+    			this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
+    			this.state.week[hour][dayOffset].blockId = this.state.appointments[i].blockId;
+    			this.state.week[hour][dayOffset].startHour = this.state.appointments[i].startHour;
+    			this.state.week[hour][dayOffset].startMin = this.state.appointments[i].startMin;
+    			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
+    			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
     			return (
     				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
     					this.state.appointments[i].endHour</Link>
