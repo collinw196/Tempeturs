@@ -97,7 +97,7 @@ public class LoginEndpoint {
 			e1.printStackTrace();
 		}
 		
-		if(userService.getUser().getType().equals("both") || !loginDto.getType().equals(userService.getUser().getType())){
+		if(!userService.getUser().getType().equals("both") || !loginDto.getType().equals(userService.getUser().getType())){
 			return "Failure";
 		}
 		
