@@ -19,6 +19,7 @@ export class OwnerHome extends React.Component {
 						<ul>
 							<li><Link to="/owner/reserve">Create Appointment</Link></li>
 							<li><Link to="/owner/appoint">Current Appointments</Link></li>
+							<li><Link to="/owner/not">Notifications</Link></li>
 							<li><Link to="/owner/pets">PetInfo</Link></li>
 							<li><Link to="/owner/sitterSwitch">Become a Sitter</Link></li>
 						</ul>
@@ -443,8 +444,7 @@ export class OwnerAppoint extends React.Component {
 	constructor(props) {
         super(props);
         this.state = {
-            message: 'Welcome',
-        		apptList: []
+        	apptList: []
         };
         
         this.formatHour = this.formatHour.bind(this);
@@ -725,6 +725,55 @@ export class OwnerSwitch extends React.Component {
 					</form>
 				</div>
 
+			</div>
+		);
+	}
+}
+
+
+export class OwnerNot extends React.Component {
+	constructor(props) {
+        super(props);
+        this.state = {
+        	apptList: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/notifications')
+        .then(data => {
+		    	this.setState({apptList: data.data});
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+    }
+
+	render() {
+		return (
+			<div className="container padded">
+				<div><h4>Notifications</h4></div>
+				<div id="currentAppoints">
+				{this.state.apptList.map(e => (
+					<div>
+						<Link to={'/owner/appt/display?blockId=' + e.blockId}><h6>Appt ID: {e.blockId}</h6></Link>
+						<table>
+							<tr>
+								<td> Sitter Username </td>
+								<td> {e.username} </td>
+							</tr>
+							<tr>
+								<td> {e.startMonth}/{e.startDay}</td>
+								<td> {e.endMonth}/{e.endDay}</td>
+							</tr>
+							<tr>
+								<td>Message:</td>
+								<td>{e.notificationMessage}</td>								
+							</tr>
+						</table>
+					</div>
+				))}
+				</div>
 			</div>
 		);
 	}
