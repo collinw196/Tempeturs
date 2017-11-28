@@ -80,7 +80,7 @@ export class WeekView extends React.Component{
     displayAppointmentData(hour, dayOffset) {
         for (var i = 0; i < this.state.appointments.length; i++){
     		if (hour === this.state.appointments[i].startHour) {
-    			console.log(appointment found);
+    			console.log('appointment found');
     			this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
     			this.state.week[hour][dayOffset].blockId = this.state.appointments[i].blockId;
     			this.state.week[hour][dayOffset].startHour = this.state.appointments[i].startHour;
