@@ -73,6 +73,7 @@ export class WeekView extends React.Component{
             .catch(function(error) {
                 console.log(error);
             });
+            console.log(this.state.appointments);
     }
     
     displayAppointmentData(hour, dayOffset) {
@@ -91,8 +92,8 @@ export class WeekView extends React.Component{
     			);*/
     			return ('Appointment Found');
     		}
-    		return ('Appt not found');
     	}
+    	return ('Appt not found');
     } 
     
     getDateHeader(offset){
