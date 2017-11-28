@@ -91,7 +91,7 @@ export class WeekView extends React.Component{
     			);*/
     			return ('Appointment Found');
     		}
-    		return (Appt not found);
+    		return ('Appt not found');
     	}
     } 
     
