@@ -342,7 +342,9 @@ public class OwnerEndpoint {
 			String jsonString = EntityUtils.toString(response.getEntity());
 			
 			CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
-			notificationList.add(appointment);
+			if(!notificationList.contains(appointment)){
+				notificationList.add(appointment);
+			}
 		}
 		userService.removeNotId();
 		userService.writeUser();
