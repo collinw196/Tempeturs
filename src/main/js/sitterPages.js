@@ -133,25 +133,25 @@ export class WeekView extends React.Component{
                 	<tr height="90%" valign="bottom">
                 		<td width="12%"></td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(0 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(0)}</p>
                         </td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(1 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(1)}</p>
                 		</td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(2 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(2)}</p>
                 		</td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(3 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(3)}</p>
                 		</td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(4 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(4)}</p>
                 		</td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(5 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(5)}</p>
                 		</td>
                 		<td width="12%">
-                			<p>{this.getDateHeader(6 + 7 * this.state.weekOffset)}</p>
+                			<p>{this.getDateHeader(6)}</p>
                 		</td>
                     </tr>
         		    <tr>
