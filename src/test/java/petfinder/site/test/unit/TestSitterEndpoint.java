@@ -21,7 +21,7 @@ public class TestSitterEndpoint {
 		ElasticClientService cS = new ElasticClientService();
 		SitterService sS = new SitterService(cS);
 		UserService us = new UserService(cS);
-		SitterDto sitter = new SitterDto("jwild7777", "333", "444", "dog", "cat", "horse", 0, "77777");
+		SitterDto sitter = new SitterDto("jwild7777", "333", "444", "dog", "cat", "horse", 0, 0, "77777");
 		UserDto user = new UserDto();
 		user.setUsername("jwild7777");
 		user.setZip("77777");
