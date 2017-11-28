@@ -182,12 +182,16 @@ export class WeekView extends React.Component{
 	    	weekOffset: 0
 	    };
 	    
+	    console.log('I am Here');
+	    
         for (var i = 0; i < this.state.week.length; i++) {
         	for(var j = 0; j < this.state.week[i].length; j++) {
         		this.state.week[i][j] = new Object(this.username = '', this.blockId = -1, 
         			this.startHour = -1, this.startMin = -1, this.endHour = -1, this.endMin = -1);
         	}
         }
+        
+        console.log('I want to be here')
         
         this.getDateHeader = this.getDateHeader.bind(this);
         this.displayAppointmentData = this.displayAppointmentData.bind(this);
@@ -207,20 +211,22 @@ export class WeekView extends React.Component{
     }
     
     displayAppointmentData(hour, dayOffset) {
-        for (var i = 0; i < this.state.appointments.length; i++){
-    		if (hour === this.state.appointments[i].startHour) {
-    			this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
-    			this.state.week[hour][dayOffset].blockId = this.state.appointments[i].blockId;
-    			this.state.week[hour][dayOffset].startHour = this.state.appointments[i].startHour;
-    			this.state.week[hour][dayOffset].startMin = this.state.appointments[i].startMin;
-    			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
-    			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
-    			return (
-    				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
-    					this.state.appointments[i].endHour</Link>
-    			);
-    		}
-    	}
+    	if(typeof this.state.appointments !== 'undefined') {
+	        for (var i = 0; i < this.state.appointments.length; i++){
+	    		if (hour === this.state.appointments[i].startHour) {
+	    			this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
+	    			this.state.week[hour][dayOffset].blockId = this.state.appointments[i].blockId;
+	    			this.state.week[hour][dayOffset].startHour = this.state.appointments[i].startHour;
+	    			this.state.week[hour][dayOffset].startMin = this.state.appointments[i].startMin;
+	    			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
+	    			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
+	    			return (
+	    				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
+	    					this.state.appointments[i].endHour</Link>
+	    			);
+	    		}
+	    	}
+	    }
     } 
     
     getDateHeader(offset){
