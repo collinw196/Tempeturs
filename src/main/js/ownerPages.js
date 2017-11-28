@@ -547,7 +547,7 @@ export class OwnerPets extends React.Component {
 							<p>Age: {e.age}</p>
 							<p>Type: {e.type}</p>
 							<p>Notes: {e.notes}</p>
-							<Link to={'/owner/pet/edit?id=' + e.id}>Edit</Link>
+							<Link to={'/owner/pet/edit?id=' + e.id}>Edit</Link><br />
 						</span>
 	                ))}
 				</div>
@@ -610,7 +610,7 @@ export class OwnerPetsEdit extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
-    	this.props.history.push('/owner/pets');
+    	this.props.history.push('/owner/home');
     }
 
 	render() {
@@ -686,7 +686,7 @@ export class OwnerPetsAdd extends React.Component {
 		    console.log(error);
 		});
 		
-    	this.props.history.push('/owner/pets');
+    	this.props.history.push('/owner/home');
     }
 
 	render() {
