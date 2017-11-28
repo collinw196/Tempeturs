@@ -18,11 +18,8 @@ export class SitterHome extends React.Component {
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
 						<li><Link to="/sitter/calendar">Schedule</Link></li>
-						<li><Link to="/sitter/appointmentInfo">Appt</Link></li>
 					</ul>
-					
 				</div>
-				
 			</div>
 		);
 	}
@@ -79,6 +76,7 @@ export class WeekView extends React.Component{
     
     displayAppointmentData(hour, dayOffset) {
         for (var i = 0; i < this.state.appointments.length; i++){
+        console.log(this.state.appointments.length);
     		if (hour === this.state.appointments[i].startHour) {
     			console.log('appointment found');
     			this.state.week[hour][dayOffset].username = this.state.appointments[i].username;
