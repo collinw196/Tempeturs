@@ -12,9 +12,7 @@ export class Notifications extends React.Component {
 	    this.state = {
 	        apptNotifications: []
 	        ratNotifications: []
-	    };
-	    this.componentDidMount() = this.componentDidMount.bind(this);
-	    this.displayNotifications() = this.displayNotifications.bind(this);
+        };
     }
     
     componentDidMount() {
@@ -35,41 +33,44 @@ export class Notifications extends React.Component {
         });
     }
     
-    displayNotifications() {
-        for(var i = 0; i < this.state.apptNotifications.length; i++) {
-            var fragment = create('<li>New appointment request from ' + 
-                this.state.apptNotifications[i].getOwnerUsername() + '.</li>');
-        }
-        
-        for(var i = 0; i < this.state.ratNotifications.length; i++) {
-            var fragment = create('<li>' + this.state.ratNotifications[i] + '</li>');
-        }
-    }
-   
-    create(htmlStr) {
-        var frag = document.createDocumentFragment(),
-            temp = document.createElement('div');
-        temp.innerHTML = htmlStr;
-        while (temp.firstChild) {
-            frag.appendChild(temp.firstChild);
-        }
-        return frag;
-    }
-    
     
 	render() {
 		return (
 			<div className="container padded">
-				<div>
-					<h5>Notifications</h5>
+				<div><h4>Appointment Notifications</h4></div>
+				<div id="currentAppoints">
+				{this.state.apptNotifications.map(e => (
 					<div>
-						<ul id="list">
-							<li>Notification 1</li>
-							<li>Notification 2</li>
-						</ul>
+						<Link to={'/sitter/appointmentInfo?blockId=' + e.blockId}><h6>Appt ID: {e.blockId}</h6></Link>
+						<table>
+							<tr>
+								<td> Sitter Username </td>
+								<td> {e.username} </td>
+							</tr>
+							<tr>
+								<td> {e.startMonth}/{e.startDay}</td>
+								<td> {e.endMonth}/{e.endDay}</td>
+							</tr>
+							<tr>
+								<td>Message:</td>
+								<td>{e.notificationMessage}</td>								
+							</tr>
+						</table>
 					</div>
+				))}
+				</div>
+				<div><h4>Rating Notifications</h4></div>
+				<div id="currentRatings">
+    				<table>
+    				{this.state.ratNotifications.map(e => (
+                        <tr>
+                            <td>e</td>
+                        </tr>
+    				))}
+    				</table>
 				</div>
 			</div>
+
 		);
 	}
 }
