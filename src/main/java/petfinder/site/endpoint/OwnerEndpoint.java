@@ -364,6 +364,21 @@ public class OwnerEndpoint {
 		return petList;
 	}
 	
+	@RequestMapping(value = "/appointment/pets/get", method = RequestMethod.GET)
+	public List<PetDto> getPets(@RequestBody List<Integer> petIds) throws IOException{
+		ArrayList<PetDto> petList = new ArrayList<PetDto>();
+		for (int petId : petIds){
+			Response response = clientService.getClient().performRequest("GET", "/pets/external/" + petId + "/_source",
+			        Collections.singletonMap("pretty", "true"));
+			
+			String jsonString = EntityUtils.toString(response.getEntity());
+			
+			PetDto pet = objectMapper.readValue(jsonString, PetDto.class);
+			petList.add(pet);
+		}
+		return petList;
+	}
+	
 	@RequestMapping(value = "/appointment/get/{id}", method = RequestMethod.GET)
 	public CalendarAppointmentDto getAppointmentId(@PathVariable(name = "id") int id) throws IOException{
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
