@@ -541,7 +541,7 @@ export class OwnerPets extends React.Component {
 			<div className="container padded">
 				<div><h4>Your Pet Information</h4></div>
 				<div id="petInfo">
-					{this.state.petOptions.map(e => (
+					{this.state.petList.map(e => (
 						<span>
 							<h7>{e.name}</h7>
 							<p>Age: {e.age}</p>
