@@ -571,6 +571,15 @@ export class OwnerPetsEdit extends React.Component {
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
     }
+    
+    componentDidMount() {
+		const search = this.props.location.search;
+		const params = new URLSearchParams(search);
+		const petId = params.get('id');
+		this.setState({
+	      id: petId
+	    });
+    }
 
     handleChange(event) {
 	    const target = event.target;

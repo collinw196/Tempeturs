@@ -19,15 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import petfinder.site.common.elastic.ElasticClientService;
+import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
-import petfinder.site.common.sitter.SitterDto;
-import petfinder.site.common.user.UserDto;
-import petfinder.site.common.user.UserService;
 
 /**
  * Created by mattdulany.
@@ -40,16 +37,19 @@ public class PetEndpoint {
 	@Autowired
 	private ElasticClientService clientService;
 	@Autowired
+	private OwnerService ownerService;
+	@Autowired
 	private ObjectMapper objectMapper;
 	
 	public PetEndpoint() {
 		
 	}
 	
-	public PetEndpoint(ElasticClientService cS, PetService pS) {
+	public PetEndpoint(ElasticClientService cS, PetService pS, OwnerService oS) {
 		clientService = cS;
 		petService = pS;
 		objectMapper = new ObjectMapper();
+		ownerService = oS;
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -133,6 +133,8 @@ public class PetEndpoint {
 		        "/pets/external/" + id,
 		        Collections.<String, String>emptyMap(),
 		        entity);
+		
+		ownerService.updatePetAdded(id);
 		
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
