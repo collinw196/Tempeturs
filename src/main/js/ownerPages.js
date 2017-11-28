@@ -547,7 +547,7 @@ export class OwnerPets extends React.Component {
 							<p>Age: {e.age}</p>
 							<p>Type: {e.type}</p>
 							<p>Notes: {e.notes}</p>
-							<Link to={'/owner/pet/edit?blockId=' + e.id}>Edit</Link>
+							<Link to={'/owner/pet/edit?id=' + e.id}>Edit</Link>
 						</span>
 	                ))}
 				</div>
@@ -601,7 +601,7 @@ export class OwnerPetsEdit extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
-    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/owner/pets');
+    	this.props.history.push('/owner/pets');
     }
 
 	render() {
@@ -677,7 +677,7 @@ export class OwnerPetsAdd extends React.Component {
 		    console.log(error);
 		});
 		
-    	this.props.history.push('https://tempeturs-group-2.herokuapp.com/owner/pets');
+    	this.props.history.push('/owner/pets');
     }
 
 	render() {
