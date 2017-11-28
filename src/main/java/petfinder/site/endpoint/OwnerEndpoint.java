@@ -353,6 +353,7 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/pets/get", method = RequestMethod.GET)
 	public List<PetDto> getPets() throws IOException{
+		ownerService.updateService(userService.getUsername());
 		ArrayList<PetDto> petList = new ArrayList<PetDto>();
 		for (int petId : ownerService.getOwner().getPetIds()){
 			Response response = clientService.getClient().performRequest("GET", "/pets/external/" + petId + "/_source",
