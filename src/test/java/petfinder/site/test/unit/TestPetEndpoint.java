@@ -10,8 +10,10 @@ import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
 import petfinder.site.common.elastic.ElasticClientService;
+import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
+import petfinder.site.common.user.UserService;
 import petfinder.site.endpoint.PetEndpoint;
 
 public class TestPetEndpoint {
@@ -19,8 +21,10 @@ public class TestPetEndpoint {
 	@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
-		PetService pS = new PetService();
-		PetEndpoint pP = new PetEndpoint(cS, pS);
+		UserService uS = new UserService(cS);
+		OwnerService oS = new OwnerService(cS, uS);
+		PetService pS = new PetService(oS, cS);
+		PetEndpoint pP = new PetEndpoint(cS, pS, oS);
 		PetDto pet = new PetDto("rodger", "dog", 4, "");
 		PetDto pet1 = new PetDto("nick", "cat", 5, "");
 		ResponseEntity<String> res = null;

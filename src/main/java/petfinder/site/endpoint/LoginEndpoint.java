@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import petfinder.site.common.calendar.CalendarService;
+import petfinder.site.common.owner.OwnerService;
+import petfinder.site.common.pet.PetService;
+import petfinder.site.common.sitter.SitterService;
+import petfinder.site.common.user.UserService;
+
 /**
  * Created by jlutteringer on 10/10/17.
  */
@@ -22,6 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginEndpoint {
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private OwnerService ownerService;
+	@Autowired
+	private PetService petService;
+	@Autowired
+	private SitterService sitterService;
 	
 	public LoginEndpoint(AuthenticationManager am) {
 		authenticationManager = am;
@@ -30,13 +44,23 @@ public class LoginEndpoint {
 	public static class LoginDto {
 		private String username;
 		private String password;
+		private String type;
 
 		public LoginDto() {
 		}
 
-		public LoginDto(String username, String password) {
+		public LoginDto(String username, String password, String type) {
 			this.username = username;
 			this.password = password;
+			this.type = type;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
 		}
 
 		public String getUsername() {
@@ -62,13 +86,41 @@ public class LoginEndpoint {
 		Authentication auth = null;
 		try {
 			auth = authenticationManager.authenticate(token);
-		} catch (BadCredentialsException  e) {
-			throw e;
+		} catch (Exception  e) {
+			return "Failure";
+		}
+		
+		try {
+			userService.updateService(loginDto.getUsername());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		if(userService.getUser().getType().equals("both") || !loginDto.getType().equals(userService.getUser().getType())){
+			return "Failure";
+		}
+		
+		if(loginDto.getType().equals("owner")){
+			try {
+				ownerService.updateService(loginDto.getUsername());
+				petService.updateService();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		} else{
+			try {
+				sitterService.updateService(loginDto.getUsername());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		securityContext.setAuthentication(auth);
 		SecurityContextHolder.setContext(securityContext);
-		return "Success.";
+		return "Success";
 	}
 }

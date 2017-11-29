@@ -41,9 +41,11 @@ export class Login extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	username:'',
+	    	startDiplay: '',
+	    	username: '',
 	    	password: '',
-	    	type: ''
+	    	type: '',
+	    	valid: ''
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -62,38 +64,39 @@ export class Login extends React.Component {
 	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {username,
-    		password} = this.state;
-    		
-    	var url = 'https://tempeturs-group-2.herokuapp.com/api/login';
     	
-    	axios.post(url, {withCredentials:true}, {
-		    username,
-		    password
-		  })
-		  .then(function (response) {
-		    console.log(response);
-		  })
-		  .catch(function (error) {
-		    console.log(error);
-		  });
-    	
-    	url = 'https://tempeturs-group-2.herokuapp.com/api/owner/' + this.state.username;
-    	
-    	axios.get(url)
-		  .then(function (response) {
-		    console.log(response);
-		  })
-		  .catch(function (error) {
-		    console.log(error);
-		  });
-    	
-    	if (this.state.type == 'owner') {
-    		this.props.history.push('/owner/home');
-    	}
-    	else {
-    		this.props.history.push('/sitter/home');
-    	}
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/login',
+		    data: {
+		        username: this.state.username,
+		        password: this.state.password,
+		        type: this.state.type
+		    }
+		})
+		.then(response => {
+            this.setState({valid: response.data});
+            
+		    if(this.state.valid === 'Success'){
+			    if (this.state.type == 'owner') {
+		    		this.props.history.push('/owner/home');
+		    	}
+		    	else {
+		    		this.props.history.push('/sitter/home');
+		    	}
+		    }    	
+	    	else {
+	    		this.setState({
+		    		startDisplay: 'Invalid username or password with this type of user',
+		    		username: '',
+			    	password: '',
+			    	valid: ''
+		    	});
+		    }
+        })
+	    .catch(function (error) {
+	      console.log(error);
+	    });
     }
     	
 	
@@ -102,11 +105,12 @@ export class Login extends React.Component {
 			<div className="container padded">
 				<div>
 					<h2>Sign in</h2>
+					<p>{this.state.startDisplay}</p>
 					<form onSubmit={this.handleSubmit}>
 						Username:<br />
-						<input type="text" name="username" /><br />
+						<input type="text" name="username" value={this.state.username} onChange={this.handleChange} required/><br />
 						Password:<br />
-						<input type="password" name="password" /><br />
+						<input type="password" name="password" value={this.state.password} onChange={this.handleChange} required/><br />
 						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
 						<input type="submit" value="Submit" /><br />

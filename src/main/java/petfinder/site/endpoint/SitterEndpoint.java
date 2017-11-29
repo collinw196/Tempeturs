@@ -130,6 +130,7 @@ public class SitterEndpoint {
 	
 	@RequestMapping(value = "/block/create", method = RequestMethod.POST)
 	public ResponseEntity<String> createBlock(@RequestBody CalendarBlockDto appointment) throws ParseException, IOException{
+		//appointment.setUsername(userService.getUsername());
 		appointment.setNotificationMessage("Block has been created");
 		appointment.setType("Block");
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/_count",
@@ -151,7 +152,7 @@ public class SitterEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		
-		return new ResponseEntity<String>("Added", HttpStatus.OK);        
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/appointment/accept/{id}", method = RequestMethod.POST)
@@ -289,6 +290,7 @@ public class SitterEndpoint {
 		sourceBuilder.query(boolQuery);  
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
 			response = clientService.getHighClient().search(searchRequest);
