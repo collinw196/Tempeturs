@@ -317,7 +317,7 @@ public class SitterEndpoint {
 	}
 	
 	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
-	public List<CalendarBlockDto> getAppointments() throws IOException{
+	public List<CalendarAppointmentDto> getAppointments() throws IOException{
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
@@ -337,10 +337,10 @@ public class SitterEndpoint {
 		
 		SearchHits hits = response.getHits();
 		SearchHit[] searchHits = hits.getHits();
-		ArrayList<CalendarBlockDto> appointmentList = new ArrayList<CalendarBlockDto>();
+		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			ArrayList<CalendarBlockDto> tempApptList = new ArrayList<CalendarBlockDto>();
+			ArrayList<CalendarAppointmentDto> tempApptList = new ArrayList<CalendarAppointmentDto>();
 			tempApptList.add(appointment);
 			if(appointment.getRepeatStrategy() > 0){
 				int thisYear = appointment.getStartYear();
@@ -354,9 +354,9 @@ public class SitterEndpoint {
 					tempApptList.add(tempAppointment);
 				}
 			}
-			for(CalendarBlockDto app : tempApptList){
-				if (appointment.getType().equals("Block") || calendarService.isOpen(appointment)){
-					appointmentList.add(appointment);	
+			for(CalendarAppointmentDto app : tempApptList){
+				if (app.getType().equals("Block") || calendarService.isOpen(app)){
+					appointmentList.add(app);	
 				}
 			}
 		}
