@@ -319,7 +319,7 @@ export class SitterInfoDisplay extends React.Component {
 	
 		axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/get')
         .then(data => {
-		    this.setState({owner: data.data});
+		    this.setState({sitter: data.data});
 		})
 		.catch(function (error) {
 		    console.log(error);
@@ -348,12 +348,12 @@ export class SitterInfoDisplay extends React.Component {
 				
 				<div>
 					<h4>Sitter Info</h4>
-					Account Number: {this.state.owner.accountNumber}<br />
-					Routing Number: {this.state.owner.routingNumber}<br />
-					Preference 1: {this.state.owner.preference1}<br />
-					Preference 2: {this.state.owner.preference2}<br />
-					Preference 3: {this.state.owner.preference3}<br />
-					Rating: {this.state.owner.rating}<br />
+					Account Number: {this.state.sitter.accountNumber}<br />
+					Routing Number: {this.state.sitter.routingNumber}<br />
+					Preference 1: {this.state.sitter.preference1}<br />
+					Preference 2: {this.state.sitter.preference2}<br />
+					Preference 3: {this.state.sitter.preference3}<br />
+					Rating: {this.state.sitter.rating}<br />
 					<br />
 				</div>
 				<Link to="/user/edit?type=sitter">Edit</Link>
