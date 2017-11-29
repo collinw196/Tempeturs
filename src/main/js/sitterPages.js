@@ -84,7 +84,6 @@ export class AppointmentView extends React.Component{
 		axios({
 		    method: 'POST',
 		    url: value,
-		   
 		})
 		.then(function (response) {
 		    console.log(response);
@@ -142,7 +141,7 @@ export class AppointmentView extends React.Component{
 		return (
 			<div className="container padded">
 				<div>
-					<p>Sitter Username: {this.state.appointment.username}</p>
+					<p>Owner Username: {this.state.appointment.username}</p>
 					<table>
 					<tr>
 						<td> Start </td>
@@ -162,10 +161,12 @@ export class AppointmentView extends React.Component{
 				</div>
 				<div>
 					<form onSubmit={this.handleSubmit}>
-						Pay Sitter:<br />
-						<input type="button" value = "Pay" onClick={this.paySitter}/><br />
-						Cancel Appointment:<br />
-						<input type="button" value = "Cancel" onClick={this.cancelAppt}/><br />
+						Confirm Appointment:<br />
+						<input type="button" value = "Confirm" onClick={this.confirmAppt}/><br />
+					</form>
+					<form onSubmit={this.handleSubmit}>
+						Delete Appointment:<br />
+						<input type="button" value = "Delete" onClick={this.deleteAppt}/><br />
 					</form>
 				</div>
 			</div>
