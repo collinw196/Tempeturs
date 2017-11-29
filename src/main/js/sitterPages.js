@@ -179,7 +179,7 @@ export class WeekView extends React.Component{
         this.state = {
 	    	appointments: [],
 	    	week: [],	    	
-	    	weekOffset: 0
+	    	weekOffset: ''
 	    };
 	    
 	    console.log('I am Here');
@@ -205,6 +205,14 @@ export class WeekView extends React.Component{
     }
     
     componentDidMount() {
+    	const search = this.props.location.search;
+		const params = new URLSearchParams(search);
+		const offset = params.get('offset');
+		
+		this.setState({
+			weekOffset: offset
+		});
+    	
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(data => {
             	this.setState({appointments: data.data});
@@ -256,11 +264,15 @@ export class WeekView extends React.Component{
     }
     
     previousWeek(){
-    	
+    	var offset = this.state.weekoffset - 1;
+    	var url = '/sitter/calendar?offset=' + offset;
+    	this.props.history.push(url);
     }
     
     nextWeek(){
-    	
+    	var offset = this.state.weekoffset + 1;
+    	var url = '/sitter/calendar?offset=' + offset;
+    	this.props.history.push(url);
     }
     
     render() {
