@@ -2,6 +2,7 @@ package petfinder.site.endpoint;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -339,8 +340,24 @@ public class SitterEndpoint {
 		ArrayList<CalendarBlockDto> appointmentList = new ArrayList<CalendarBlockDto>();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			if (appointment.getType().equals("Block") || calendarService.isOpen(appointment)){
-				appointmentList.add(appointment);	
+			ArrayList<CalendarBlockDto> tempApptList = new ArrayList<CalendarBlockDto>();
+			tempApptList.add(appointment);
+			if(appointment.getRepeatStrategy() > 0){
+				int thisYear = appointment.getStartYear();
+				Calendar now = Calendar.getInstance();   // Gets the current date and time
+				int year = now.get(Calendar.YEAR);
+				int increment = 0;
+				while(thisYear < year + 10){
+					CalendarAppointmentDto tempAppointment = new CalendarAppointmentDto(appointment);
+					tempAppointment.addWeek(increment);
+					thisYear = tempAppointment.getStartYear();
+					tempApptList.add(tempAppointment);
+				}
+			}
+			for(CalendarBlockDto app : tempApptList){
+				if (appointment.getType().equals("Block") || calendarService.isOpen(appointment)){
+					appointmentList.add(appointment);	
+				}
 			}
 		}
 		AppointmentComparator comp = new AppointmentComparator();

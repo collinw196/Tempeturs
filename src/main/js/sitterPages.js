@@ -557,7 +557,7 @@ export class SitterCreate extends React.Component {
 			startHour: 0,
 			endMin: 0,
 			endHour: 1,
-			repeatStrategy: '',
+			repeatStrategy: 0,
 			notificationMessage: 'This block has been created',
 			type: 'Block',
 	    };

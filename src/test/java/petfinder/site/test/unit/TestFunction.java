@@ -20,19 +20,20 @@ public class TestFunction {
 		List<Integer> petIds = new ArrayList<Integer>();
 		petIds.add(2);
 		CalendarAppointmentDto appointment = new CalendarAppointmentDto(19, 11, 2017, 19, 11,
-				2017, 00, 15, 00, 20, "", 0, "This appointment was created needs to be accepted", "Appt", "jwild77777", petIds,
+				2017, 00, 15, 00, 20, "", 1, "This appointment was created needs to be accepted", "Appt", "jwild77777", petIds,
 				"SCHEDULED", "", "casual", 50.00);
-		SitterDto sitter = new SitterDto("jwall77777", "", "", "", "", "", 2.0, "77777");
-		ElasticClientService cS = new ElasticClientService();
-		CalendarService ccS = new CalendarService(cS);
-		boolean isFree = false;
-		try {
-			isFree = ccS.isFree(sitter, appointment);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertTrue(isFree == true);
+		
+		CalendarAppointmentDto testAppointment = new CalendarAppointmentDto(appointment);
+		CalendarAppointmentDto testAppointment2 = new CalendarAppointmentDto(appointment);
+		CalendarAppointmentDto testAppointment3 = new CalendarAppointmentDto(appointment);
+		testAppointment.addWeek(1);
+		testAppointment2.addWeek(2);
+		testAppointment3.addWeek(3);
+		
+		System.out.println(appointment.toString());
+		System.out.println(testAppointment.toString());
+		System.out.println(testAppointment2.toString());
+		System.out.println(testAppointment3.toString());		
 	}*/
 
 }
