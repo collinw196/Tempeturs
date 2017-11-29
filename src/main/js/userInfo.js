@@ -52,7 +52,7 @@ export class OwnerInfo extends React.Component {
 				<div>
 					<h4>Owner Info</h4>
 					Card Number: {this.state.owner.crenumber}<br />
-					CCV Number: {this.state.owner.ccvnumber}<br />
+					CVV Number: {this.state.owner.ccvnumber}<br />
 					Exp Month: {this.state.owner.expdatemonth}<br />
 					Exp Year: {this.state.owner.expdateyear}<br />
 					Name on Card: {this.state.owner.cardname}<br />
