@@ -66,4 +66,5 @@ public class UserEndpoint {
 		userService.writeUser();
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
+	
 }

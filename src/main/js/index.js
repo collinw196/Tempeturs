@@ -5,10 +5,12 @@ import { Home, Login } from 'js/homePages';
 import { Registration } from 'js/registrationMain';
 import { PetInfo, OwnerPayment } from 'js/ownerRegistration';
 import { SitterInfo } from 'js/sitterRegistration';
+
 import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, OwnerSwitch, OwnerNot, OwnerPetsEdit } from 'js/ownerPages';
-import { SitterHome, WeekView } from 'js/sitterPages';
+import { SitterHome, WeekView, AppointmentView } from 'js/sitterPages';
 import { OwnerApptDisplay } from 'js/AppointmentDisplayOwner';
 import { OwnerInfo, UserEdit, OwnerEdit } from 'js/userInfo';
+import { Notifications } from 'js/notifications';
 
 export default class Index extends React.Component {
 	render() {
@@ -35,6 +37,8 @@ export default class Index extends React.Component {
 					<Route exact path="/user/edit" component={UserEdit} />		
 					<Route exact path="/sitter/home" component={SitterHome} />
 					<Route exact path="/sitter/calendar" component={WeekView} />
+					<Route exact path="/sitter/notifications" component={Notifications} />
+					<Route exact path="/sitter/appointmentInfo" component={AppointmentView} />
 				</div>
 			</HashRouter>
 		);
