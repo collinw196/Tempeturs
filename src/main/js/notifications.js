@@ -16,7 +16,7 @@ export class Notifications extends React.Component {
     }
     
     componentDidMount() {
-        axios.get('http://tempeturs-group-2.herokuapp.com/api/sitter/notifications/appt')
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/notifications/appt')
             .then(data => {
             this.setState({apptNotifications: data.data});
             })
@@ -24,7 +24,7 @@ export class Notifications extends React.Component {
             console.log(error);
         });
         
-        axios.get('http://tempeturs-group-2.herokuapp.com/api/sitter/notifications/rat')
+        axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/notifications/rat')
             .then(data => {
             this.setState({ratNotifications: data.data});
             })
