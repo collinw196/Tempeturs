@@ -22,6 +22,7 @@ export class OwnerHome extends React.Component {
 							<li><Link to="/owner/not">Notifications</Link></li>
 							<li><Link to="/owner/pets">PetInfo</Link></li>
 							<li><Link to="/owner/sitterSwitch">Become a Sitter</Link></li>
+							<li><Link to="/user/owner/info">User Info</Link></li>
 						</ul>
 					</div>
 				</div>
@@ -564,7 +565,7 @@ export class OwnerPetsEdit extends React.Component {
 	    	id: '',
 	    	name: '',
 	    	type: '',
-	    	age: -1,
+	    	age: '',
 	    	notes: ''	
 	    };
 
@@ -579,6 +580,20 @@ export class OwnerPetsEdit extends React.Component {
 		this.setState({
 	      id: petId
 	    });
+	    
+	    var url = 'https://tempeturs-group-2.herokuapp.com/api/pet/' + petId;
+	    axios.get(url)
+        	.then(data => {
+            	this.setState({
+            		name: data.data.name,
+            		type: data.data.type,
+            		age: data.data.age,
+            		note: data.data.notes
+            	});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
     handleChange(event) {

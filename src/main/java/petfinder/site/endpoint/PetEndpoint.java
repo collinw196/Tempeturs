@@ -85,18 +85,6 @@ public class PetEndpoint {
 	public ResponseEntity<String> editPet(@RequestBody PetDto pet) throws IOException {
 		Long id = pet.getId();
 		PetDto newPet = petService.findPet(id);
-		if(!pet.getName().equals("")){
-			newPet.setName(pet.getName());
-		}
-		if(pet.getAge() >= 0){
-			newPet.setAge(pet.getAge());
-		}
-		if(!pet.getType().equals("")){
-			newPet.setType(pet.getType());
-		}
-		if(!pet.getNotes().equals("")){
-			newPet.setNotes(pet.getNotes());
-		}
 		String jsonString = objectMapper.writeValueAsString(newPet);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);

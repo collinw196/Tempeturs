@@ -9,6 +9,7 @@ import { SitterInfo } from 'js/sitterRegistration';
 import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, OwnerSwitch, OwnerNot, OwnerPetsEdit } from 'js/ownerPages';
 import { SitterHome, WeekView, AppointmentView } from 'js/sitterPages';
 import { OwnerApptDisplay } from 'js/AppointmentDisplayOwner';
+import { OwnerInfo, UserEdit, OwnerEdit } from 'js/userInfo';
 import { Notifications } from 'js/notifications';
 
 export default class Index extends React.Component {
@@ -30,7 +31,10 @@ export default class Index extends React.Component {
 					<Route exact path="/owner/sitterSwitch" component={OwnerSwitch} />
 					<Route exact path="/owner/appt/display" component={OwnerApptDisplay} />
 					<Route exact path="/owner/not" component={OwnerNot} />	
-					<Route exact path="/owner/pet/edit" component={OwnerPetsEdit} />			
+					<Route exact path="/owner/pet/edit" component={OwnerPetsEdit} />
+					<Route exact path="/owner/edit" component={OwnerEdit} />
+					<Route exact path="/user/owner/info" component={OwnerInfo} />	
+					<Route exact path="/user/edit" component={UserEdit} />		
 					<Route exact path="/sitter/home" component={SitterHome} />
 					<Route exact path="/sitter/calendar" component={WeekView} />
 					<Route exact path="/sitter/notifications" component={Notifications} />

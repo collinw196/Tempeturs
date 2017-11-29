@@ -109,6 +109,11 @@ public class OwnerEndpoint {
 		calendarService = clS;
 		petEndpoint = pE;
 	}
+	
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public OwnerDto getOwner() {
+		return ownerService.getOwner();
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
@@ -138,6 +143,25 @@ public class OwnerEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editOwner(@RequestBody OwnerDto owner) throws IOException {
+		owner.setUsername(userService.getUsername());
+		owner.setPetIds(petService.getPetIds());
+		ownerService.setOwner(owner);
+		
+		String jsonString = objectMapper.writeValueAsString(owner);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		String username = owner.getUsername();
+		Response indexResponse = clientService.getClient().performRequest(
+		        "PUT",
+		        "/owner/external/" + username,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		return new ResponseEntity<String>("Changed " + indexResponse, HttpStatus.OK);
 	}
 	
 	// These are empty functions without return types (since i dont know how they will be returned yet.

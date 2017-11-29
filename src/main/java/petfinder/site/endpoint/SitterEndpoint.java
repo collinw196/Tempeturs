@@ -85,6 +85,11 @@ public class SitterEndpoint {
 		objectMapper = new ObjectMapper();
 	}
 	
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public SitterDto getOwner() {
+		return sitterService.getSitter();
+	}
+	
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ResponseEntity<String> findSitter() {
 		try {
