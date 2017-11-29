@@ -39,7 +39,7 @@ export class OwnerInfo extends React.Component {
 					Email: {this.state.user.email}<br />
 					Username: {this.state.user.username}<br />
 					
-					Street Number: {this.state.user.stree1}<br />
+					Street Number: {this.state.user.street1}<br />
 					Street Address 2: {this.state.user.street2}<br />
 					PO Box: {this.state.user.po}<br />
 					ZIP Code: {this.state.user.zip}<br />
@@ -51,11 +51,11 @@ export class OwnerInfo extends React.Component {
 				
 				<div>
 					<h4>Owner Info</h4>
-					Card Number: {this.state.user.crenumber}<br />
-					CCV Number: {this.state.user.ccvnumber}<br />
-					Exp Month: {this.state.user.expdatemonth}<br />
-					Exp Year: {this.state.user.expdateyear}<br />
-					Name on Card: {this.state.user.cardname}<br />
+					Card Number: {this.state.owner.crenumber}<br />
+					CCV Number: {this.state.owner.ccvnumber}<br />
+					Exp Month: {this.state.owner.expdatemonth}<br />
+					Exp Year: {this.state.owner.expdateyear}<br />
+					Name on Card: {this.state.owner.cardname}<br />
 					<br />
 				</div>
 				<Link to="/user/edit?type=owner">Edit</Link>
