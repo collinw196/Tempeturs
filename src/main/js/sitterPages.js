@@ -18,7 +18,7 @@ export class SitterHome extends React.Component {
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
 						<li><Link to="/sitter/calendar">Schedule</Link></li>
-						<li><Link to="/sitter/create">Schedule</Link></li>
+						<li><Link to="/sitter/create">Create an unavailable time block </Link></li>
 						<li><Link to="/sitter/notifications">Notifications</Link></li>
 					</ul>
 				</div>
@@ -611,8 +611,8 @@ export class SitterCreate extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
-					<h5>Reserve an appointment</h5>
-					<form>
+					<h5>Create an Unavailable Block</h5>
+					<form onSubmit={this.handleSubmit}>
 						<h7>Start Date of Appointment:</h7><br />
 						Month:
 						<select name="startMonth" onChange={this.handleChange} required>
@@ -820,6 +820,7 @@ export class SitterCreate extends React.Component {
 						    <option value="26">Every 26 weeks</option>
 						    <option value="52">Yearly</option>
 						</select><br />
+						<input type="submit" value="Submit" />
 					</form>
 				</div>
 			</div>
