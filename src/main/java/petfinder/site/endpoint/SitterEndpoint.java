@@ -182,7 +182,7 @@ public class SitterEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		
-		return new ResponseEntity<String>("Added", HttpStatus.OK);        
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/appointment/accept/{id}", method = RequestMethod.POST)
