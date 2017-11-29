@@ -28,24 +28,13 @@ export class Registration extends React.Component {
 	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
-	    this.validatePassword = this.validatePassword.bind(this);
     }
-    
-    validatePassword(){
-    	var password = document.getElementById('password'),
-    		confirm_password = document.getElementById('confirm_password');
-	    if(password.value != confirm_password.value) {
-	    	confirm_password.setCustomValidity('Passwords Don\'t Match');
-	    } else {
-	    	confirm_password.setCustomValidity('');
-	    }
-	}
     
      handleChange(event) {
 	    const target = event.target;
 	    const value = target.value;
 	    const name = target.name;
-	
+	    
 	    this.setState({
 	      [name]: value
 	    });
@@ -54,48 +43,36 @@ export class Registration extends React.Component {
     handleSubmit(event) {
     	event.preventDefault();
     	if(this.state.password !== this.state.repassword) {
-    			this.setState({
-	      		password: '',
-	    		repassword: ''   
-	    	});
-	    	location.reload();
+			this.setState({
+      			password: '',
+    			repassword: ''   
+    		});
 	    } else {
-	    	const {firstName,
-		    	lastName,
-		    	email,
-		    	username,
-		    	password,
-		    	repassword,
-		    	street1,
-		    	street2,
-		    	po,
-		    	zip,
-		    	state,
-		    	phone,
-		    	gender,
-		    	type} = this.state;
-		    	
-		    axios.post('https://tempeturs-group-2.herokuapp.com/api/user/reg', {withCredentials:true}, {
-			    firstName,
-		    	lastName,
-		    	email,
-		    	username,
-		    	password,
-		    	street1,
-		    	street2,
-		    	po,
-		    	zip,
-		    	state,
-		    	phone,
-		    	gender,
-		    	type
-			  })
-			  .then(function (response) {
+		    axios({
+			    method: 'POST',
+			    url: 'https://tempeturs-group-2.herokuapp.com/api/user/reg',
+			    data: {
+			    	firstName: this.state.firstName,
+			    	lastName: this.state.lastName,
+			    	email: this.state.email,
+			    	username: this.state.username,
+			    	password: this.state.password,
+			    	street1: this.state.street1,
+			    	street2: this.state.street2,
+			    	po: this.state.po,
+			    	zip: this.state.zip,
+			    	state: this.state.state,
+			    	phone: this.state.phone,
+			    	gender: this.state.gender,
+			    	type: this.state.type
+			    }
+			})
+			.then(function (response) {
 			    console.log(response);
-			  })
-			  .catch(function (error) {
+			})
+			.catch(function (error) {
 			    console.log(error);
-			  });
+			});
 			  
 	    	if (this.state.type == 'owner') {
 	    		this.props.history.push('/reg/owner');
@@ -123,7 +100,7 @@ export class Registration extends React.Component {
 						Password:<br />
 						<input name="password" id="password" type="password" value={this.state.password} onChange={this.handleChange} required /><br />
 						Reenter Password:<br />
-						<input name="repassword" id="confirm-password" type="password" value={this.state.repassword} onChange={this.validatePassword} required /><br />
+						<input name="repassword" id="confirm-password" type="password" value={this.state.repassword} onChange={this.handleChange} required /><br />
 						
 						
 						Address:<br />
@@ -138,8 +115,8 @@ export class Registration extends React.Component {
 						<input name="zip" type="text" value={this.state.zip} onChange={this.handleChange} required pattern="[0-9]{5}"/><br />
 						State:<br />
 						<input name="state" type="text" value={this.state.state} onChange={this.handleChange} required/><br />
-						Phone Number:<br />
-						<input name="phone" type="text" value={this.state.phone} onChange={this.handleChange} required pattern="[0-9]{10} | [0-9]{3}-[0-9]{3}-[0-9]{4}" /><br />
+						Phone Number: (###-###-####)<br />
+						<input name="phone" type="text" value={this.state.phone} onChange={this.handleChange} required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" /><br />
 						
 						<br />
 						Gender: <br />
