@@ -204,11 +204,13 @@ public class OwnerEndpoint {
 		ArrayList<SitterDto> sitterList = new ArrayList<SitterDto>();
 		for (SearchHit hit : searchHits){
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
-			if (calendarService.isFree(sitter, appointment)){
-				if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
-					sitterList.add(sitter);			
+			if(!sitter.getUsername().equals(userService.getUsername())){
+				if (calendarService.isFree(sitter, appointment)){
+					if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
+						sitterList.add(sitter);			
+					}
 				}
-			}
+			}	
 		}
 		SitterComparator comp = new SitterComparator();
 		comp.setSortType(setting);
