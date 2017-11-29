@@ -830,7 +830,7 @@ export class SitterCreate extends React.Component {
 }
 
 export class SitterSwitchPet extends React.Component {
-	onstructor(props) {
+	constructor(props) {
 	    super(props);
 	    this.state = {
 	    	name: '',
