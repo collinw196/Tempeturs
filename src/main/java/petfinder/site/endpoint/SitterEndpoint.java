@@ -84,6 +84,11 @@ public class SitterEndpoint {
 		calendarService = clS;
 		objectMapper = new ObjectMapper();
 	}
+	
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public SitterDto getOwner() {
+		return sitterService.getSitter();
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public SitterDto findSitter(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, IOException {
