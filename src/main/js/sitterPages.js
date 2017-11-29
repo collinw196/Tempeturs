@@ -18,6 +18,7 @@ export class SitterHome extends React.Component {
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
 						<li><Link to="/sitter/calendar">Schedule</Link></li>
+						<li><Link to="/sitter/create">Create an unavailable time block </Link></li>
 						<li><Link to="/sitter/notifications">Notifications</Link></li>
 					</ul>
 				</div>
@@ -540,4 +541,289 @@ export class WeekView extends React.Component{
         </div>
         );
     }
+}
+
+export class SitterCreate extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	startDay: 1,
+			startMonth: 1,
+			startYear: '',
+			endDay: 1,
+			endMonth: 1,
+			endYear: '',
+			startMin: 0,
+			startHour: 0,
+			endMin: 0,
+			endHour: 1,
+			repeatStrategy: 0,
+			notificationMessage: 'This block has been created',
+			type: 'Block',
+	    };
+
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+
+	    this.setState({
+	      [name]: value
+	    });
+	}
+
+    handleSubmit(event) {
+    	event.preventDefault();
+
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/block/create',
+		    data: {
+		    	startDay: this.state.startDay,
+				startMonth: this.state.startMonth,
+				startYear: this.state.startYear,
+				endDay: this.state.endDay,
+				endMonth: this.state.endMonth,
+				endYear: this.state.endYear,
+				startMin: this.state.startMin,
+				startHour: this.state.startHour,
+				endMin: this.state.endMin,
+				endHour: this.state.endHour,
+				repeatStrategy: this.state.repeatStrategy,
+				notificationMessage: this.state.notificationMessage,
+				type: this.state.type,
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		this.props.history.push('/sitter/home');
+    }
+
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Create an Unavailable Block</h5>
+					<form onSubmit={this.handleSubmit}>
+						<h7>Start Date of Appointment:</h7><br />
+						Month:
+						<select name="startMonth" onChange={this.handleChange} required>
+							<option value="1">January</option>
+						    <option value="2">February</option>
+						    <option value="3">March</option>
+						    <option value="4">April</option>
+						    <option value="5">May</option>
+						    <option value="6">June</option>
+						    <option value="7">July</option>
+						    <option value="8">August</option>
+						    <option value="9">September</option>
+						    <option value="10">October</option>
+						    <option value="11">November</option>
+						    <option value="12">December</option>
+						</select>
+						Day:
+						<select name="startDay" onChange={this.handleChange} required>
+							<option value="1">1</option>
+						    <option value="21">2</option>
+						    <option value="3">3</option>
+						    <option value="4">4</option>
+						    <option value="5">5</option>
+						    <option value="6">6</option>
+						    <option value="7">7</option>
+						    <option value="8">8</option>
+						    <option value="9">9</option>
+						    <option value="10">10</option>
+						    <option value="11">11</option>
+						    <option value="12">12</option>
+						    <option value="13">13</option>
+						    <option value="14">14</option>
+						    <option value="15">15</option>
+						    <option value="16">16</option>
+						    <option value="17">17</option>
+						    <option value="18">18</option>
+						    <option value="19">19</option>
+						    <option value="20">20</option>
+						    <option value="21">21</option>
+						    <option value="22">22</option>
+						    <option value="23">23</option>
+						    <option value="24">24</option>
+						    <option value="25">25</option>
+						    <option value="26">26</option>
+						    <option value="27">27</option>
+						    <option value="28">28</option>
+						    <option value="29">29</option>
+						    <option value="30">30</option>
+						    <option value="31">31</option>
+						</select>
+						Year:
+						<input name="startYear" type="text" value={this.state.startYear} onChange={this.handleChange} required pattern="[0-9]{4}" /><br />
+
+						Start Time of Appointment:<br />
+						Hour:
+						<select name="startHour" onChange={this.handleChange} required>
+							<option value="0">12 AM</option>
+						    <option value="1">1 AM</option>
+						    <option value="2">2 AM</option>
+						    <option value="3">3 AM</option>
+						    <option value="4">4 AM</option>
+						    <option value="5">5 AM</option>
+						    <option value="6">6 AM</option>
+						    <option value="7">7 AM</option>
+						    <option value="8">8 AM</option>
+						    <option value="9">9 AM</option>
+						    <option value="10">10 AM</option>
+						    <option value="11">11 AM</option>
+						    <option value="12">12 PM</option>
+						    <option value="13">1 PM</option>
+						    <option value="14">2 PM</option>
+						    <option value="15">3 PM</option>
+						    <option value="16">4 PM</option>
+						    <option value="17">5 PM</option>
+						    <option value="18">6 PM</option>
+						    <option value="19">7 PM</option>
+						    <option value="20">8 PM</option>
+						    <option value="21">9 PM</option>
+						    <option value="22">10 PM</option>
+						    <option value="23">11 PM</option>
+						</select>
+						Minute:
+						<select name="startMinute" onChange={this.handleChange} required>
+							<option value="00">00</option>
+							<option value="5">5</option>
+						    <option value="10">10</option>
+						    <option value="15">15</option>
+						    <option value="20">20</option>
+						    <option value="25">25</option>
+						    <option value="30">30</option>
+						    <option value="35">35</option>
+						    <option value="40">40</option>
+						    <option value="45">45</option>
+						    <option value="50">50</option>
+						    <option value="55">55</option>
+						</select><br />
+
+
+
+						<h7>End Date of Appointment:</h7><br />
+						Month:
+						<select name="endMonth" onChange={this.handleChange} required>
+							<option value="1">January</option>
+						    <option value="2">February</option>
+						    <option value="3">March</option>
+						    <option value="4">April</option>
+						    <option value="5">May</option>
+						    <option value="6">June</option>
+						    <option value="7">July</option>
+						    <option value="8">August</option>
+						    <option value="9">September</option>
+						    <option value="10">October</option>
+						    <option value="11">November</option>
+						    <option value="12">December</option>
+						</select>
+						Day:
+						<select name="endDay" onChange={this.handleChange} required>
+							<option value="1">1</option>
+						    <option value="2">2</option>
+						    <option value="3">3</option>
+						    <option value="4">4</option>
+						    <option value="5">5</option>
+						    <option value="6">6</option>
+						    <option value="7">7</option>
+						    <option value="8">8</option>
+						    <option value="9">9</option>
+						    <option value="10">10</option>
+						    <option value="11">11</option>
+						    <option value="12">12</option>
+						    <option value="13">13</option>
+						    <option value="14">14</option>
+						    <option value="15">15</option>
+						    <option value="16">16</option>
+						    <option value="17">17</option>
+						    <option value="18">18</option>
+						    <option value="19">19</option>
+						    <option value="20">20</option>
+						    <option value="21">21</option>
+						    <option value="22">22</option>
+						    <option value="23">23</option>
+						    <option value="24">24</option>
+						    <option value="25">25</option>
+						    <option value="26">26</option>
+						    <option value="27">27</option>
+						    <option value="28">28</option>
+						    <option value="29">29</option>
+						    <option value="30">30</option>
+						    <option value="31">31</option>
+						</select>
+						Year:
+						<input name="endYear" type="text" value={this.state.endYear} onChange={this.handleChange} required pattern="[0-9]{4}" /><br />
+
+						End Time of Appointment:<br />
+						Hour:
+						<select name="endHour" onChange={this.handleChange} required>
+							<option value="0">12 AM</option>
+						    <option value="1">1 AM</option>
+						    <option value="2">2 AM</option>
+						    <option value="3">3 AM</option>
+						    <option value="4">4 AM</option>
+						    <option value="5">5 AM</option>
+						    <option value="6">6 AM</option>
+						    <option value="7">7 AM</option>
+						    <option value="8">8 AM</option>
+						    <option value="9">9 AM</option>
+						    <option value="10">10 AM</option>
+						    <option value="11">11 AM</option>
+						    <option value="12">12 PM</option>
+						    <option value="13">1 PM</option>
+						    <option value="14">2 PM</option>
+						    <option value="15">3 PM</option>
+						    <option value="16">4 PM</option>
+						    <option value="17">5 PM</option>
+						    <option value="18">6 PM</option>
+						    <option value="19">7 PM</option>
+						    <option value="20">8 PM</option>
+						    <option value="21">9 PM</option>
+						    <option value="22">10 PM</option>
+						    <option value="23">11 PM</option>
+						</select>
+						Minute:
+						<select name="endMinute" onChange={this.handleChange} required>
+							<option value="00">00</option>
+							<option value="5">5</option>
+						    <option value="10">10</option>
+						    <option value="15">15</option>
+						    <option value="20">20</option>
+						    <option value="25">25</option>
+						    <option value="30">30</option>
+						    <option value="35">35</option>
+						    <option value="40">40</option>
+						    <option value="45">45</option>
+						    <option value="50">50</option>
+						    <option value="55">55</option>
+						</select><br />
+						How often do you want the block to repeat:
+						<select name="repeatStrategy" onChange={this.handleChange} required>
+							<option value="0">Never</option>
+							<option value="1">Weekly</option>
+						    <option value="2">Bi-Weekly</option>
+						    <option value="3">Every 3 weeks</option>
+						    <option value="4">Every 4 weeks</option>
+						    <option value="8">Every 8 weeks</option>
+						    <option value="12">Every 12 weeks</option>
+						    <option value="26">Every 26 weeks</option>
+						    <option value="52">Yearly</option>
+						</select><br />
+						<input type="submit" value="Submit" />
+					</form>
+				</div>
+			</div>
+		);
+	}
 }

@@ -47,7 +47,7 @@ export class OwnerReserve extends React.Component {
 			endMin: 0,
 			endHour: 1,
 			username: '',
-			repeatStrategy: 1,
+			repeatStrategy: 0,
 			notificationMessage: 'This appointment has been scheduled',
 			type: 'Appt',
 			petIds: [],

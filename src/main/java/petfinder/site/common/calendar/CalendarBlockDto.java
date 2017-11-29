@@ -312,6 +312,42 @@ public class CalendarBlockDto {
 		this.type = type;
 	}
 	
-	
+	public void addWeek(int increment) {
+		int monthArray[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+		int numDays = getRepeatStrategy() * 7 * increment;
+		int sDay = getStartDay();
+		int eDay = getEndDay();
+		int sMonth = getStartMonth();
+		int eMonth = getEndMonth();
+		int sYear = getStartYear();
+		int eYear = getEndYear(); 
+		for(int i = 0; i < numDays; i++){
+			sDay++;
+			eDay++;
+			if(sDay > monthArray[sMonth - 1]){
+				sDay = 1;
+				sMonth++;
+				if(sMonth > 12){
+					sMonth = 1;
+					sYear++;
+				}
+			}
+			if(eDay > monthArray[eMonth - 1]){
+				eDay = 1;
+				eMonth++;
+				if(eMonth > 12){
+					eMonth = 1;
+					eYear++;
+				}
+			}
+		}
+		
+		setStartDay(sDay);
+		setEndDay(eDay);
+		setStartMonth(sMonth);
+		setEndMonth(eMonth);		
+		setStartYear(sYear);
+		setEndYear(eYear);		
+	}
 	
 }
