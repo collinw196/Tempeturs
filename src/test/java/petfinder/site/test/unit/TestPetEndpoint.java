@@ -24,7 +24,7 @@ public class TestPetEndpoint {
 		UserService uS = new UserService(cS);
 		OwnerService oS = new OwnerService(cS, uS);
 		PetService pS = new PetService(oS, cS);
-		PetEndpoint pP = new PetEndpoint(cS, pS);
+		PetEndpoint pP = new PetEndpoint(cS, pS, oS);
 		PetDto pet = new PetDto("rodger", "dog", 4, "");
 		PetDto pet1 = new PetDto("nick", "cat", 5, "");
 		ResponseEntity<String> res = null;

@@ -86,6 +86,7 @@ public class CalendarService {
 		sourceBuilder.query(boolQuery); 
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(120, TimeUnit.SECONDS));
+		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
 			response = clientService.getHighClient().search(searchRequest);
@@ -100,7 +101,7 @@ public class CalendarService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment1 = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			if(appointment1.getAppointmentStatus().equals("ACCEPTED")){
+			if(appointment.getType().equals("Block") || appointment1.getAppointmentStatus().equals("ACCEPTED")){
 				hitNum++;
 			}
 		}
