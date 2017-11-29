@@ -97,12 +97,14 @@ public class LoginEndpoint {
 			e1.printStackTrace();
 		}
 		
-		if(!userService.getUser().getType().equals("both") || !loginDto.getType().equals(userService.getUser().getType())){
+		if(!userService.getUser().getType().equals("both") && !loginDto.getType().equals(userService.getUser().getType())){
+			System.out.println("\n\nShouldn't be here\n\n");
 			return "Failure";
 		}
 		
 		if(loginDto.getType().equals("owner")){
 			try {
+				System.out.println("\n\nOwner\n\n");
 				ownerService.updateService(loginDto.getUsername());
 				petService.updateService();
 			} catch (IOException e) {
@@ -111,6 +113,7 @@ public class LoginEndpoint {
 			}			
 		} else{
 			try {
+				System.out.println("\n\nSitter\n\n");
 				sitterService.updateService(loginDto.getUsername());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
