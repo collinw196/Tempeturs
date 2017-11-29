@@ -11,9 +11,9 @@ export class SitterInfo extends React.Component {
 	    this.state = {
 	    	accountNumber: '',
 	    	routingNumber: '',
-	    	preference1: '',
-	    	preference2: '',
-	    	preference3: ''	    	
+	    	preference1: 'dog',
+	    	preference2: 'dog',
+	    	preference3: 'dog'    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);

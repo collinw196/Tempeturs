@@ -67,4 +67,8 @@ public class UserEndpoint {
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/type", method = RequestMethod.POST)
+	public String getType() {
+		return userService.getUser().getType();
+	}
 }
