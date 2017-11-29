@@ -178,17 +178,22 @@ export class WeekView extends React.Component{
         super(props);
         this.state = {
 	    	appointments: [],
-	    	week: [24][7],
+	    	week: [],	    	
 	    	weekOffset: 0
 	    };
 	    
 	    console.log('I am Here');
 	    
-        for (var i = 0; i < this.state.week.length; i++) {
-        	for(var j = 0; j < this.state.week[i].length; j++) {
-        		this.state.week[i][j] = new Object(this.username = '', this.blockId = -1, 
-        			this.startHour = -1, this.startMin = -1, this.endHour = -1, this.endMin = -1);
+	    var dayLength = 24;
+	    var weekLength = 7;
+	    
+        for (var i = 0; i < dayLength; i++) {
+        	var dayArray = [];
+        	for(var j = 0; j < weekLength; j++) {
+        		dayArray.push({'username': '', 'blockId': '', 
+        			'startHour': '', 'startMin': '', 'endHour': '', 'endMin': ''});
         	}
+        	this.state.week.push(dayArray);
         }
         
         console.log('I want to be here');
