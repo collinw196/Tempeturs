@@ -20,6 +20,7 @@ export class SitterHome extends React.Component {
 						<li><Link to="/sitter/calendar">Schedule</Link></li>
 						<li><Link to="/sitter/create">Create an unavailable time block </Link></li>
 						<li><Link to="/sitter/notifications">Notifications</Link></li>
+						<li><Link to="/sitter/ownerSwitch">Switch to Owner</Link></li>
 					</ul>
 				</div>
 			</div>
@@ -823,6 +824,231 @@ export class SitterCreate extends React.Component {
 						<input type="submit" value="Submit" />
 					</form>
 				</div>
+			</div>
+		);
+	}
+}
+
+export class SitterSwitchPet extends React.Component {
+	onstructor(props) {
+	    super(props);
+	    this.state = {
+	    	name: '',
+	    	type: '',
+	    	age: '',
+	    	notes: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.nextPet = this.nextPet.bind(this);
+	    this.pushData = this.pushData.bind(this);
+    }
+    
+    componentDidMount() {
+		axios.get('https://tempeturs-group-2.herokuapp.com/api/user/type')
+        	.then(response => {
+            	if(response.data === 'both'){
+	            	axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/update')
+			        	.then(response => {
+			            	console.log(response);
+			            })
+			            .catch(function(error) {
+			                console.log(error);
+			            });
+            		this.props.history.push('/owner/home');
+            	}
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+            
+        axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/switch',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+	nextPet(event) {
+    	event.preventDefault();
+    	
+    	this.pushData();
+    	this.setState({
+	      	name: '',
+	    	type: '',
+	    	age: '',
+	    	notes: ''	   
+	    });
+    	location.reload();
+    }
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.pushData();
+    	this.props.history.push('/sitter/ownerSwitch/pay');
+    }
+    
+    pushData() {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg',
+		    data: {
+			    name: this.state.name,
+	    		type: this.state.type,
+	    		age: this.state.age,
+	    		notes: this.state.notes
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+	}
+		  
+    
+    
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Pet Information</h5>
+					<form onSubmit={this.handleSubmit}>
+						Pet Name:<br />
+						<input name="name" type="text" value={this.state.name} onChange={this.handleChange} required /><br />
+						Pet Type:<br />
+						<select name="type" onChange={this.handleChange} required>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" >Cat</option>
+							<option value="horse" >Horse</option>
+							<option value="ferret" >Ferret</option>
+							<option value="rabbit" >Rabbit</option>
+							<option value="fish" >Fish</option>
+						</select>
+						<br />
+						*Age:<br />
+						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
+						*Notes:<br />
+						<input name="notes" type="text" value={this.state.notes} onChange={this.handleChange} /><br />
+						
+						<input type="button" value="Next Pet" onClick={this.nextPet} />
+  						<input type="submit" value="Submit" />
+  					</form>
+  				</div>
+			</div>
+		);
+	}
+}
+
+export class SitterSwitchPay extends React.Component {
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	crenumber: '',
+	    	ccvnumber: '',
+	    	expdatemonth: '',
+	    	expdateyear: '',
+	    	cardname: ''	    	
+	    };
+	
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+	
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+	
+    handleSubmit(event) {
+    	event.preventDefault();
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg',
+		    data: {
+			    crenumber: this.state.crenumber,
+	    		ccvnumber: this.state.ccvnumber,
+	    		expdatemonth: this.state.expdatemonth,
+	    		expdateyear: this.state.expdateyear,
+	    		cardname: this.state.cardname
+		    }
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg/finish',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg/finish/switch',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+		  
+		  
+    	this.props.history.push('/owner/home');
+    }
+    
+	render() {
+		return (
+			<div className="container padded">
+				<div>
+					<h5>Pet Owner Payment Information</h5>
+					<form onSubmit={this.handleSubmit}>
+						Name on Card:<br />
+						<input name="cardname" type="text" value={this.state.cardname} onChange={this.handleChange} required /><br />
+						Card Number:<br />
+						<input name="crenumber" type="number" value={this.state.crenumber} onChange={this.handleChange} required /><br />
+						CVV:<br />
+						<input name="ccvnumber" type="number" value={this.state.ccvnumber} onChange={this.handleChange} required /><br />
+						Exp. Date Month:<br />
+						<input name="expdatemonth" type="number" value={this.state.expdatemonth} onChange={this.handleChange} required /><br />
+						Exp. Date Year:<br />
+						<input name="expdateyear" type="number" value={this.state.expdateyear} onChange={this.handleChange} required /><br />
+						
+						<input type="submit" value="Submit" />
+					</form>
+				</div>
+				
 			</div>
 		);
 	}
