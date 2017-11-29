@@ -18,6 +18,7 @@ export class SitterHome extends React.Component {
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
 						<li><Link to="/sitter/calendar">Schedule</Link></li>
+						<li><Link to="/sitter/notifications">Notifications</Link></li>
 					</ul>
 				</div>
 			</div>
