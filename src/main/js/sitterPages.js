@@ -144,16 +144,16 @@ export class AppointmentView extends React.Component{
 		var button2;
 		
 		if(type === 'Block'){
-			button1 = <Button onClick={this.handleEdit}>Edit</Button>;
+			button1 = <Button onClick={this.handleEdit()}>Edit</Button>;
 			button2 = '';
 		}
 		else if(status === 'ACCEPTED'){
-			button1 = <Button onClick={this.cancelSitter}>Cancel</Button>;
+			button1 = <Button onClick={this.cancelSitter(blockId)}>Cancel</Button>;
 			button2 = '';
 		}
 		else{
-			button1 = <Button onClick={this.acceptAppt}>Confirm</Button>;
-			button2 =  <Button onClick={this.denyAppt}>Delete</Button>;
+			button1 = <Button onClick={this.acceptAppt(blockId)}>Confirm</Button>;
+			button2 =  <Button onClick={this.denyAppt(blockId)}>Delete</Button>;
 		}
 		return (
 			<div className="container padded">
