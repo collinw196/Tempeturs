@@ -21,6 +21,7 @@ export class SitterHome extends React.Component {
 						<li><Link to="/sitter/create">Create an unavailable time block </Link></li>
 						<li><Link to="/sitter/notifications">Notifications</Link></li>
 						<li><Link to="/sitter/ownerSwitch">Switch to Owner</Link></li>
+						<li><Link to="/user/sitter/info">Sitter Info </Link></li>
 					</ul>
 				</div>
 			</div>

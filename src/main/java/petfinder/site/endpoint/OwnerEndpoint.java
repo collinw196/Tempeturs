@@ -155,21 +155,9 @@ public class OwnerEndpoint {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ResponseEntity<String> editOwner(@RequestBody OwnerDto owner) throws IOException {
-		owner.setUsername(userService.getUsername());
-		owner.setPetIds(petService.getPetIds());
-		ownerService.setOwner(owner);
-		
-		String jsonString = objectMapper.writeValueAsString(owner);
-		HttpEntity entity = new NStringEntity(
-		        jsonString, ContentType.APPLICATION_JSON);
-		
-		String username = owner.getUsername();
-		Response indexResponse = clientService.getClient().performRequest(
-		        "PUT",
-		        "/owner/external/" + username,
-		        Collections.<String, String>emptyMap(),
-		        entity);
-		return new ResponseEntity<String>("Changed " + indexResponse, HttpStatus.OK);
+		regOwner(owner);
+		finishRegOwner();
+		return new ResponseEntity<String>("Changed", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reg/finish/switch", method = RequestMethod.POST)

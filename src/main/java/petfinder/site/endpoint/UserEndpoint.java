@@ -62,6 +62,7 @@ public class UserEndpoint {
 	@RequestMapping(value = "/reg/edit", method = RequestMethod.POST)
 	public ResponseEntity<String> editUser(@RequestBody UserDto user) throws IOException {
 		user.setRole("USER");
+		user.setNotificationIds(userService.getUser().getNotificationIds());
 		userService.addUser(user);
 		userService.writeUser();
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
