@@ -14,6 +14,7 @@ export class OwnerHome extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
+					<Link to="/login"><p align="right">Login</p></Link><br />
 					<h5>Pet Owner Home Page</h5>
 					<div>
 						<ul>
@@ -195,6 +196,8 @@ export class OwnerReserve extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
+					<Link to="/login"><p align="right">Login</p></Link>
+					<Link to="/owner/home"><p align="right">Home</p></Link><br />
 					<h5>Reserve an appointment</h5>
 					<form>
 						<h7>Start Date of Appointment:</h7><br />
@@ -490,6 +493,8 @@ export class OwnerAppoint extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/owner/home"><p align="right">Home</p></Link><br />
 				<div><h4>Current Appointments</h4></div>
 				<div id="currentAppoints">
 				{this.state.apptList.map(e => (
@@ -540,6 +545,8 @@ export class OwnerPets extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/owner/home"><p align="right">Home</p></Link><br />
 				<div><h4>Your Pet Information</h4></div>
 				<div id="petInfo">
 					{this.state.petList.map(e => (
@@ -632,6 +639,8 @@ export class OwnerPetsEdit extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
+					<Link to="/login"><p align="right">Login</p></Link>
+					<Link to="/owner/home"><p align="right">Home</p></Link><br />
 					<h5>Add a Pet</h5>
 					<form onSubmit={this.handleSubmit}>
 						Pet Name:<br />
@@ -708,6 +717,8 @@ export class OwnerPetsAdd extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
+					<Link to="/login"><p align="right">Login</p></Link>
+					<Link to="/owner/home"><p align="right">Home</p></Link><br />
 					<h5>Add a Pet</h5>
 					<form onSubmit={this.handleSubmit}>
 						Pet Name:<br />
@@ -815,6 +826,8 @@ export class OwnerSwitch extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
+					<Link to="/login"><p align="right">Login</p></Link>
+					<Link to="/owner/home"><p align="right">Home</p></Link><br />
 					<h5>Pet Sitter Information</h5>
 					<form onSubmit={this.handleSubmit}>
 						Payment Account Number:<br />
@@ -879,6 +892,8 @@ export class OwnerNot extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/owner/home"><p align="right">Home</p></Link><br />
 				<div><h4>Notifications</h4></div>
 				<div id="currentAppoints">
 				{this.state.apptList.map(e => (

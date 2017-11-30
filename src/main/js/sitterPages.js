@@ -15,6 +15,7 @@ export class SitterHome extends React.Component {
 		return (
 			<div className="container padded">
 				<div>
+					<Link to="/login"><p align="right">Login</p></Link><br />
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
 						<li><Link to="/sitter/calendar">Schedule</Link></li>
@@ -169,6 +170,8 @@ export class AppointmentView extends React.Component{
 		}
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					{name}
 					<table>
@@ -240,6 +243,8 @@ export class WeekView extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div><h4>Current Appointments</h4></div>
 				<div id="currentAppoints">
 				{this.state.apptList.map(e => (
@@ -409,6 +414,8 @@ export class SitterBlockEdit extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h5>Create an Unavailable Block</h5>
 					<form onSubmit={this.handleSubmit}>
@@ -695,6 +702,8 @@ export class SitterCreate extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h5>Create an Unavailable Block</h5>
 					<form onSubmit={this.handleSubmit}>
@@ -1012,6 +1021,8 @@ export class SitterSwitchPet extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h5>Pet Information</h5>
 					<form onSubmit={this.handleSubmit}>
@@ -1115,6 +1126,8 @@ export class SitterSwitchPay extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h5>Pet Owner Payment Information</h5>
 					<form onSubmit={this.handleSubmit}>

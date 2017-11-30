@@ -37,6 +37,8 @@ export class Notifications extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div><h4>Appointment Notifications</h4></div>
 				<div id="currentAppoints">
 				{this.state.apptNotifications.map(e => (
