@@ -101,7 +101,7 @@ public class CalendarService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment1 = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			if(appointment.getType().equals("Block") || appointment1.getAppointmentStatus().equals("ACCEPTED")){
+			if(appointment1.getType().equals("Block") || appointment1.getAppointmentStatus().equals("ACCEPTED")){
 				hitNum++;
 			}
 		}
