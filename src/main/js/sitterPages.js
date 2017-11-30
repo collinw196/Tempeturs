@@ -218,7 +218,7 @@ export class WeekView extends React.Component{
     	
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(response => {
-            	this.setState({appointments: response.data});
+            	this.setState({appointments: response});
             	console.log(this.state.appointments);
 		    	var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		    	var today = new Date();
@@ -283,8 +283,6 @@ export class WeekView extends React.Component{
             });
             
             this.getDateHeader = this.getDateHeader.bind(this);
-	        this.previousWeek = this.previousWeek.bind(this);
-	        this.nextWeek = this.nextWeek.bind(this);
 	        this.formatHour = this.formatHour.bind(this);
 	        this.getTime = this.getTime.bind(this);
     }
