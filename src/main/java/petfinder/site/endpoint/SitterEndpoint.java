@@ -92,7 +92,7 @@ public class SitterEndpoint {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ResponseEntity<String> findSitter() {
+	public ResponseEntity<String> updateEndpoint() {
 		try {
 			sitterService.updateService(userService.getUsername());
 		} catch (IOException e) {

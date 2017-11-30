@@ -52,6 +52,22 @@ public class PetEndpoint {
 		ownerService = oS;
 	}
 	
+	public ResponseEntity<String> updateEndpoint() {
+		try {
+			petService.updateService();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> editSetUp() {
+		petService.emptyList();
+		return new ResponseEntity<String>("Emptied", HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public PetDto findPet(@PathVariable(name = "id") Long id) throws IOException {
 		Response response = clientService.getClient().performRequest("GET", "/pets/external/" + id + "/_source",

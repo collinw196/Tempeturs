@@ -111,6 +111,17 @@ public class OwnerEndpoint {
 	public OwnerDto getOwner() {
 		return ownerService.getOwner();
 	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ResponseEntity<String> updateEndpoint() {
+		try {
+			ownerService.updateService(userService.getUsername());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
@@ -147,6 +158,24 @@ public class OwnerEndpoint {
 		regOwner(owner);
 		finishRegOwner();
 		return new ResponseEntity<String>("Changed", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> switchToSitter() throws IOException {
+		UpdateRequest request1 = new UpdateRequest(
+	        "users", 
+	        "external",  
+	        userService.getUsername());
+		
+		String jsonString = "{"  
+				+ "\"type\": \"both\""
+				+ "}";
+		
+		request1.doc(jsonString, XContentType.JSON);
+		
+		clientService.getHighClient().update(request1);
+		finishRegOwner();
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
 	// These are empty functions without return types (since i dont know how they will be returned yet.
