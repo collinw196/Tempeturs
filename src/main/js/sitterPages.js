@@ -191,8 +191,7 @@ export class WeekView extends React.Component{
         this.state = {
 	    	appointments: [],
 	    	week: [],	    	
-	    	weekOffset: '',
-	    	time: 0
+	    	weekOffset: ''
 	    }; 
 	    
 	    var dayLength = 24;
@@ -280,6 +279,7 @@ export class WeekView extends React.Component{
                 }
             }
     	}
+    	console.log(this.state.week);
         
         this.getDateHeader = this.getDateHeader.bind(this);
         this.previousWeek = this.previousWeek.bind(this);
@@ -358,15 +358,18 @@ export class WeekView extends React.Component{
     	this.props.history.push(url);
     }
     
-    getTime(){
-    	var value = this.state.time;
-    	var post = 'am';
-    	if(value > 11){
-    		post = 'pm';
+    getTime(hour) {
+    	var value;
+    	if(hour > 12){
+    		hour = hour - 12;
+    		value = hour + ':00' + 'PM';
+    	} else if(hour === 0){
+    		hour = 12;
+    		value = hour + ':00' + 'AM';
+    	}else {
+    		value = hour + ':00' + 'AM';
     	}
-    	value = this.formatHour(value);
-    	value = value + ':00' + post;
-    	this.state.time++;
+    	
     	return value;
     }
     
@@ -402,21 +405,22 @@ export class WeekView extends React.Component{
                 		</td>
                     </tr>
                     {this.state.week.map((row) => {
+                    	var time = 0;
                     	return (
 	                    	<tr>
-		                   		<td width="12%">{this.getTime()}</td>
+		                   		<td width="12%">{this.getTime(time)}</td>
 		        		        {row.map(e => (
 			        		         <td width="12%">
 			        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
 					    					{e.blockId} <br />
 					    					{e.username} <br />
-				    						{this.formatHour(e.startHour)} -
-				    						{this.formatHour(e.endHour)}
+				    						{this.formatHour(e.startHour)} {this.formatHour(e.endHour)}
 				    					</Link>
 			        		        </td>
 								))}
 			        		</tr>
 			        	);
+			        	time++;
 					})}
                 </table>
             </div>
