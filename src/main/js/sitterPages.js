@@ -379,11 +379,11 @@ export class WeekView extends React.Component{
         return(
             <div class="container">
                 <div class="row">
-                <Link to="/sitter/calendar?offset=" + {myOffset - 1}>
+                <Link to={'/sitter/calendar?offset=' + (myOffset - 1)}>
                 	<button height="10%" type="button" align="left" >Previous</button>
                 </Link>
-                <Link to="/sitter/calendar?offset=" + {myOffset + 1}>
-                	<button height="10%" type="button" align="right" }>Next</button>
+                <Link to={'/sitter/calendar?offset=' + (myOffset + 1)}>
+                	<button height="10%" type="button" align="right" >Next</button>
                 </Link>
                 <table width="100%">
                 	<tr height="90%" align="bottom">
