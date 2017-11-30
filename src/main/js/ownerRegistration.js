@@ -10,9 +10,8 @@ export class PetInfo extends React.Component {
 	    super(props);
 	    this.state = {
 	    	name: '',
-	    	type: '',
+	    	type: 'dog',
 	    	age: '',
-	    	notes: ''	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);

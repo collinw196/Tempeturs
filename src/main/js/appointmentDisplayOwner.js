@@ -12,10 +12,16 @@ export class OwnerApptDisplay extends React.Component {
 	    this.state = {
 	    	appointment: '',
 	    	bID: '',
-	    	ownedPets: []
+	    	ownedPets: [],
+	    	rating: ''
 	    };
 	    this.cancelAppt = this.cancelAppt.bind(this);
 	    this.paySitter = this.paySitter.bind(this);
+	    this.formatMin = this.formatMin.bind(this);
+	    this.formatHour = this.formatHour.bind(this);
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.rateSitter = this.rateSitter.bind(this);
     }
 	
 	componentDidMount() {
@@ -32,13 +38,20 @@ export class OwnerApptDisplay extends React.Component {
 		    console.log(error);
 		});
     	
-        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointments/pets/get',
+		    data: {
+		    	petIds: this.state.appointment.petIds
+		    }
+		   
+		})
     	.then(data => {
         	this.setState({ownedPets: data.data});
         })
-        .catch(function(error) {
-            console.log(error);
-        });
+		.catch(function (error) {
+		    console.log(error);
+		});
     }
 	
     cancelAppt(event) {
@@ -100,6 +113,38 @@ export class OwnerApptDisplay extends React.Component {
     	return value;
     }
     
+    rateSitter(){
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/siiter/rate/' + this.state.appointment.username + '/' + this.state.rating;
+    	axios({
+		    method: 'POST',
+		    url: value,
+		    data: {
+		    	petIds: this.state.appointment.petIds
+		    }
+		   
+		})
+    	.then(data => {
+        	this.setState({ownedPets: data.data});
+        })
+		.catch(function (error) {
+		    console.log(error);
+		});
+    }
+    
+    handleChange(event) {
+	    const target = event.target;
+	    const value = target.value;
+	    const name = target.name;
+	
+	    this.setState({
+	      [name]: value
+	    });
+	}
+    
+    handleSubmit(event) {
+    	event.preventDefault();
+    	this.props.history.push('/owner/appoint');
+    }
 	render() {
 		return (
 			<div className="container padded">
@@ -128,6 +173,17 @@ export class OwnerApptDisplay extends React.Component {
 						<input type="button" value = "Pay" onClick={this.paySitter}/><br />
 						Cancel Appointment:<br />
 						<input type="button" value = "Cancel" onClick={this.cancelAppt}/><br />
+						Rate Sitter:<br />
+						<select name="rating" onChange={this.handleChange}>
+							<option value="dog" selected>Dog</option>
+							<option value="cat" >Cat</option>
+							<option value="horse" >Horse</option>
+							<option value="ferret" >Ferret</option>
+							<option value="rabbit" >Rabbit</option>
+							<option value="fish" >Fish</option>
+						</select>
+						<input type="button" value = "Rate" onClick={this.rateSitter}/><br />
+						<input type="submit" value="DONE" />
 					</form>
 				</div>
 			</div>

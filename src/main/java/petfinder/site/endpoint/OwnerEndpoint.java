@@ -407,7 +407,7 @@ public class OwnerEndpoint {
 		return petList;
 	}
 	
-	@RequestMapping(value = "/appointment/pets/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/appointment/pets/get", method = RequestMethod.POST)
 	public List<PetDto> getPets(@RequestBody List<Integer> petIds) throws IOException{
 		ArrayList<PetDto> petList = new ArrayList<PetDto>();
 		for (int petId : petIds){
