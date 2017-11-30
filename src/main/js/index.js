@@ -33,7 +33,7 @@ export default class Index extends React.Component {
 					<Route exact path="/owner/pet/edit" component={OwnerPetsEdit} />
 					<Route exact path="/owner/edit" component={OwnerEdit} />
 					<Route exact path="/user/owner/info" component={OwnerInfo} />
-					<Route exact path="/user/sitter/info" component={SitterInfoDsiplay} />	
+					<Route exact path="/user/sitter/info" component={SitterInfoDisplay} />	
 					<Route exact path="/user/edit" component={UserEdit} />		
 					<Route exact path="/sitter/home" component={SitterHome} />
 					<Route exact path="/sitter/calendar" component={WeekView} />
