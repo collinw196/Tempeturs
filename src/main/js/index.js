@@ -8,7 +8,7 @@ import { SitterInfo } from 'js/sitterRegistration';
 import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, OwnerSwitch, OwnerNot, OwnerPetsEdit } from 'js/ownerPages';
 import { SitterHome, WeekView, AppointmentView, SitterCreate, SitterSwitchPet, SitterSwitchPay } from 'js/sitterPages';
 import { OwnerApptDisplay } from 'js/appointmentDisplayOwner';
-import { OwnerInfo, UserEdit, OwnerEdit, SitterInfoDisplay, SitterEdit } from 'js/userInfo';
+import { OwnerInfo, UserEdit, OwnerEdit, SitterInfoDisplay, SitterEdit, SitterBlockEdit } from 'js/userInfo';
 import { Notifications } from 'js/notifications';
 
 export default class Index extends React.Component {
@@ -43,6 +43,7 @@ export default class Index extends React.Component {
 					<Route exact path="/sitter/ownerSwitch" component={SitterSwitchPet} />
 					<Route exact path="/sitter/ownerSwitch/pay" component={SitterSwitchPay} />
 					<Route exact path="/sitter/edit" component={SitterEdit} />
+					<Route exact path="/sitter/block/edit" component={SitterBlockEdit} />
 				</div>
 			</HashRouter>
 		);
