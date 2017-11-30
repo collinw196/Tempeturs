@@ -17,7 +17,7 @@ export class SitterHome extends React.Component {
 				<div>
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
-						<li><Link to="/sitter/calendar?offset=0">Schedule</Link></li>
+						<li><Link to="/sitter/calendar">Schedule</Link></li>
 					</ul>
 				</div>
 			</div>
@@ -299,7 +299,7 @@ export class SitterBlockEdit extends React.Component {
 		const params = new URLSearchParams(search);
 		const id = params.get('blockId');
 	    
-	    var url = 'https://tempeturs-group-2.herokuapp.com/api/pet/' + id;
+	    var url = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + id;
 	    axios.get(url)
         	.then(data => {
             	this.setState({
