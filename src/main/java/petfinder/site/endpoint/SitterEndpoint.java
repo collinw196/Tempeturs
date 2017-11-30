@@ -125,6 +125,15 @@ public class SitterEndpoint {
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editSitter(@RequestBody SitterDto sitter) {
+		sitter.setUsername(userService.getUsername());
+		sitter.setZip(userService.getUser().getZip());
+		sitter.setRating(sitterService.getSitter().getRating());
+		sitterService.addSitter(sitter);
+		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)
 	public ResponseEntity<String> finishRegSitter() throws IOException {
 		SitterDto sitter = sitterService.getSitter();
