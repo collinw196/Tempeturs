@@ -138,6 +138,8 @@ export class AppointmentView extends React.Component{
     }
     
 	render() {
+		const type = this.state.appointment.type;
+		const type = this.state.appointment.appointmentStatus;
 		return (
 			<div className="container padded">
 				<div>
@@ -183,7 +185,6 @@ export class WeekView extends React.Component{
 	    	weekOffset: ''
 	    };
 	    
-	    console.log('I am Here');
 	    
 	    var dayLength = 24;
 	    var weekLength = 7;
@@ -235,8 +236,10 @@ export class WeekView extends React.Component{
 	    			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
 	    			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
 	    			return (
-	    				<Link to="/sitter/appointmentInfo">Appointment Scheduled: \n this.state.appointments[i].startHour - 
-	    					this.state.appointments[i].endHour</Link>
+	    				<Link to="sitter/appointmentInfo?blockId" + this.state.appointments[i].blockId>
+	    					Appointment Scheduled:
+    						{this.state.appointment.startHour} -
+    						{this.state.appointment.endHour}</Link>
 	    			);
 	    		}
 	    	}
