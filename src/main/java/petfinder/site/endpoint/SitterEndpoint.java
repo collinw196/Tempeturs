@@ -384,7 +384,7 @@ public class SitterEndpoint {
 			ArrayList<CalendarAppointmentDto> tempApptList = new ArrayList<CalendarAppointmentDto>();
 			tempApptList.add(appointment);
 			if(appointment.getRepeatStrategy() > 0){
-				for(int i = 0; i < 10; i++){
+				for(int i = 1; i < 10; i++){
 					CalendarAppointmentDto tempAppointment = new CalendarAppointmentDto(appointment);
 					tempAppointment.addWeek(i);
 					tempApptList.add(tempAppointment);

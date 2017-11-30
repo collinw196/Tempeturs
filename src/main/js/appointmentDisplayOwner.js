@@ -40,7 +40,7 @@ export class OwnerApptDisplay extends React.Component {
     	
     	axios({
 		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointments/pets/get',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pets/get',
 		    data: {
 		    	petIds: this.state.appointment.petIds
 		    }
@@ -148,6 +148,8 @@ export class OwnerApptDisplay extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/owner/home"><p align="right">Home</p></Link><br />
 				<div>
 					<p>Sitter Username: {this.state.appointment.username}</p>
 					<table>
@@ -175,12 +177,11 @@ export class OwnerApptDisplay extends React.Component {
 						<input type="button" value = "Cancel" onClick={this.cancelAppt}/><br />
 						Rate Sitter:<br />
 						<select name="rating" onChange={this.handleChange}>
-							<option value="dog" selected>Dog</option>
-							<option value="cat" >Cat</option>
-							<option value="horse" >Horse</option>
-							<option value="ferret" >Ferret</option>
-							<option value="rabbit" >Rabbit</option>
-							<option value="fish" >Fish</option>
+							<option value="1" selected>1</option>
+							<option value="2" >2</option>
+							<option value="3" >3</option>
+							<option value="4" >4</option>
+							<option value="5" >5</option>
 						</select>
 						<input type="button" value = "Rate" onClick={this.rateSitter}/><br />
 						<input type="submit" value="DONE" />

@@ -35,6 +35,8 @@ export class OwnerInfo extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/owner/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h4>User Info</h4>
 					First Name: {this.state.user.firstName}<br />
@@ -171,6 +173,7 @@ export class UserEdit extends React.Component {
     render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link><br />
 				<div>
 					<h2>Registration</h2>
 					<form onSubmit={this.handleSubmit}>
@@ -277,6 +280,8 @@ export class OwnerEdit extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/owner/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h5>Pet Owner Payment Information</h5>
 					<form onSubmit={this.handleSubmit}>
@@ -329,6 +334,8 @@ export class SitterInfoDisplay extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h4>User Info</h4>
 					First Name: {this.state.user.firstName}<br />
@@ -428,6 +435,8 @@ export class SitterEdit extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
+				<Link to="/login"><p align="right">Login</p></Link>
+				<Link to="/sitter/home"><p align="right">Home</p></Link><br />
 				<div>
 					<h5>Pet Sitter Information</h5>
 					<form onSubmit={this.handleSubmit}>

@@ -39,6 +39,7 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		super(a.getStartDay(), a.getStartMonth(), a.getStartYear(), a.getEndDay(), a.getEndMonth(), a.getEndYear(),
 				a.getStartMin(), a.getStartHour(), a.getEndMin(), a.getEndHour(), a.getUsername(), a.getRepeatStrategy(),
 				a.getNotificationMessage(), a.getType());
+		setBlockId(a.getBlockId());
 		this.ownerUsername = a.getOwnerUsername();
 		this.petIds = a.getPetIds();
 		this.appointmentStatus = a.getAppointmentStatus();
