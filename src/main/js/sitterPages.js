@@ -189,7 +189,7 @@ export class WeekView extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-	    	appointments: [[]],
+	    	appointments: [],
 	    	week: [],	    	
 	    	weekOffset: '',
 	    	time: 0
@@ -374,10 +374,10 @@ export class WeekView extends React.Component{
         return(
             <div class="container">
                 <div class="row">
-                <button height="10%" type="button" align="left">Previous</button>
-                <button height="10%" type="button" align="right">Next</button>
+                <button height="10%" type="button" align="left" onClick={this.previosWeek}>Previous</button>
+                <button height="10%" type="button" align="right" onClick={this.nextWeek}>Next</button>
                 <table width="100%">
-                	<tr height="90%" valign="bottom">
+                	<tr height="90%" align="bottom">
                 		<td width="12%"></td>
                 		<td width="12%">
                 			<p>{this.getDateHeader(0)}</p>
