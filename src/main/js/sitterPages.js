@@ -142,7 +142,7 @@ export class AppointmentView extends React.Component{
 		const status = this.state.appointment.appointmentStatus;
 		
 		if(type === 'Block'){
-			button1 = <Button onClick={}>;
+			button1 = <Button onClick={this.handleEdit}>Edit</Button>;
 			button2 = '';
 		}
 		else if(status === 'ACCEPTED'){
