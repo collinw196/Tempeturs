@@ -21,10 +21,7 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.script.Script;
-import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -109,6 +106,22 @@ public class OwnerEndpoint {
 		calendarService = clS;
 		petEndpoint = pE;
 	}
+	
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public OwnerDto getOwner() {
+		return ownerService.getOwner();
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ResponseEntity<String> updateEndpoint() {
+		try {
+			ownerService.updateService(userService.getUsername());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public OwnerDto findOwner(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
@@ -138,6 +151,31 @@ public class OwnerEndpoint {
 		        Collections.<String, String>emptyMap(),
 		        entity);
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editOwner(@RequestBody OwnerDto owner) throws IOException {
+		regOwner(owner);
+		finishRegOwner();
+		return new ResponseEntity<String>("Changed", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/finish/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> switchToSitter() throws IOException {
+		UpdateRequest request1 = new UpdateRequest(
+	        "users", 
+	        "external",  
+	        userService.getUsername());
+		
+		String jsonString = "{"  
+				+ "\"type\": \"both\""
+				+ "}";
+		
+		request1.doc(jsonString, XContentType.JSON);
+		
+		clientService.getHighClient().update(request1);
+		finishRegOwner();
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
 	// These are empty functions without return types (since i dont know how they will be returned yet.
@@ -204,11 +242,13 @@ public class OwnerEndpoint {
 		ArrayList<SitterDto> sitterList = new ArrayList<SitterDto>();
 		for (SearchHit hit : searchHits){
 			SitterDto sitter = objectMapper.readValue(hit.getSourceAsString(), SitterDto.class);
-			if (calendarService.isFree(sitter, appointment)){
-				if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
-					sitterList.add(sitter);			
+			if(!sitter.getUsername().equals(userService.getUsername())){
+				if (calendarService.isFree(sitter, appointment)){
+					if(!isFilterUsed || sitterService.getFilter().doesMatch(sitter)){
+						sitterList.add(sitter);			
+					}
 				}
-			}
+			}	
 		}
 		SitterComparator comp = new SitterComparator();
 		comp.setSortType(setting);
@@ -367,6 +407,31 @@ public class OwnerEndpoint {
 		return petList;
 	}
 	
+	@RequestMapping(value = "/appointment/pets/get", method = RequestMethod.POST)
+	public List<PetDto> getPets(@RequestBody List<Integer> petIds) throws IOException{
+		ArrayList<PetDto> petList = new ArrayList<PetDto>();
+		for (int petId : petIds){
+			Response response = clientService.getClient().performRequest("GET", "/pets/external/" + petId + "/_source",
+			        Collections.singletonMap("pretty", "true"));
+			
+			String jsonString = EntityUtils.toString(response.getEntity());
+			
+			PetDto pet = objectMapper.readValue(jsonString, PetDto.class);
+			petList.add(pet);
+		}
+		return petList;
+	}
+	
+	@RequestMapping(value = "/appointment/get/{id}", method = RequestMethod.GET)
+	public CalendarAppointmentDto getAppointmentId(@PathVariable(name = "id") int id) throws IOException{
+		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		CalendarAppointmentDto appointment = objectMapper.readValue(jsonString, CalendarAppointmentDto.class);
+		return appointment;
+	}
 	
 	
 	

@@ -10,9 +10,8 @@ export class PetInfo extends React.Component {
 	    super(props);
 	    this.state = {
 	    	name: '',
-	    	type: '',
+	    	type: 'dog',
 	    	age: '',
-	    	notes: ''	    	
 	    };
 	
 	    this.handleChange = this.handleChange.bind(this);
@@ -195,8 +194,8 @@ export class OwnerPayment extends React.Component {
 						<input name="cardname" type="text" value={this.state.cardname} onChange={this.handleChange} required /><br />
 						Card Number:<br />
 						<input name="crenumber" type="number" value={this.state.crenumber} onChange={this.handleChange} required /><br />
-						CCV:<br />
-						<input name="cvvnumber" type="number" value={this.state.cvvnumber} onChange={this.handleChange} required /><br />
+						CVV:<br />
+						<input name="ccvnumber" type="number" value={this.state.ccvnumber} onChange={this.handleChange} required /><br />
 						Exp. Date Month:<br />
 						<input name="expdatemonth" type="number" value={this.state.expdatemonth} onChange={this.handleChange} required /><br />
 						Exp. Date Year:<br />

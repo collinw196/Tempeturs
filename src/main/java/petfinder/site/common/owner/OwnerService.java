@@ -9,7 +9,10 @@ import org.apache.http.ParseException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,24 +63,19 @@ public class OwnerService {
 	}
 
 	public void updatePetAdded(Long id) throws ParseException, IOException {
-		Response response = clientService.getClient().performRequest("GET", "/owner/external/" + ownerDao.getOwner().getUsername() + "/_source",
-		        Collections.singletonMap("pretty", "true"));
+		UpdateRequest request1 = new UpdateRequest(
+		        "owner", 
+		        "external",  
+		        userService.getUsername());
 		
-		String jsonString = EntityUtils.toString(response.getEntity());
+		String jsonRequest1String = "{\"petIds\": [";
+		for (int i : getOwner().getPetIds()){
+			jsonRequest1String += i + ", " ;
+		}
 		
-		OwnerDto owner = objectMapper.readValue(jsonString, OwnerDto.class);
-		List<Integer> petIds = owner.getPetIds();
-		petIds.add(id.intValue());
-		owner.setPetIds(petIds);
-		jsonString = objectMapper.writeValueAsString(owner);
-		HttpEntity entity = new NStringEntity(
-		        jsonString, ContentType.APPLICATION_JSON);
+		jsonRequest1String += id + "]}";
 		
-		String username = owner.getUsername();
-		clientService.getClient().performRequest(
-		        "PUT",
-		        "/owner/external/" + username,
-		        Collections.<String, String>emptyMap(),
-		        entity);		
+		request1.doc(jsonRequest1String, XContentType.JSON);
+		clientService.getHighClient().update(request1);		
 	}
 }

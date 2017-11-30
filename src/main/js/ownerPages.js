@@ -21,7 +21,8 @@ export class OwnerHome extends React.Component {
 							<li><Link to="/owner/appoint">Current Appointments</Link></li>
 							<li><Link to="/owner/not">Notifications</Link></li>
 							<li><Link to="/owner/pets">PetInfo</Link></li>
-							<li><Link to="/owner/sitterSwitch">Become a Sitter</Link></li>
+							<li><Link to="/user/owner/info">User Info</Link></li>
+							<li><Link to="/owner/sitterSwitch">Switch to Sitter</Link></li>
 						</ul>
 					</div>
 				</div>
@@ -46,7 +47,7 @@ export class OwnerReserve extends React.Component {
 			endMin: 0,
 			endHour: 1,
 			username: '',
-			repeatStrategy: 1,
+			repeatStrategy: 0,
 			notificationMessage: 'This appointment has been scheduled',
 			type: 'Appt',
 			petIds: [],
@@ -564,7 +565,7 @@ export class OwnerPetsEdit extends React.Component {
 	    	id: '',
 	    	name: '',
 	    	type: '',
-	    	age: -1,
+	    	age: '',
 	    	notes: ''	
 	    };
 
@@ -579,6 +580,20 @@ export class OwnerPetsEdit extends React.Component {
 		this.setState({
 	      id: petId
 	    });
+	    
+	    var url = 'https://tempeturs-group-2.herokuapp.com/api/pet/' + petId;
+	    axios.get(url)
+        	.then(data => {
+            	this.setState({
+            		name: data.data.name,
+            		type: data.data.type,
+            		age: data.data.age,
+            		note: data.data.notes
+            	});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
     handleChange(event) {
@@ -723,51 +738,78 @@ export class OwnerSwitch extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	    	accnumber: '',
-	    	rounumber: '',
-	    	pettype1: '',
-	    	pettype2: '',
-	    	pettype3: ''
+	    	accountNumber: '',
+	    	routingNumber: '',
+	    	preference1: 'dog',
+	    	preference2: 'dog',
+	    	preference3: 'dog'	    	
 	    };
-
+	
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+    
+    componentDidMount() {
+		axios.get('https://tempeturs-group-2.herokuapp.com/api/user/type')
+        	.then(response => {
+            	if(response.data === 'both'){
+	            	axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/update')
+			        	.then(response => {
+			            	console.log(response);
+			            })
+			            .catch(function(error) {
+			                console.log(error);
+			            });
+            		this.props.history.push('/sitter/home');
+            	}
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+	
     handleChange(event) {
 	    const target = event.target;
 	    const value = target.value;
 	    const name = target.name;
-
+	
 	    this.setState({
 	      [name]: value
 	    });
 	}
-
+	
     handleSubmit(event) {
     	event.preventDefault();
-    	const {accnumber,
-    		rounumber,
-    		pettype1,
-    		pettype2,
-    		pettype3} = this.state;
-
-    	axios.post('https://tempeturs-group-2.herokuapp.com/api/sitter/reg', {withCredentials:true}, {
-		    accnumber,
-    		rounumber,
-    		pettype1,
-    		pettype2,
-    		pettype3
-		  })
-		  .then(function (response) {
+    	axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/reg',
+		    data: {
+			    accountNumber: this.state.accountNumber,
+		    	routingNumber: this.state.routingNumber,
+		    	preference1: this.state.preference1,
+		    	preference2: this.state.preference2,
+		    	preference3: this.state.preference3
+		    }
+		})
+		.then(function (response) {
 		    console.log(response);
-		  })
-		  .catch(function (error) {
+		})
+		.catch(function (error) {
 		    console.log(error);
-		  });
-
-
-    	this.props.history.push('/');
+		});
+		
+		axios({
+		    method: 'POST',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/reg/finish/switch',
+		})
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});  
+		  
+    	this.props.history.push('/sitter/home');
     }
 	render() {
 		return (
@@ -776,11 +818,11 @@ export class OwnerSwitch extends React.Component {
 					<h5>Pet Sitter Information</h5>
 					<form onSubmit={this.handleSubmit}>
 						Payment Account Number:<br />
-						<input name="accnumber" type="number" value={this.state.accnumber} onChange={this.handleChange} required /><br />
+						<input name="accountNumber" type="number" value={this.state.accountNumber} onChange={this.handleChange} required /><br />
 						Payment Routing Number:<br />
-						<input name="rounumber" type="number" value={this.state.rounumber} onChange={this.handleChange} required /><br />
+						<input name="routingNumber" type="number" value={this.state.routingNumber} onChange={this.handleChange} required /><br />
 						Pet Preference 1:<br />
-						<select name="pettype1" onChange={this.handleChange} required>
+						<select name="preference1" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
@@ -789,7 +831,7 @@ export class OwnerSwitch extends React.Component {
 							<option value="fish" >Fish</option>
 						</select><br />
 						Pet Preference 2:<br />
-						<select name="pettype2" onChange={this.handleChange} required>
+						<select name="preference2" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
@@ -798,7 +840,7 @@ export class OwnerSwitch extends React.Component {
 							<option value="fish" >Fish</option>
 						</select><br />
 						Pet Preference 3:<br />
-						<select name="pettype3" onChange={this.handleChange} required>
+						<select name="preference3" onChange={this.handleChange} required>
 							<option value="dog" selected>Dog</option>
 							<option value="cat" >Cat</option>
 							<option value="horse" >Horse</option>
@@ -809,7 +851,7 @@ export class OwnerSwitch extends React.Component {
 						<input type="submit" value="Submit" />
 					</form>
 				</div>
-
+				
 			</div>
 		);
 	}

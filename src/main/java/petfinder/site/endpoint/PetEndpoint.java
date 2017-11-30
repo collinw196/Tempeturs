@@ -52,6 +52,22 @@ public class PetEndpoint {
 		ownerService = oS;
 	}
 	
+	public ResponseEntity<String> updateEndpoint() {
+		try {
+			petService.updateService();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> editSetUp() {
+		petService.emptyList();
+		return new ResponseEntity<String>("Emptied", HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public PetDto findPet(@PathVariable(name = "id") Long id) throws IOException {
 		Response response = clientService.getClient().performRequest("GET", "/pets/external/" + id + "/_source",
@@ -85,18 +101,6 @@ public class PetEndpoint {
 	public ResponseEntity<String> editPet(@RequestBody PetDto pet) throws IOException {
 		Long id = pet.getId();
 		PetDto newPet = petService.findPet(id);
-		if(!pet.getName().equals("")){
-			newPet.setName(pet.getName());
-		}
-		if(pet.getAge() >= 0){
-			newPet.setAge(pet.getAge());
-		}
-		if(!pet.getType().equals("")){
-			newPet.setType(pet.getType());
-		}
-		if(!pet.getNotes().equals("")){
-			newPet.setNotes(pet.getNotes());
-		}
 		String jsonString = objectMapper.writeValueAsString(newPet);
 		HttpEntity entity = new NStringEntity(
 		        jsonString, ContentType.APPLICATION_JSON);

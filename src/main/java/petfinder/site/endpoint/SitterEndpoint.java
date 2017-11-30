@@ -2,6 +2,7 @@ package petfinder.site.endpoint;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -84,6 +85,22 @@ public class SitterEndpoint {
 		calendarService = clS;
 		objectMapper = new ObjectMapper();
 	}
+	
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public SitterDto getOwner() {
+		return sitterService.getSitter();
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ResponseEntity<String> updateEndpoint() {
+		try {
+			sitterService.updateService(userService.getUsername());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public SitterDto findSitter(@PathVariable(name = "username") String username) throws JsonParseException, JsonMappingException, IOException {
@@ -104,6 +121,17 @@ public class SitterEndpoint {
 	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
 		sitter.setUsername(userService.getUsername());
 		sitter.setZip(userService.getUser().getZip());
+		sitter.setRating(0);
+		sitter.setNumRating(0);
+		sitterService.addSitter(sitter);
+		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editSitter(@RequestBody SitterDto sitter) {
+		sitter.setUsername(userService.getUsername());
+		sitter.setZip(userService.getUser().getZip());
+		sitter.setRating(sitterService.getSitter().getRating());
 		sitterService.addSitter(sitter);
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}
@@ -123,6 +151,25 @@ public class SitterEndpoint {
 		return new ResponseEntity<String>("Added " + indexResponse, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/reg/finish/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> switchToSitter() throws IOException {
+		UpdateRequest request1 = new UpdateRequest(
+	        "users", 
+	        "external",  
+	        userService.getUsername());
+		
+		String jsonString = "{"  
+				+ "\"type\": \"both\""
+				+ "}";
+		
+		request1.doc(jsonString, XContentType.JSON);
+		
+		clientService.getHighClient().update(request1);
+		
+		finishRegSitter();
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
 	// These are empty functions without return types (since i dont know how they will be returned yet.
 		// Also someone will need to add the @requestmappings (since those arent set in stone either)
 		// Some of these functions may work better in the DTO/DAO
@@ -130,7 +177,7 @@ public class SitterEndpoint {
 	
 	@RequestMapping(value = "/block/create", method = RequestMethod.POST)
 	public ResponseEntity<String> createBlock(@RequestBody CalendarBlockDto appointment) throws ParseException, IOException{
-		//appointment.setUsername(userService.getUsername());
+		appointment.setUsername(userService.getUsername());
 		appointment.setNotificationMessage("Block has been created");
 		appointment.setType("Block");
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/_count",
@@ -237,24 +284,35 @@ public class SitterEndpoint {
 		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/rat/{username}/{value}", method = RequestMethod.POST)
+	@RequestMapping(value = "/rate/{username}/{value}", method = RequestMethod.POST)
 	public ResponseEntity<String> rateSitter(@PathVariable(name = "username") String username, @PathVariable(name = "value") double value) throws IOException{
 		if(value < 1.0){
 			value = 1.0;
 		}
+		
+		Response response = clientService.getClient().performRequest("GET", "/sitter/external/" + username + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		SitterDto sitter = objectMapper.readValue(jsonString, SitterDto.class);
+		
+		double rating = (value + sitter.getRating()) / sitter.getNumRating();
+		int newNum = sitter.getNumRating() + 1;
 		
 		UpdateRequest request1 = new UpdateRequest(
 		        "sitter", 
 		        "external",  
 		        username);
 		
-		String jsonString = "{\"rating\": " + value + "}";
+		jsonString = "{\"rating\": " + rating + ","
+					+ "\"numRating\": " + newNum +"}";
 		
 		request1.doc(jsonString, XContentType.JSON);
 		
 		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
 		
-		Response response = clientService.getClient().performRequest("GET", "/users/external/" + username + "/_source",
+		response = clientService.getClient().performRequest("GET", "/users/external/" + username + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		jsonString = EntityUtils.toString(response.getEntity());
@@ -281,7 +339,7 @@ public class SitterEndpoint {
 	}
 	
 	@RequestMapping(value = "/appointment/get", method = RequestMethod.GET)
-	public List<CalendarBlockDto> getAppointments() throws IOException{
+	public List<CalendarAppointmentDto> getAppointments() throws IOException{
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
 		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
@@ -301,11 +359,27 @@ public class SitterEndpoint {
 		
 		SearchHits hits = response.getHits();
 		SearchHit[] searchHits = hits.getHits();
-		ArrayList<CalendarBlockDto> appointmentList = new ArrayList<CalendarBlockDto>();
+		ArrayList<CalendarAppointmentDto> appointmentList = new ArrayList<CalendarAppointmentDto>();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			if (appointment.getType().equals("Block") || calendarService.isOpen(appointment)){
-				appointmentList.add(appointment);	
+			ArrayList<CalendarAppointmentDto> tempApptList = new ArrayList<CalendarAppointmentDto>();
+			tempApptList.add(appointment);
+			if(appointment.getRepeatStrategy() > 0){
+				int thisYear = appointment.getStartYear();
+				Calendar now = Calendar.getInstance();   // Gets the current date and time
+				int year = now.get(Calendar.YEAR);
+				int increment = 0;
+				while(thisYear < year + 10){
+					CalendarAppointmentDto tempAppointment = new CalendarAppointmentDto(appointment);
+					tempAppointment.addWeek(increment);
+					thisYear = tempAppointment.getStartYear();
+					tempApptList.add(tempAppointment);
+				}
+			}
+			for(CalendarAppointmentDto app : tempApptList){
+				if (app.getType().equals("Block") || calendarService.isOpen(app)){
+					appointmentList.add(app);	
+				}
 			}
 		}
 		AppointmentComparator comp = new AppointmentComparator();

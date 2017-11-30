@@ -33,6 +33,11 @@ public class UserEndpoint {
 	public UserEndpoint(UserService uS) {
 		userService = uS;
 	}
+	
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public UserDto getUser() {
+		return userService.getUser();
+	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public UserDto findUser(@PathVariable(name = "username") String username) throws ParseException, IOException {
@@ -52,5 +57,19 @@ public class UserEndpoint {
 	public ResponseEntity<String> finishRegUser() throws IOException {
 		userService.writeUser();
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editUser(@RequestBody UserDto user) throws IOException {
+		user.setRole("USER");
+		user.setNotificationIds(userService.getUser().getNotificationIds());
+		userService.addUser(user);
+		userService.writeUser();
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/type", method = RequestMethod.GET)
+	public String getType() {
+		return userService.getUser().getType();
 	}
 }
