@@ -8,7 +8,7 @@ import { SitterInfo } from 'js/sitterRegistration';
 import { OwnerHome, OwnerReserve, OwnerAppoint, OwnerPets, OwnerPetsAdd, OwnerSwitch, OwnerNot, OwnerPetsEdit } from 'js/ownerPages';
 import { SitterHome, WeekView, AppointmentView, SitterCreate } from 'js/sitterPages';
 import { OwnerApptDisplay } from 'js/appointmentDisplayOwner';
-import { OwnerInfo, UserEdit, OwnerEdit, SitterInfoDsiplay, SitterEdit } from 'js/userInfo';
+import { OwnerInfo, UserEdit, OwnerEdit, SitterInfoDisplay, SitterEdit } from 'js/userInfo';
 import { Notifications } from 'js/notifications';
 
 export default class Index extends React.Component {
