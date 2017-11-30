@@ -202,6 +202,25 @@ public class SitterEndpoint {
 		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/block/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editBlock(@RequestBody CalendarBlockDto appointment) throws ParseException, IOException{
+		appointment.setUsername(userService.getUsername());
+		appointment.setNotificationMessage("Block has been edited");
+		appointment.setType("Block");
+        
+        String jsonString = objectMapper.writeValueAsString(appointment);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);	
+		
+		clientService.getClient().performRequest(
+		        "PUT",
+		        "/calendarappointments/external/" + appointment.getBlockId(),
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/appointment/accept/{id}", method = RequestMethod.POST)
 	public ResponseEntity<String> acceptAppt(@PathVariable(name = "id") int id) throws IOException{
 		Response response = clientService.getClient().performRequest("GET", "/calendarappointments/external/" + id + "/_source",
@@ -365,14 +384,9 @@ public class SitterEndpoint {
 			ArrayList<CalendarAppointmentDto> tempApptList = new ArrayList<CalendarAppointmentDto>();
 			tempApptList.add(appointment);
 			if(appointment.getRepeatStrategy() > 0){
-				int thisYear = appointment.getStartYear();
-				Calendar now = Calendar.getInstance();   // Gets the current date and time
-				int year = now.get(Calendar.YEAR);
-				int increment = 0;
-				while(thisYear < year + 10){
+				for(int i = 0; i < 10; i++){
 					CalendarAppointmentDto tempAppointment = new CalendarAppointmentDto(appointment);
-					tempAppointment.addWeek(increment);
-					thisYear = tempAppointment.getStartYear();
+					tempAppointment.addWeek(i);
 					tempApptList.add(tempAppointment);
 				}
 			}
