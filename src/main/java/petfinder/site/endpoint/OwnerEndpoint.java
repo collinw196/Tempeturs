@@ -3,9 +3,7 @@ package petfinder.site.endpoint;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
@@ -34,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -45,14 +44,13 @@ import petfinder.site.common.calendar.CalendarAppointmentDto;
 import petfinder.site.common.calendar.CalendarService;
 import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.owner.OwnerDto;
+import petfinder.site.common.owner.OwnerService;
+import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.pet.PetService;
 import petfinder.site.common.sitter.SitterComparator;
 import petfinder.site.common.sitter.SitterDto;
 import petfinder.site.common.sitter.SitterSearchFilter;
 import petfinder.site.common.sitter.SitterService;
-import petfinder.site.common.owner.OwnerService;
-import petfinder.site.common.pet.PetDto;
-import petfinder.site.common.pet.PetService;
-import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 
 /**
@@ -408,7 +406,11 @@ public class OwnerEndpoint {
 	}
 	
 	@RequestMapping(value = "/appointment/pets/get", method = RequestMethod.POST)
-	public List<PetDto> getPets(@RequestBody List<Integer> petIds) throws IOException{
+	public List<PetDto> getPets(@RequestParam(value="petIds[]") Integer[] myArray) throws IOException{
+		ArrayList<Integer> petIds = new ArrayList<Integer>();
+		for(int i = 0; i < myArray.length; i++){
+			petIds.add(myArray[i]);
+		}
 		ArrayList<PetDto> petList = new ArrayList<PetDto>();
 		for (int petId : petIds){
 			Response response = clientService.getClient().performRequest("GET", "/pets/external/" + petId + "/_source",

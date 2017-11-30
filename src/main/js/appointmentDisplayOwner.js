@@ -42,7 +42,7 @@ export class OwnerApptDisplay extends React.Component {
 		    method: 'POST',
 		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/pets/get',
 		    data: {
-		    	this.state.appointment.petIds
+		    	petIds: this.state.appointment.petIds
 		    }
 		   
 		})
