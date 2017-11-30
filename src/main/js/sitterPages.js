@@ -139,7 +139,20 @@ export class AppointmentView extends React.Component{
     
 	render() {
 		const type = this.state.appointment.type;
-		const type = this.state.appointment.appointmentStatus;
+		const status = this.state.appointment.appointmentStatus;
+		
+		if(type === 'Block'){
+			button1 = <Button onClick={}>;
+			button2 = '';
+		}
+		else if(status === 'ACCEPTED'){
+			button1 = <Button onClick={this.Cancel}>Cancel</Button>;
+			button2 = '';
+		}
+		else{
+			button1 = <Button onClick={this.Confirm}Confirm</Button>;
+			button2 =  <Button onClick={this.Delete}Delete</Button>;
+		}
 		return (
 			<div className="container padded">
 				<div>
