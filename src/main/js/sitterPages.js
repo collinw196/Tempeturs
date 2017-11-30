@@ -17,11 +17,7 @@ export class SitterHome extends React.Component {
 				<div>
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
-						<li><Link to="/sitter/calendar?offset=0">Schedule</Link></li>
-						<li><Link to="/sitter/create">Create an unavailable time block </Link></li>
-						<li><Link to="/sitter/notifications">Notifications</Link></li>
-						<li><Link to="/sitter/ownerSwitch">Switch to Owner</Link></li>
-						<li><Link to="/user/sitter/info">Sitter Info </Link></li>
+						<li><Link to="/sitter/calendar">Schedule</Link></li>
 					</ul>
 				</div>
 			</div>
@@ -34,12 +30,14 @@ export class AppointmentView extends React.Component{
 	    super(props);
 	    this.state = {
 	    	appointment: '',
-	    	bID: '',
-	    	ownedPets: []
+	    	bID: ''
 	    };
 	    this.confirmAppt = this.confirmAppt.bind(this);
 	    this.deleteAppt = this.deleteAppt.bind(this);
 	    this.cancelAppt = this.cancelAppt.bind(this);
+	    this.done = this.done.bind(this);
+	    this.formatHour = this.formatHour.bind(this);
+	    this.formatMin = this.formatMin.bind(this);
     }
 	
 	componentDidMount() {
@@ -55,14 +53,6 @@ export class AppointmentView extends React.Component{
 		.catch(function (error) {
 		    console.log(error);
 		});
-    	
-        axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/pets/get')
-    	.then(data => {
-        	this.setState({ownedPets: data.data});
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
     }
 	
     confirmAppt(event) {
@@ -79,7 +69,7 @@ export class AppointmentView extends React.Component{
 		.catch(function (error) {
 		    console.log(error);
 		});
-		this.props.history.push('/owner/home');
+		this.props.history.push('/sitter/home');
     }
     
     deleteAppt(event) {
@@ -95,7 +85,7 @@ export class AppointmentView extends React.Component{
 		.catch(function (error) {
 		    console.log(error);
 		});
-		this.props.history.push('/owner/home');
+		this.props.history.push('/sitter/home');
     }
     
     cancelAppt(event) {
@@ -112,7 +102,7 @@ export class AppointmentView extends React.Component{
 		.catch(function (error) {
 		    console.log(error);
 		});
-		this.props.history.push('/owner/home');
+		this.props.history.push('/sitter/home');
     }
     
 	
@@ -141,28 +131,42 @@ export class AppointmentView extends React.Component{
     	return value;
     }
     
+    done(event){
+    	event.preventDefault();
+    	this.props.history.push('/sitter/home');
+    }
+    
 	render() {
 		const type = this.state.appointment.type;
 		const status = this.state.appointment.appointmentStatus;
 		var button1;
 		var button2;
+		var name;
 		
 		if(type === 'Block'){
-			button1 = <button onClick={this.handleEdit}>Edit</button>;
+			button1 = <Link to={'/sitter/block/edit?blockId=' + this.state.bID}>Edit</Link>;
 			button2 = '';
+			name = <h7>Username: {this.state.appointment.username}</h7>;
 		}
 		else if(status === 'ACCEPTED'){
 			button1 = <button onClick={this.cancelSitter}>Cancel</button>;
 			button2 = '';
+			name = <h7>Owner Username: {this.state.appointment.ownerUsername}</h7>;
+		}
+		else if (status === 'SCHEDULED') {
+			button1 = <button onClick={this.acceptAppt}>Confirm</button>;
+			button2 =  <button onClick={this.denyAppt}>Delete</button>;
+			name = <h7>Owner Username: {this.state.appointment.ownerUsername}</h7>;
 		}
 		else{
 			button1 = <button onClick={this.acceptAppt}>Confirm</button>;
-			button2 =  <button onClick={this.denyAppt}>Delete</button>;
+			button2 =  '';
+			name = <h7>Owner Username: {this.state.appointment.ownerUsername}</h7>;
 		}
 		return (
 			<div className="container padded">
 				<div>
-					<p>Owner Username: {this.state.appointment.username}</p>
+					{name}
 					<table>
 					<tr>
 						<td> Start </td>
@@ -173,12 +177,6 @@ export class AppointmentView extends React.Component{
 						<td> {this.state.appointment.endMonth}/{this.state.appointment.endDay} @ {this.formatHour(this.state.appointment.endHour, this.state.appointment.endMin)}</td>
 					</tr>
 				</table>
-				Pets To be Watched:<br />
-				{this.state.ownedPets.map(e => (
-					<span>
-						<h7>{e.name} ({e.type})</h7>
-					</span>
-                ))}
 				</div>
 				<div>
 					{button1}
@@ -265,15 +263,16 @@ export class WeekView extends React.Component {
 					</div>
 				))}
 				</div>
-            </div>
-        );
-    }
+			</div>
+		);
+	}
 }
 
-export class SitterCreate extends React.Component {
+export class SitterBlockEdit extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
+	    	blockId: '',
 	    	startDay: 1,
 			startMonth: 1,
 			startYear: '',
@@ -284,13 +283,45 @@ export class SitterCreate extends React.Component {
 			startHour: 0,
 			endMin: 0,
 			endHour: 1,
+			username: '',
 			repeatStrategy: 0,
-			notificationMessage: 'This block has been created',
+			notificationMessage: 'This block has been edited',
 			type: 'Block',
 	    };
 
 	    this.handleChange = this.handleChange.bind(this);
 	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.formatRepeat = this.formatRepeat.bind(this);
+    }
+    
+    componentDidMount() {
+		const search = this.props.location.search;
+		const params = new URLSearchParams(search);
+		const id = params.get('blockId');
+	    
+	    var url = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/get/' + id;
+	    axios.get(url)
+        	.then(data => {
+            	this.setState({
+	            	blockId: data.data.blockId,
+			    	startDay: data.data.startDay,
+					startMonth: data.data.startMonth,
+					startYear: data.data.startYear,
+					endDay: data.data.endDay,
+					endMonth: data.data.endMonth,
+					endYear: data.data.endYear,
+					startMin: data.data.startMin,
+					startHour: data.data.startHour,
+					endMin: data.data.endMin,
+					endHour: data.data.endHour,
+					username: data.data.username,
+					repeatStrategy: data.data.repeatStrategy,
+					type: data.data.type,
+            	});
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
     handleChange(event) {
@@ -308,8 +339,9 @@ export class SitterCreate extends React.Component {
 
 		axios({
 		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/block/create',
+		    url: 'https://tempeturs-group-2.herokuapp.com/api/sitter/block/edit',
 		    data: {
+		    	blockId: this.state.blockId,
 		    	startDay: this.state.startDay,
 				startMonth: this.state.startMonth,
 				startYear: this.state.startYear,
@@ -320,6 +352,7 @@ export class SitterCreate extends React.Component {
 				startHour: this.state.startHour,
 				endMin: this.state.endMin,
 				endHour: this.state.endHour,
+				username: this.state.username,
 				repeatStrategy: this.state.repeatStrategy,
 				notificationMessage: this.state.notificationMessage,
 				type: this.state.type,
@@ -334,6 +367,41 @@ export class SitterCreate extends React.Component {
 		this.props.history.push('/sitter/home');
     }
 
+    formatRepeat(value){
+    	var newValue;
+    	switch(value) {
+    		case 0:
+	    		newValue = 'Never';
+	    		break;
+	    	case 1:
+	    		newValue = 'Weekly';
+	    		break;
+	    	case 2:
+	    		newValue = 'Bi-Weekly';
+	    		break;
+	    	case 3:
+	    		newValue = 'Every 3 weeks';
+	    		break;
+	    	case 4:
+	    		newValue = 'Every 4 weeks';
+	    		break;
+	    	case 8:
+	    		newValue = 'Every 8 weeks';
+	    		break;
+	    	case 12:
+	    		newValue = 'Every 12 weeks';
+	    		break;
+	    	case 26:
+	    		newValue = 'Every 26 weeks';
+	    		break;
+	    	case 52:
+	    		newValue = 'Yearly';
+	    		break;
+	    }
+	    
+	    return newValue;
+	}
+
 	render() {
 		return (
 			<div className="container padded">
@@ -341,7 +409,7 @@ export class SitterCreate extends React.Component {
 					<h5>Create an Unavailable Block</h5>
 					<form onSubmit={this.handleSubmit}>
 						<h7>Start Date of Appointment:</h7><br />
-						Month:
+						Month: (Chosen: {this.state.startMonth})
 						<select name="startMonth" onChange={this.handleChange} required>
 							<option value="1">January</option>
 						    <option value="2">February</option>
@@ -356,10 +424,10 @@ export class SitterCreate extends React.Component {
 						    <option value="11">November</option>
 						    <option value="12">December</option>
 						</select>
-						Day:
+						Day: (Chosen: {this.state.startDay})
 						<select name="startDay" onChange={this.handleChange} required>
 							<option value="1">1</option>
-						    <option value="21">2</option>
+						    <option value="2">2</option>
 						    <option value="3">3</option>
 						    <option value="4">4</option>
 						    <option value="5">5</option>
@@ -394,7 +462,7 @@ export class SitterCreate extends React.Component {
 						<input name="startYear" type="text" value={this.state.startYear} onChange={this.handleChange} required pattern="[0-9]{4}" /><br />
 
 						Start Time of Appointment:<br />
-						Hour:
+						Hour: (Chosen: {this.state.startHour})
 						<select name="startHour" onChange={this.handleChange} required>
 							<option value="0">12 AM</option>
 						    <option value="1">1 AM</option>
@@ -421,7 +489,7 @@ export class SitterCreate extends React.Component {
 						    <option value="22">10 PM</option>
 						    <option value="23">11 PM</option>
 						</select>
-						Minute:
+						Minute: (Chosen: {this.state.startMin})
 						<select name="startMinute" onChange={this.handleChange} required>
 							<option value="00">00</option>
 							<option value="5">5</option>
@@ -440,7 +508,7 @@ export class SitterCreate extends React.Component {
 
 
 						<h7>End Date of Appointment:</h7><br />
-						Month:
+						Month: (Chosen: {this.state.endMonth})
 						<select name="endMonth" onChange={this.handleChange} required>
 							<option value="1">January</option>
 						    <option value="2">February</option>
@@ -455,7 +523,7 @@ export class SitterCreate extends React.Component {
 						    <option value="11">November</option>
 						    <option value="12">December</option>
 						</select>
-						Day:
+						Day: (Chosen: {this.state.endDay})
 						<select name="endDay" onChange={this.handleChange} required>
 							<option value="1">1</option>
 						    <option value="2">2</option>
@@ -493,7 +561,7 @@ export class SitterCreate extends React.Component {
 						<input name="endYear" type="text" value={this.state.endYear} onChange={this.handleChange} required pattern="[0-9]{4}" /><br />
 
 						End Time of Appointment:<br />
-						Hour:
+						Hour: (Chosen: {this.state.endHour})
 						<select name="endHour" onChange={this.handleChange} required>
 							<option value="0">12 AM</option>
 						    <option value="1">1 AM</option>
@@ -520,7 +588,7 @@ export class SitterCreate extends React.Component {
 						    <option value="22">10 PM</option>
 						    <option value="23">11 PM</option>
 						</select>
-						Minute:
+						Minute: (Chosen: {this.state.endMin})
 						<select name="endMinute" onChange={this.handleChange} required>
 							<option value="00">00</option>
 							<option value="5">5</option>
@@ -535,7 +603,7 @@ export class SitterCreate extends React.Component {
 						    <option value="50">50</option>
 						    <option value="55">55</option>
 						</select><br />
-						How often do you want the block to repeat:
+						How often do you want the block to repeat: (Chosen: {this.formatRepeat(this.state.repeatStrategy)})
 						<select name="repeatStrategy" onChange={this.handleChange} required>
 							<option value="0">Never</option>
 							<option value="1">Weekly</option>
@@ -547,230 +615,6 @@ export class SitterCreate extends React.Component {
 						    <option value="26">Every 26 weeks</option>
 						    <option value="52">Yearly</option>
 						</select><br />
-						<input type="submit" value="Submit" />
-					</form>
-				</div>
-			</div>
-		);
-	}
-}
-
-export class SitterSwitchPet extends React.Component {
-	constructor(props) {
-	    super(props);
-	    this.state = {
-	    	name: '',
-	    	type: '',
-	    	age: '',
-	    	notes: ''	    	
-	    };
-	
-	    this.handleChange = this.handleChange.bind(this);
-	    this.handleSubmit = this.handleSubmit.bind(this);
-	    this.nextPet = this.nextPet.bind(this);
-	    this.pushData = this.pushData.bind(this);
-    }
-    
-    componentDidMount() {
-		axios.get('https://tempeturs-group-2.herokuapp.com/api/user/type')
-        	.then(response => {
-            	if(response.data === 'both'){
-	            	axios.get('https://tempeturs-group-2.herokuapp.com/api/owner/update')
-			        	.then(response => {
-			            	console.log(response);
-			            })
-			            .catch(function(error) {
-			                console.log(error);
-			            });
-            		this.props.history.push('/owner/home');
-            	}
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-            
-        axios({
-		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/switch',
-		})
-		.then(function (response) {
-		    console.log(response);
-		})
-		.catch(function (error) {
-		    console.log(error);
-		});
-    }
-	
-    handleChange(event) {
-	    const target = event.target;
-	    const value = target.value;
-	    const name = target.name;
-	
-	    this.setState({
-	      [name]: value
-	    });
-	}
-	
-	nextPet(event) {
-    	event.preventDefault();
-    	
-    	this.pushData();
-    	this.setState({
-	      	name: '',
-	    	type: '',
-	    	age: '',
-	    	notes: ''	   
-	    });
-    	location.reload();
-    }
-	
-    handleSubmit(event) {
-    	event.preventDefault();
-    	this.pushData();
-    	this.props.history.push('/sitter/ownerSwitch/pay');
-    }
-    
-    pushData() {
-    	axios({
-		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg',
-		    data: {
-			    name: this.state.name,
-	    		type: this.state.type,
-	    		age: this.state.age,
-	    		notes: this.state.notes
-		    }
-		})
-		.then(function (response) {
-		    console.log(response);
-		})
-		.catch(function (error) {
-		    console.log(error);
-		});
-	}
-		  
-    
-    
-	render() {
-		return (
-			<div className="container padded">
-				<div>
-					<h5>Pet Information</h5>
-					<form onSubmit={this.handleSubmit}>
-						Pet Name:<br />
-						<input name="name" type="text" value={this.state.name} onChange={this.handleChange} required /><br />
-						Pet Type:<br />
-						<select name="type" onChange={this.handleChange} required>
-							<option value="dog" selected>Dog</option>
-							<option value="cat" >Cat</option>
-							<option value="horse" >Horse</option>
-							<option value="ferret" >Ferret</option>
-							<option value="rabbit" >Rabbit</option>
-							<option value="fish" >Fish</option>
-						</select>
-						<br />
-						*Age:<br />
-						<input name="age" type="number" value={this.state.age} onChange={this.handleChange} /><br />
-						*Notes:<br />
-						<input name="notes" type="text" value={this.state.notes} onChange={this.handleChange} /><br />
-						
-						<input type="button" value="Next Pet" onClick={this.nextPet} />
-  						<input type="submit" value="Submit" />
-  					</form>
-  				</div>
-			</div>
-		);
-	}
-}
-
-export class SitterSwitchPay extends React.Component {
-	constructor(props) {
-	    super(props);
-	    this.state = {
-	    	crenumber: '',
-	    	ccvnumber: '',
-	    	expdatemonth: '',
-	    	expdateyear: '',
-	    	cardname: ''	    	
-	    };
-	
-	    this.handleChange = this.handleChange.bind(this);
-	    this.handleSubmit = this.handleSubmit.bind(this);
-    }
-	
-    handleChange(event) {
-	    const target = event.target;
-	    const value = target.value;
-	    const name = target.name;
-	
-	    this.setState({
-	      [name]: value
-	    });
-	}
-	
-    handleSubmit(event) {
-    	event.preventDefault();
-    	axios({
-		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg',
-		    data: {
-			    crenumber: this.state.crenumber,
-	    		ccvnumber: this.state.ccvnumber,
-	    		expdatemonth: this.state.expdatemonth,
-	    		expdateyear: this.state.expdateyear,
-	    		cardname: this.state.cardname
-		    }
-		})
-		.then(function (response) {
-		    console.log(response);
-		})
-		.catch(function (error) {
-		    console.log(error);
-		});
-		
-		axios({
-		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/pet/reg/finish',
-		})
-		.then(function (response) {
-		    console.log(response);
-		})
-		.catch(function (error) {
-		    console.log(error);
-		});
-		
-		axios({
-		    method: 'POST',
-		    url: 'https://tempeturs-group-2.herokuapp.com/api/owner/reg/finish/switch',
-		})
-		.then(function (response) {
-		    console.log(response);
-		})
-		.catch(function (error) {
-		    console.log(error);
-		});
-		  
-		  
-    	this.props.history.push('/owner/home');
-    }
-    
-	render() {
-		return (
-			<div className="container padded">
-				<div>
-					<h5>Pet Owner Payment Information</h5>
-					<form onSubmit={this.handleSubmit}>
-						Name on Card:<br />
-						<input name="cardname" type="text" value={this.state.cardname} onChange={this.handleChange} required /><br />
-						Card Number:<br />
-						<input name="crenumber" type="number" value={this.state.crenumber} onChange={this.handleChange} required /><br />
-						CVV:<br />
-						<input name="ccvnumber" type="number" value={this.state.ccvnumber} onChange={this.handleChange} required /><br />
-						Exp. Date Month:<br />
-						<input name="expdatemonth" type="number" value={this.state.expdatemonth} onChange={this.handleChange} required /><br />
-						Exp. Date Year:<br />
-						<input name="expdateyear" type="number" value={this.state.expdateyear} onChange={this.handleChange} required /><br />
-						
 						<input type="submit" value="Submit" />
 					</form>
 				</div>
