@@ -308,7 +308,8 @@ export class SitterInfoDisplay extends React.Component {
         };
     }
 
-    componentDidMount() {		
+    componentDidMount() {
+    	console.log('here');		
         axios.get('https://tempeturs-group-2.herokuapp.com/api/user/get')
         .then(data => {
 		    this.setState({user: data.data});
@@ -316,7 +317,7 @@ export class SitterInfoDisplay extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
-	
+		console.log('here1');
 		axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/get')
         .then(data => {
 		    this.setState({sitter: data.data});
@@ -324,6 +325,7 @@ export class SitterInfoDisplay extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
+		console.log('here2');
     }
 
 	render() {
