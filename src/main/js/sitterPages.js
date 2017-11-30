@@ -150,8 +150,8 @@ export class AppointmentView extends React.Component{
 			button2 = '';
 		}
 		else{
-			button1 = <Button onClick={this.Confirm}Confirm</Button>;
-			button2 =  <Button onClick={this.Delete}Delete</Button>;
+			button1 = <Button onClick={this.Confirm}>Confirm</Button>;
+			button2 =  <Button onClick={this.Delete}>Delete</Button>;
 		}
 		return (
 			<div className="container padded">
