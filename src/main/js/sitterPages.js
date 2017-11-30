@@ -401,7 +401,7 @@ export class WeekView extends React.Component{
                 			<p>{this.getDateHeader(6)}</p>
                 		</td>
                     </tr>
-                    {this.state.appointments.map((row) => {
+                    {this.state.week.map((row) => {
                     	return (
 	                    	<tr>
 		                   		<td width="12%">{this.getTime()}</td>
