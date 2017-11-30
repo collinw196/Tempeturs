@@ -205,20 +205,30 @@ export class WeekView extends React.Component{
         	}
         	this.state.week.push(dayArray);
         }
-        
-        const search = this.props.location.search;
+
+        this.getDateHeader = this.getDateHeader.bind(this);
+        this.formatHour = this.formatHour.bind(this);
+        this.getTime = this.getTime.bind(this);
+    }
+    
+    componentDidMount() {
+    	const search = this.props.location.search;
 		const params = new URLSearchParams(search);
 		const myOffset = params.get('offset');
-		var offset= myOffset;
+		
+		var offset = myOffset;
 		
 		this.setState({
 			weekOffset: myOffset
 		});
-		console.log('offset: ' + this.state.weekOffset); 
+		console.log('offset: ' + this.state.weekOffset);
+		
+		var dayLength = 24;
+	    var weekLength = 7; 
     	
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(response => {
-            	this.setState({appointments: response});
+            	this.setState({appointments: response.data});
             	console.log(this.state.appointments);
 		    	var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		    	var today = new Date();
@@ -281,10 +291,6 @@ export class WeekView extends React.Component{
             .catch(function(error) {
                 console.log(error);
             });
-            
-            this.getDateHeader = this.getDateHeader.bind(this);
-	        this.formatHour = this.formatHour.bind(this);
-	        this.getTime = this.getTime.bind(this);
     }
     
     getDateHeader(dayOffset) {
