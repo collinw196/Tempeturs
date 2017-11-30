@@ -192,6 +192,7 @@ export class WeekView extends React.Component{
 	    	appointments: [[]],
 	    	week: [],	    	
 	    	weekOffset: '',
+	    	time: 0
 	    }; 
 	    
 	    var dayLength = 24;
@@ -284,6 +285,7 @@ export class WeekView extends React.Component{
         this.previousWeek = this.previousWeek.bind(this);
         this.nextWeek = this.nextWeek.bind(this);
         this.formatHour = this.formatHour.bind(this);
+        this.getTime = this.getTime.bind(this);
     }
     
     getDateHeader(dayOffset) {
@@ -356,6 +358,18 @@ export class WeekView extends React.Component{
     	this.props.history.push(url);
     }
     
+    getTime(){
+    	var value = this.state.time;
+    	var post = 'am';
+    	if(value > 11){
+    		post = 'pm';
+    	}
+    	value = this.formatHour(value);
+    	value = value + ':00' + post;
+    	this.state.time++;
+    	return value;
+    }
+    
     render() {
         return(
             <div class="container">
@@ -387,318 +401,21 @@ export class WeekView extends React.Component{
                 			<p>{this.getDateHeader(6)}</p>
                 		</td>
                     </tr>
-        		    <tr>
-        		        <td width="12%">12:00am</td>
-        		        {this.state.appointments[0].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">1:00am</td>
-        		        {this.state.appointments[1].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">2:00am</td>
-        		        {this.state.appointments[2].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">3:00am</td>
-        		        {this.state.appointments[3].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">4:00am</td>
-        		        {this.state.appointments[4].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">5:00am</td>
-        		        {this.state.appointments[5].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">6:00am</td>
-        		        {this.state.appointments[6].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">7:00am</td>
-        		        {this.state.appointments[7].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">8:00am</td>
-        		        {this.state.appointments[8].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">9:00am</td>
-        		        {this.state.appointments[9].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">10:00am</td>
-        		        {this.state.appointments[10].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">11:00am</td>
-        		        {this.state.appointments[11].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">12:00pm</td>
-        		        {this.state.appointments[12].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">1:00pm</td>
-        		        {this.state.appointments[13].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">2:00pm</td>
-        		        {this.state.appointments[14].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">3:00pm</td>
-        		        {this.state.appointments[15].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">4:00pm</td>
-        		        {this.state.appointments[16].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">5:00pm</td>
-        		        {this.state.appointments[17].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">6:00pm</td>
-        		        {this.state.appointments[18].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">7:00pm</td>
-        		        {this.state.appointments[19].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">8:00pm</td>
-        		        {this.state.appointments[20].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">9:00pm</td>
-        		        {this.state.appointments[21].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">10:00pm</td>
-        		        {this.state.appointments[22].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
-        		    <tr>
-        		        <td width="12%">11:00pm</td>
-        		        {this.state.appointments[23].map(e => (
-	        		         <td width="12%">
-	        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-			    					{e.blockId} <br />
-			    					{e.username} <br />
-		    						{this.formatHour(e.startHour)} -
-		    						{this.formatHour(e.endHour)}
-		    					</Link>
-	        		        </td>
-						))}
-        		    </tr>
+                    {this.state.appointments.map(row => (
+                    	<tr>
+	                   		<td width="12%">{this.getTime()}</td>
+	        		        {row.map(e => (
+		        		         <td width="12%">
+		        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
+				    					{e.blockId} <br />
+				    					{e.username} <br />
+			    						{this.formatHour(e.startHour)} -
+			    						{this.formatHour(e.endHour)}
+			    					</Link>
+		        		        </td>
+							))}
+		        		</tr>
+					))}
                 </table>
             </div>
         </div>
