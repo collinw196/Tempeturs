@@ -10,13 +10,14 @@ public class SitterDto {
 	private String preference2;
 	private String preference3;
 	private double rating;
+	private int numRating;
 	private String zip;
 	
 	public SitterDto() {
 		rating = 0.0;
 	}
 	
-	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3, double rat, String zip){
+	public SitterDto(String user, String aN, String rN, String p1, String p2, String p3, double rat, int numRat, String zip){
 		username = user;
 		accountNumber = aN;
 		routingNumber = rN;
@@ -24,25 +25,70 @@ public class SitterDto {
 		preference2 = p2;
 		preference3 = p3;
 		rating = rat;
+		numRating = numRat;
 		this.zip = zip;
 	}
 
 	public String toString() {
 		return "username: " + getUsername() + " accountNumber: " + getAccountNumber() + " routingNumber: " + getRoutingNumber() +
 				" preference1: " + getPreference1() + " preference2: " + getPreference2() + " preference3: " + getPreference3() + 
-				" rating: " + getRating() + " zip: " + getZip();
+				" rating: " + getRating() + " numRating: " + getNumRating() + " zip: " + getZip();
 	}
 
-	
-	public boolean equals(SitterDto value){
-		if(username.equals(value.getUsername()) && accountNumber.equals(value.getAccountNumber()) &&
-				preference1.equals(value.getPreference1()) &&
-				preference2.equals(value.getPreference2()) && preference3.equals(value.getPreference3()) && zip.equals(value.getZip())) {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-		return false;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SitterDto other = (SitterDto) obj;
+		if (accountNumber == null) {
+			if (other.accountNumber != null)
+				return false;
+		} else if (!accountNumber.equals(other.accountNumber))
+			return false;
+		if (numRating != other.numRating)
+			return false;
+		if (preference1 == null) {
+			if (other.preference1 != null)
+				return false;
+		} else if (!preference1.equals(other.preference1))
+			return false;
+		if (preference2 == null) {
+			if (other.preference2 != null)
+				return false;
+		} else if (!preference2.equals(other.preference2))
+			return false;
+		if (preference3 == null) {
+			if (other.preference3 != null)
+				return false;
+		} else if (!preference3.equals(other.preference3))
+			return false;
+		if (Double.doubleToLongBits(rating) != Double.doubleToLongBits(other.rating))
+			return false;
+		if (routingNumber == null) {
+			if (other.routingNumber != null)
+				return false;
+		} else if (!routingNumber.equals(other.routingNumber))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		if (zip == null) {
+			if (other.zip != null)
+				return false;
+		} else if (!zip.equals(other.zip))
+			return false;
+		return true;
 	}
-	
+
 	public double calculatePreferenceScore(List<String> petTypes){
 		double score = 0;
 		for (String type : petTypes){
@@ -171,6 +217,14 @@ public class SitterDto {
 
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	public int getNumRating() {
+		return numRating;
+	}
+
+	public void setNumRating(int numRating) {
+		this.numRating = numRating;
 	}
 
 }

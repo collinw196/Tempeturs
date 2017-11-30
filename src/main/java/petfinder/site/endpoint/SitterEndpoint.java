@@ -121,6 +121,8 @@ public class SitterEndpoint {
 	public ResponseEntity<String> regSitter(@RequestBody SitterDto sitter) {
 		sitter.setUsername(userService.getUsername());
 		sitter.setZip(userService.getUser().getZip());
+		sitter.setRating(0);
+		sitter.setNumRating(0);
 		sitterService.addSitter(sitter);
 		return new ResponseEntity<String>("Added to Repo", HttpStatus.OK);
 	}
@@ -288,18 +290,29 @@ public class SitterEndpoint {
 			value = 1.0;
 		}
 		
+		Response response = clientService.getClient().performRequest("GET", "/sitter/external/" + username + "/_source",
+		        Collections.singletonMap("pretty", "true"));
+		
+		String jsonString = EntityUtils.toString(response.getEntity());
+		
+		SitterDto sitter = objectMapper.readValue(jsonString, SitterDto.class);
+		
+		double rating = (value + sitter.getRating()) / sitter.getNumRating();
+		int newNum = sitter.getNumRating() + 1;
+		
 		UpdateRequest request1 = new UpdateRequest(
 		        "sitter", 
 		        "external",  
 		        username);
 		
-		String jsonString = "{\"rating\": " + value + "}";
+		jsonString = "{\"rating\": " + rating + ","
+					+ "\"numRating\": " + newNum +"}";
 		
 		request1.doc(jsonString, XContentType.JSON);
 		
 		UpdateResponse updateResponse = clientService.getHighClient().update(request1);
 		
-		Response response = clientService.getClient().performRequest("GET", "/users/external/" + username + "/_source",
+		response = clientService.getClient().performRequest("GET", "/users/external/" + username + "/_source",
 		        Collections.singletonMap("pretty", "true"));
 		
 		jsonString = EntityUtils.toString(response.getEntity());
