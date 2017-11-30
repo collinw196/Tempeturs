@@ -21,8 +21,8 @@ export class OwnerHome extends React.Component {
 							<li><Link to="/owner/appoint">Current Appointments</Link></li>
 							<li><Link to="/owner/not">Notifications</Link></li>
 							<li><Link to="/owner/pets">PetInfo</Link></li>
-							<li><Link to="/owner/sitterSwitch">Become a Sitter</Link></li>
 							<li><Link to="/user/owner/info">User Info</Link></li>
+							<li><Link to="/owner/sitterSwitch">Switch to Sitter</Link></li>
 						</ul>
 					</div>
 				</div>
