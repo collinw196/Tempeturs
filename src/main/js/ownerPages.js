@@ -216,7 +216,7 @@ export class OwnerReserve extends React.Component {
 						Day:
 						<select name="startDay" onChange={this.handleChange} required>
 							<option value="1">1</option>
-						    <option value="21">2</option>
+						    <option value="2">2</option>
 						    <option value="3">3</option>
 						    <option value="4">4</option>
 						    <option value="5">5</option>
