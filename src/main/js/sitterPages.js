@@ -374,6 +374,7 @@ export class WeekView extends React.Component{
     }
     
     render() {
+    	var time = -1;
         return(
             <div class="container">
                 <div class="row">
@@ -405,7 +406,7 @@ export class WeekView extends React.Component{
                 		</td>
                     </tr>
                     {this.state.week.map((row) => {
-                    	var time = 0;
+                    	time++;
                     	return (
 	                    	<tr>
 		                   		<td width="12%">{this.getTime(time)}</td>
@@ -420,7 +421,6 @@ export class WeekView extends React.Component{
 								))}
 			        		</tr>
 			        	);
-			        	time++;
 					})}
                 </table>
             </div>
