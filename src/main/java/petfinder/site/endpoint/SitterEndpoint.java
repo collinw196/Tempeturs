@@ -284,7 +284,7 @@ public class SitterEndpoint {
 		return new ResponseEntity<String>("Cancelled " + updateResponse, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/rat/{username}/{value}", method = RequestMethod.POST)
+	@RequestMapping(value = "/rate/{username}/{value}", method = RequestMethod.POST)
 	public ResponseEntity<String> rateSitter(@PathVariable(name = "username") String username, @PathVariable(name = "value") double value) throws IOException{
 		if(value < 1.0){
 			value = 1.0;
