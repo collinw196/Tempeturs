@@ -144,7 +144,7 @@ export class AppointmentView extends React.Component{
 		var name;
 		
 		if(type === 'Block'){
-			button1 = <Link to={'/sitter/block/edit?blockId=' + this.state.bId}>Edit</Link>;
+			button1 = <Link to={'/sitter/block/edit?blockId=' + this.state.bID}>Edit</Link>;
 			button2 = '';
 			name = <h7>Username: {this.state.appointment.username}</h7>;
 		}
