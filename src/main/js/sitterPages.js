@@ -177,14 +177,8 @@ export class AppointmentView extends React.Component{
                 ))}
 				</div>
 				<div>
-					<form onSubmit={this.handleSubmit}>
-						Confirm Appointment:<br />
-						<input type="button" value = "Confirm" onClick={this.confirmAppt}/><br />
-					</form>
-					<form onSubmit={this.handleSubmit}>
-						Delete Appointment:<br />
-						<input type="button" value = "Delete" onClick={this.deleteAppt}/><br />
-					</form>
+					{button1}
+					{button2}
 				</div>
 			</div>
 		);
