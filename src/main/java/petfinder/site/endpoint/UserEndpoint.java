@@ -1,6 +1,8 @@
 package petfinder.site.endpoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import petfinder.site.common.elastic.ElasticClientService;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 
@@ -48,6 +48,8 @@ public class UserEndpoint {
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	public ResponseEntity<String> regUser(@RequestBody UserDto user) throws IOException {
 		user.setRole("USER");
+		List<Integer> list = new ArrayList<Integer>();
+		user.setNotificationIds(list);
 		userService.addUser(user);
 		
 		return new ResponseEntity<String>("Added to service", HttpStatus.OK);

@@ -178,5 +178,20 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 		this.urgency = urgency;
 	}
 
+	public boolean isNotColide(CalendarAppointmentDto a) {
+		boolean isCollide = false;
+		if(getStartYear() == a.getStartYear() && getStartMonth() == a.getStartMonth() && getStartDay() == a.getStartDay()){
+			if(getStartHour() >= a.getStartHour() && getStartMin() >= a.getStartMin() && getStartHour() <= a.getEndHour() && getStartMin() <= a.getEndMin()){
+				isCollide = true;
+			}
+		}
+		if(getEndYear() == a.getEndYear() && getEndMonth() == a.getEndMonth() && getEndDay() == a.getEndDay()){
+			if(getEndHour() >= a.getStartHour() && getEndMin() >= a.getStartMin() && getEndHour() <= a.getEndHour() && getEndMin() <= a.getEndMin()){
+				isCollide = true;
+			}
+		}
+		return isCollide;
+	}
+
 
 }
