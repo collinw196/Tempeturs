@@ -14,7 +14,7 @@ import petfinder.site.common.elastic.ElasticClientService;
 
 public class TestCustomUserDetailService {
 	
-	@Test
+	/*@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
 		CustomUserDetailService cusService = new CustomUserDetailService(cS);
@@ -25,6 +25,6 @@ public class TestCustomUserDetailService {
 		
 		UserDetails user = cusService.loadUserByUsername("jwild77777");
 		assertTrue(user.equals(testUser));
-	}
+	}*/
 
 }
