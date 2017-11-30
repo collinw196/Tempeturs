@@ -67,25 +67,13 @@ public class CalendarService {
 		blockDao.setBlock(block);
 	}
 	
-	public boolean isFree(SitterDto sitter, CalendarBlockDto appointment) throws JsonParseException, JsonMappingException, IOException {
+	public boolean isFree(SitterDto sitter, CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException {
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
-		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
-		boolQuery.must(QueryBuilders.matchQuery("username", sitter.getUsername()));
-		RangeQueryBuilder rangeQuery = buildRangeQuery("year", appointment.getStartYear(), appointment.getEndYear());
-		boolQuery.must(rangeQuery);
-		rangeQuery = buildRangeQuery("month", appointment.getStartMonth(), appointment.getEndMonth());
-		boolQuery.must(rangeQuery);
-		rangeQuery = buildRangeQuery("day", appointment.getStartDay(), appointment.getEndDay());
-		boolQuery.must(rangeQuery);
-		rangeQuery = buildRangeQuery("hour", appointment.getStartHour(), appointment.getEndHour());
-		boolQuery.must(rangeQuery);
-		rangeQuery = buildRangeQuery("min", appointment.getStartMin(), appointment.getEndMin());
-		boolQuery.must(rangeQuery);
-		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
-		sourceBuilder.query(boolQuery); 
+		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+		sourceBuilder.query(QueryBuilders.matchAllQuery()); 
 		sourceBuilder.from(0); 
-		sourceBuilder.timeout(new TimeValue(120, TimeUnit.SECONDS));
+		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 		searchRequest.source(sourceBuilder);
 		SearchResponse response = null;
 		try {
@@ -101,8 +89,10 @@ public class CalendarService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		for (SearchHit hit : searchHits){
 			CalendarAppointmentDto appointment1 = objectMapper.readValue(hit.getSourceAsString(), CalendarAppointmentDto.class);
-			if(appointment1.getType().equals("Block") || appointment1.getAppointmentStatus().equals("ACCEPTED")){
-				hitNum++;
+			if(appointment1.isNotColide(appointment)){
+				if(appointment1.getType().equals("Block") || appointment1.getAppointmentStatus().equals("ACCEPTED")){
+					hitNum++;
+				}
 			}
 		}
 		
@@ -111,13 +101,6 @@ public class CalendarService {
 		}
 		
 		return false;
-	}
-
-	private RangeQueryBuilder buildRangeQuery(String field, int startYear, int endYear) {
-		RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery(field);
-        rangeQuery.from(startYear);
-        rangeQuery.to(endYear);
-		return rangeQuery;
 	}
 
 	public boolean isOpen(CalendarAppointmentDto appointment) {

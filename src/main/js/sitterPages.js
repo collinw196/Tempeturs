@@ -62,7 +62,7 @@ export class AppointmentView extends React.Component{
 	
     confirmAppt(event) {
     	event.preventDefault();
-    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/confirm/' + this.state.bID;
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/accept/' + this.state.bID;
 		axios({
 		    method: 'POST',
 		    url: value,
@@ -79,7 +79,7 @@ export class AppointmentView extends React.Component{
     
     deleteAppt(event) {
     	event.preventDefault();
-    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/delete/' + this.state.bID;
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/deny/' + this.state.bID;
 		axios({
 		    method: 'POST',
 		    url: value,
@@ -95,7 +95,7 @@ export class AppointmentView extends React.Component{
     
     cancelAppt(event) {
     	event.preventDefault();
-    	var value = 'https://tempeturs-group-2.herokuapp.com/api/owner/appointment/cancel/' + this.state.bID;
+    	var value = 'https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/cancel/' + this.state.bID;
 		axios({
 		    method: 'POST',
 		    url: value,
@@ -154,13 +154,13 @@ export class AppointmentView extends React.Component{
 			name = <h7>Username: {this.state.appointment.username}</h7>;
 		}
 		else if(status === 'ACCEPTED'){
-			button1 = <button onClick={this.cancelSitter}>Cancel</button>;
+			button1 = <button onClick={this.cancelAppt}>Cancel</button>;
 			button2 = '';
 			name = <h7>Owner Username: {this.state.appointment.ownerUsername}</h7>;
 		}
 		else if (status === 'SCHEDULED') {
-			button1 = <button onClick={this.acceptAppt}>Confirm</button>;
-			button2 =  <button onClick={this.denyAppt}>Delete</button>;
+			button1 = <button onClick={this.confirmAppt}>Confirm</button>;
+			button2 =  <button onClick={this.deleteAppt}>Delete</button>;
 			name = <h7>Owner Username: {this.state.appointment.ownerUsername}</h7>;
 		}
 		else{
