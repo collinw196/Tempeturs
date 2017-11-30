@@ -126,7 +126,6 @@ export class Registration extends React.Component {
 						Account Type (you may have one type of each account per email): <br />
   						<input type="radio" name="type" value="owner" onChange={this.handleChange} required/> Pet Owner Account<br />
   						<input type="radio" name="type" value="sitter" onChange={this.handleChange} /> Pet Sitter Account<br />
-  						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
   						<input type="submit" value="Submit" />
   					</form>
 				</div>

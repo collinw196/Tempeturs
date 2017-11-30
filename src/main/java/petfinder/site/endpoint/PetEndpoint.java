@@ -19,15 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import petfinder.site.common.elastic.ElasticClientService;
+import petfinder.site.common.owner.OwnerService;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.pet.PetService;
-import petfinder.site.common.sitter.SitterDto;
-import petfinder.site.common.user.UserDto;
-import petfinder.site.common.user.UserService;
 
 /**
  * Created by mattdulany.
@@ -40,16 +37,35 @@ public class PetEndpoint {
 	@Autowired
 	private ElasticClientService clientService;
 	@Autowired
+	private OwnerService ownerService;
+	@Autowired
 	private ObjectMapper objectMapper;
 	
 	public PetEndpoint() {
 		
 	}
 	
-	public PetEndpoint(ElasticClientService cS, PetService pS) {
+	public PetEndpoint(ElasticClientService cS, PetService pS, OwnerService oS) {
 		clientService = cS;
 		petService = pS;
 		objectMapper = new ObjectMapper();
+		ownerService = oS;
+	}
+	
+	public ResponseEntity<String> updateEndpoint() {
+		try {
+			petService.updateService();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Updated", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/switch", method = RequestMethod.POST)
+	public ResponseEntity<String> editSetUp() {
+		petService.emptyList();
+		return new ResponseEntity<String>("Emptied", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -79,6 +95,52 @@ public class PetEndpoint {
 		petService.addPet(pet);
 		
 		return new ResponseEntity<String>(Integer.toString(count), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ResponseEntity<String> editPet(@RequestBody PetDto pet) throws IOException {
+		Long id = pet.getId();
+		PetDto newPet = petService.findPet(id);
+		String jsonString = objectMapper.writeValueAsString(newPet);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		clientService.getClient().performRequest(
+		        "PUT",
+		        "/pets/external/" + id,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/reg/new", method = RequestMethod.POST)
+	public ResponseEntity<String> regNewPet(@RequestBody PetDto pet) throws IOException {
+		Response response = clientService.getClient().performRequest("GET", "/pets/external/_count",
+				Collections.<String, String>emptyMap());
+		
+		String jsonString1 = EntityUtils.toString(response.getEntity());
+		
+		JSONObject json = new JSONObject(jsonString1);
+        int count = json.getInt("count");
+        count = count + petService.getCurCount();
+		Long id = new Long(count);
+		pet.setId(id);
+		petService.addPet(pet);
+		
+		String jsonString = objectMapper.writeValueAsString(pet);
+		HttpEntity entity = new NStringEntity(
+		        jsonString, ContentType.APPLICATION_JSON);
+		
+		clientService.getClient().performRequest(
+		        "PUT",
+		        "/pets/external/" + id,
+		        Collections.<String, String>emptyMap(),
+		        entity);
+		
+		ownerService.updatePetAdded(id);
+		
+		return new ResponseEntity<String>("Added", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reg/finish", method = RequestMethod.POST)

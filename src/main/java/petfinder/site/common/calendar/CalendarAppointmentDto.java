@@ -35,6 +35,18 @@ public class CalendarAppointmentDto extends CalendarBlockDto {
 				username, repeatStrategy, notficationMessage, type);
 	}
 
+	public CalendarAppointmentDto(CalendarAppointmentDto a) {
+		super(a.getStartDay(), a.getStartMonth(), a.getStartYear(), a.getEndDay(), a.getEndMonth(), a.getEndYear(),
+				a.getStartMin(), a.getStartHour(), a.getEndMin(), a.getEndHour(), a.getUsername(), a.getRepeatStrategy(),
+				a.getNotificationMessage(), a.getType());
+		this.ownerUsername = a.getOwnerUsername();
+		this.petIds = a.getPetIds();
+		this.appointmentStatus = a.getAppointmentStatus();
+		this.notes = a.getNotes();
+		this.urgency = a.getUrgency();
+		this.paymentAmount = a.getPaymentAmount();
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
