@@ -236,7 +236,7 @@ export class WeekView extends React.Component{
 	    			this.state.week[hour][dayOffset].endHour = this.state.appointments[i].endHour;
 	    			this.state.week[hour][dayOffset].endMin = this.state.appointments[i].endMin;
 	    			return (
-	    				<Link to="sitter/appointmentInfo?blockId" + this.state.appointments[i].blockId>
+	    				<Link to={'sitter/appointmentInfo?blockId=' + this.state.appointments[i].blockId}>
 	    					Appointment Scheduled:
     						{this.state.appointment.startHour} -
     						{this.state.appointment.endHour}</Link>
