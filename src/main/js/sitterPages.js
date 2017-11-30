@@ -144,16 +144,16 @@ export class AppointmentView extends React.Component{
 		var button2;
 		
 		if(type === 'Block'){
-			button1 = <Button onClick={this.handleEdit()}>Edit</Button>;
+			button1 = <Button onClick={this.handleEdit}>Edit</Button>;
 			button2 = '';
 		}
 		else if(status === 'ACCEPTED'){
-			button1 = <Button onClick={this.cancelSitter(this.blockId)}>Cancel</Button>;
+			button1 = <Button onClick={this.cancelSitter}>Cancel</Button>;
 			button2 = '';
 		}
 		else{
-			button1 = <Button onClick={this.acceptAppt(this.blockId)}>Confirm</Button>;
-			button2 =  <Button onClick={this.denyAppt(this.blockId)}>Delete</Button>;
+			button1 = <Button onClick={this.acceptAppt}>Confirm</Button>;
+			button2 =  <Button onClick={this.denyAppt}>Delete</Button>;
 		}
 		return (
 			<div className="container padded">
@@ -208,84 +208,85 @@ export class WeekView extends React.Component{
         
         const search = this.props.location.search;
 		const params = new URLSearchParams(search);
-		var offset = params.get('offset');
+		const myOffset = params.get('offset');
+		var offset= myOffset;
 		
 		this.setState({
-			weekOffset: offset
+			weekOffset: myOffset
 		});
+		console.log('offset: ' this.state.weekOffset); 
     	
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(response => {
-            	this.setState({appointments: response});
+            	this.setState({appointments: response.data});
+            	console.log(this.state.appointments);
+		    	var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+		    	var today = new Date();
+		        var day = today.getDate();
+		        var month = today.getMonth() + 1;
+		        var year = today.getFullYear();
+		        var dayAdd = 1;
+		        if(offset < 0){
+		        	offset = offset * - 1;
+		        	dayAdd = -1;
+		        }
+		        for(var k = 0; k < offset; k++){
+		        	for(var w = 0; w < 7; w++){
+		        		day = day + dayAdd;
+		        		if(day > monthArr[month - 1]){
+			                day = 1;
+			                month++;
+			                if(month > 12){
+			                    month = 1;
+			                    year++;
+			                }
+			            }
+			            if(day < 0){
+			                day = monthArr[month - 2];
+			                month--;
+			                if(month < 1){
+			                    month = 12;
+			                    year--;
+			                }
+			            }
+		            }
+		        }
+		        
+		        for(var j = 0; j < weekLength; j++) {		           
+		        	for (var i = 0; i < dayLength; i++) {
+		        		for(var g = 0; g < this.state.appointments.length; g++) {
+		        			if(this.state.appointments[g].startDay == day && this.state.appointments[g].startMonth == month &&
+		        				this.state.appointments[g].startYear == year && this.state.appointments[g].startHour == i){
+					    			this.state.week[i][j].username = this.state.appointments[g].username;
+					    			this.state.week[i][j].blockId = this.state.appointments[g].blockId;
+					    			this.state.week[i][j].startHour = this.state.appointments[g].startHour;
+					    			this.state.week[i][j].startMin = this.state.appointments[g].startMin;
+					    			this.state.week[i][j].endHour = this.state.appointments[g].endHour;
+					    			this.state.week[i][j].endMin = this.state.appointments[g].endMin;
+				    		}
+				    	}
+		    		}
+		    		day++;
+		    		if(day > monthArr[month - 1]){
+		                day = 1;
+		                month++;
+		                if(month > 12){
+		                    month = 1;
+		                    year++;
+		                }
+		            }
+		    	}
+		    	console.log(this.state.week);
             })
             .catch(function(error) {
                 console.log(error);
             });
-        console.log(this.state.appointments);
-    	
-    	var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    	var today = new Date();
-        var day = today.getDate();
-        var month = today.getMonth() + 1;
-        var year = today.getFullYear();
-        var dayAdd = 1;
-        if(offset < 0){
-        	offset = offset * - 1;
-        	dayAdd = -1;
-        }
-        for(var k = 0; k < offset; k++){
-        	for(var w = 0; w < 7; w++){
-        		day = day + dayAdd;
-        		if(day > monthArr[month - 1]){
-	                day = 1;
-	                month++;
-	                if(month > 12){
-	                    month = 1;
-	                    year++;
-	                }
-	            }
-	            if(day < 0){
-	                day = monthArr[month - 2];
-	                month--;
-	                if(month < 1){
-	                    month = 12;
-	                    year--;
-	                }
-	            }
-            }
-        }
-        
-        for(var j = 0; j < weekLength; j++) {		           
-        	for (var i = 0; i < dayLength; i++) {
-        		for(var g = 0; g < this.state.appointments.length; g++) {
-        			if(this.state.appointments[g].startDay == day && this.state.appointments[g].startMonth == month &&
-        				this.state.appointments[g].startYear == year && this.state.appointments[g].startHour == i){
-			    			this.state.week[i][j].username = this.state.appointments[g].username;
-			    			this.state.week[i][j].blockId = this.state.appointments[g].blockId;
-			    			this.state.week[i][j].startHour = this.state.appointments[g].startHour;
-			    			this.state.week[i][j].startMin = this.state.appointments[g].startMin;
-			    			this.state.week[i][j].endHour = this.state.appointments[g].endHour;
-			    			this.state.week[i][j].endMin = this.state.appointments[g].endMin;
-		    		}
-		    	}
-    		}
-    		day++;
-    		if(day > monthArr[month - 1]){
-                day = 1;
-                month++;
-                if(month > 12){
-                    month = 1;
-                    year++;
-                }
-            }
-    	}
-    	console.log(this.state.week);
-        
-        this.getDateHeader = this.getDateHeader.bind(this);
-        this.previousWeek = this.previousWeek.bind(this);
-        this.nextWeek = this.nextWeek.bind(this);
-        this.formatHour = this.formatHour.bind(this);
-        this.getTime = this.getTime.bind(this);
+            
+            this.getDateHeader = this.getDateHeader.bind(this);
+	        this.previousWeek = this.previousWeek.bind(this);
+	        this.nextWeek = this.nextWeek.bind(this);
+	        this.formatHour = this.formatHour.bind(this);
+	        this.getTime = this.getTime.bind(this);
     }
     
     getDateHeader(dayOffset) {
@@ -344,18 +345,6 @@ export class WeekView extends React.Component{
     	}
     	
     	return hour;
-    }
-    
-    previousWeek(){
-    	var offset = this.state.weekOffset - 1;
-    	var url = '/sitter/calendar?offset=' + offset;
-    	this.props.history.push(url);
-    }
-    
-    nextWeek(){
-    	var offset = this.state.weekOffset + 1;
-    	var url = '/sitter/calendar?offset=' + offset;
-    	this.props.history.push(url);
     }
     
     getTime(hour) {
