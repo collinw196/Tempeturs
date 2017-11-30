@@ -189,7 +189,7 @@ export class WeekView extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-	    	appointments: [],
+	    	appointments: [[]],
 	    	week: [],	    	
 	    	weekOffset: '',
 	    }; 
@@ -197,24 +197,16 @@ export class WeekView extends React.Component{
 	    var dayLength = 24;
 	    var weekLength = 7;
 	    
-        for (var i = 0; i < dayLength; i++) {
+        for (var m = 0; m < dayLength; m++) {
         	var dayArray = [];
-        	for(var j = 0; j < weekLength; j++) {
+        	for(var n = 0; n < weekLength; n++) {
         		dayArray.push({'username': '', 'blockId': '', 
         			'startHour': '', 'startMin': '', 'endHour': '', 'endMin': ''});
         	}
         	this.state.week.push(dayArray);
         }
         
-        
-        this.getDateHeader = this.getDateHeader.bind(this);
-        this.previousWeek = this.previousWeek.bind(this);
-        this.nextWeek = this.nextWeek.bind(this);
-        this.formatHour = this.formatHour.bind(this);
-    }
-    
-    componentDidMount() {
-    	const search = this.props.location.search;
+        const search = this.props.location.search;
 		const params = new URLSearchParams(search);
 		var offset = params.get('offset');
 		
@@ -229,10 +221,7 @@ export class WeekView extends React.Component{
             .catch(function(error) {
                 console.log(error);
             });
-            console.log(this.state.appointments);
-            
-        var dayLength = 24;
-    	var weekLength = 7;
+        console.log(this.state.appointments);
     	
     	var monthArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     	var today = new Date();
@@ -290,6 +279,11 @@ export class WeekView extends React.Component{
                 }
             }
     	}
+        
+        this.getDateHeader = this.getDateHeader.bind(this);
+        this.previousWeek = this.previousWeek.bind(this);
+        this.nextWeek = this.nextWeek.bind(this);
+        this.formatHour = this.formatHour.bind(this);
     }
     
     getDateHeader(dayOffset) {
