@@ -140,6 +140,8 @@ export class AppointmentView extends React.Component{
 	render() {
 		const type = this.state.appointment.type;
 		const status = this.state.appointment.appointmentStatus;
+		var button1;
+		var button2;
 		
 		if(type === 'Block'){
 			button1 = <Button onClick={this.handleEdit}>Edit</Button>;
