@@ -17,7 +17,7 @@ export class SitterHome extends React.Component {
 				<div>
 					<h5>Pet Sitter Home Page</h5>
 					<ul>
-						<li><Link to="/sitter/calendar">Schedule</Link></li>
+						<li><Link to="/sitter/calendar?offset=0">Schedule</Link></li>
 					</ul>
 				</div>
 			</div>
@@ -347,13 +347,13 @@ export class WeekView extends React.Component{
     }
     
     previousWeek(){
-    	var offset = this.state.weekoffset - 1;
+    	var offset = this.state.weekOffset - 1;
     	var url = '/sitter/calendar?offset=' + offset;
     	this.props.history.push(url);
     }
     
     nextWeek(){
-    	var offset = this.state.weekoffset + 1;
+    	var offset = this.state.weekOffset + 1;
     	var url = '/sitter/calendar?offset=' + offset;
     	this.props.history.push(url);
     }
@@ -401,21 +401,23 @@ export class WeekView extends React.Component{
                 			<p>{this.getDateHeader(6)}</p>
                 		</td>
                     </tr>
-                    {this.state.appointments.map(row => (
-                    	<tr>
-	                   		<td width="12%">{this.getTime()}</td>
-	        		        {row.map(e => (
-		        		         <td width="12%">
-		        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
-				    					{e.blockId} <br />
-				    					{e.username} <br />
-			    						{this.formatHour(e.startHour)} -
-			    						{this.formatHour(e.endHour)}
-			    					</Link>
-		        		        </td>
-							))}
-		        		</tr>
-					))}
+                    {this.state.appointments.map((row) => {
+                    	return (
+	                    	<tr>
+		                   		<td width="12%">{this.getTime()}</td>
+		        		        {row.map(e => (
+			        		         <td width="12%">
+			        		        	<Link to={'sitter/appointmentInfo?blockId=' + e.blockId}>
+					    					{e.blockId} <br />
+					    					{e.username} <br />
+				    						{this.formatHour(e.startHour)} -
+				    						{this.formatHour(e.endHour)}
+				    					</Link>
+			        		        </td>
+								))}
+			        		</tr>
+			        	);
+					})}
                 </table>
             </div>
         </div>
