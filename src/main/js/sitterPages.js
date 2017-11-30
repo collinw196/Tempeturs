@@ -215,8 +215,8 @@ export class WeekView extends React.Component{
 		});
     	
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
-        	.then(data => {
-            	this.setState({appointments: data.data});
+        	.then(response => {
+            	this.setState({appointments: response});
             })
             .catch(function(error) {
                 console.log(error);
@@ -375,11 +375,16 @@ export class WeekView extends React.Component{
     
     render() {
     	var time = -1;
+    	var myOffset = this.state.weekOffset;
         return(
             <div class="container">
                 <div class="row">
-                <button height="10%" type="button" align="left" onClick={this.previosWeek}>Previous</button>
-                <button height="10%" type="button" align="right" onClick={this.nextWeek}>Next</button>
+                <Link to="/sitter/calendar?offset=" + {myOffset - 1}>
+                	<button height="10%" type="button" align="left" >Previous</button>
+                </Link>
+                <Link to="/sitter/calendar?offset=" + {myOffset + 1}>
+                	<button height="10%" type="button" align="right" }>Next</button>
+                </Link>
                 <table width="100%">
                 	<tr height="90%" align="bottom">
                 		<td width="12%"></td>
