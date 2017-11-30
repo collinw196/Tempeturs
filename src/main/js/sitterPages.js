@@ -146,7 +146,7 @@ export class AppointmentView extends React.Component{
 		if(type === 'Block'){
 			button1 = <Link to={'/sitter/block/edit?blockId=' + this.state.bId}>Edit</Link>;
 			button2 = '';
-			name = <h7>Username: this.state.appointment.username</h7>;
+			name = <h7>Username: {this.state.appointment.username}</h7>;
 		}
 		else if(status === 'ACCEPTED'){
 			button1 = <button onClick={this.cancelSitter}>Cancel</button>;
