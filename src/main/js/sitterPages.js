@@ -214,7 +214,7 @@ export class WeekView extends React.Component{
 		this.setState({
 			weekOffset: myOffset
 		});
-		console.log('offset: ' this.state.weekOffset); 
+		console.log('offset: ' + this.state.weekOffset); 
     	
         axios.get('https://tempeturs-group-2.herokuapp.com/api/sitter/appointment/get')
         	.then(response => {
