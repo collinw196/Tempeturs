@@ -70,8 +70,10 @@ public class CalendarService {
 	public boolean isFree(SitterDto sitter, CalendarAppointmentDto appointment) throws JsonParseException, JsonMappingException, IOException {
 		SearchRequest searchRequest = new SearchRequest("calendarappointments"); 
 		searchRequest.types("external");
+		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+		boolQuery.must(QueryBuilders.matchQuery("username", sitter.getUsername()));
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-		sourceBuilder.query(QueryBuilders.matchAllQuery()); 
+		sourceBuilder.query(boolQuery); 
 		sourceBuilder.from(0); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 		searchRequest.source(sourceBuilder);
