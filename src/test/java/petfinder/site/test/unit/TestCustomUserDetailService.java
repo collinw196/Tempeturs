@@ -14,17 +14,17 @@ import petfinder.site.common.elastic.ElasticClientService;
 
 public class TestCustomUserDetailService {
 	
-	/*@Test
+	@Test
 	public void test() {
 		ElasticClientService cS = new ElasticClientService();
 		CustomUserDetailService cusService = new CustomUserDetailService(cS);
 		
 		List<SimpleGrantedAuthority> authList = cusService.getAuthorities("USER");
 		
-		UserDetails testUser = new User("jwild77777", "abc", authList);
+		UserDetails testUser = new User("jd", "abc", authList);
 		
-		UserDetails user = cusService.loadUserByUsername("jwild77777");
+		UserDetails user = cusService.loadUserByUsername("jd");
 		assertTrue(user.equals(testUser));
-	}*/
+	}
 
 }

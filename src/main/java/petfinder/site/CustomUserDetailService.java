@@ -43,7 +43,6 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println(username);
 		SearchRequest searchRequest = new SearchRequest("users"); 
 		searchRequest.types("external");
 		MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("username", username);
